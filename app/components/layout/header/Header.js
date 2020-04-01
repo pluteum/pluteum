@@ -29,6 +29,7 @@ const Navigation = styled.nav`
   }
 
   li {
+    position: relative;
     display: inline-block;
     margin: 0 15px;
 
@@ -36,6 +37,23 @@ const Navigation = styled.nav`
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 3px;
+  }
+
+  li:hover:after {
+    content: '';
+    position: absolute;
+
+    left: 0;
+    top: 16px;
+
+    width: 95%;
+    height: 2px;
+
+    background-color: #485cc7;
+  }
+
+  li:hover {
+    color: #485cc7;
   }
 
   li a,
