@@ -85,6 +85,10 @@ const Navigation = styled.nav`
     ul.open {
       display: block;
     }
+
+    li:hover:after {
+      content: unset;
+    }
   }
 `;
 
