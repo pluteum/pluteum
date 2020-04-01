@@ -1,5 +1,5 @@
 /*
- * Tooltip
+ * Logo
  */
 
 import React from 'react';
