@@ -6,12 +6,23 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Typography from './Type/Typography';
 
 const Wrapper = styled.div`
+  cursor: pointer;
   position: relative;
   width: 180px;
   height: 275px;
+
+  > button {
+    ${props => props.dropdownOpen && 'display: block;'}
+  }
+
+  &:hover > button {
+    display: block;
+  }
 `;
 
 const DownloadButton = styled.button`
+  cursor: pointer;
+  display: none;
   position: absolute;
   width: 170px;
   left: 5px;
@@ -105,7 +116,7 @@ export default function BookCover({ title, image, formats = [] }) {
   };
 
   return (
-    <Wrapper>
+    <Wrapper dropdownOpen={dropdownOpen}>
       <BookImage src={image} />
       <DownloadButton
         onBlur={handleBlur}

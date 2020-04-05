@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     margin-right: 0;
   }
 
-  > img {
+  > div:first-child {
     margin-bottom: 15px;
   }
 `;
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 export default function BookCard({ book }) {
   return (
     <Wrapper>
-      <BookCover image={BookImage} title={book.title} />
+      <BookCover image={BookImage} title={book.title} formats={['pdf']} />
       <Typography type="BookCardTitle">{book.title}</Typography>
       <Typography type="BookCardAuthor">{book.author}</Typography>
     </Wrapper>
