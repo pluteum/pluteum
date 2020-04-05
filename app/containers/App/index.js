@@ -18,6 +18,7 @@ import Header from '../../components/layout/header/Header';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
 import Heading from '../../components/common/Type/Heading';
 import FeaturedBook from '../../components/FeaturedBook/FeaturedBook';
+import BookCard from '../../components/BookCard/BookCard';
 
 export default function App() {
   return (
@@ -27,6 +28,8 @@ export default function App() {
       {/* <Heading level={1}>Search &amp; Filters</Heading> */}
       <Heading level={1}>Suggestions from Your Library</Heading>
       <FeaturedBook />
+      <Heading level={1}>Your Library</Heading>
+      <BookCard />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />

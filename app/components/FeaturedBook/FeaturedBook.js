@@ -5,10 +5,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import BookCover from './BookCover';
+import BookCover from '../common/BookCover';
 import BookImage from '../../images/sample_book.png';
 import Heading from '../common/Type/Heading';
 import Paragraph from '../common/Type/Paragraph';
+import Ratings from '../common/Ratings/Ratings';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +35,6 @@ export default function FeaturedBook() {
           </Paragraph>
           <Link to="/book/112">See More Details</Link>
         </div>
-        <div>Your Rating Amazon Rating</div>
       </div>
     </Wrapper>
   );
