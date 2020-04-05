@@ -8,6 +8,7 @@ import Typography from './Type/Typography';
 const Wrapper = styled.div`
   position: relative;
   width: 180px;
+  height: 275px;
 `;
 
 const DownloadButton = styled.button`
