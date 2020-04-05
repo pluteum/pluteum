@@ -19,12 +19,16 @@ const HeaderTwo = styled.h2`
   color: #000000;
 `;
 
+const HeaderThree = styled.h3``;
+
 export default function Heading({ level, children }) {
   switch (level) {
     case 1:
       return <HeaderOne>{children}</HeaderOne>;
     case 2:
       return <HeaderTwo>{children}</HeaderTwo>;
+    case 3:
+      return <HeaderThree>{children}</HeaderThree>;
     default:
       return <HeaderOne>{children}</HeaderOne>;
   }
