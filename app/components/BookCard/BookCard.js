@@ -10,10 +10,19 @@ import Typography from '../common/Type/Typography';
 
 const Wrapper = styled.div`
   display: flex;
+  margin: 0 20px;
   flex-direction: column;
 
-  > div {
-    margin-left: 40px;
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &::last-child {
+    margin-right: 0;
+  }
+
+  > img {
+    margin-bottom: 15px;
   }
 `;
 
@@ -21,8 +30,8 @@ export default function BookCard() {
   return (
     <Wrapper>
       <BookCover src={BookImage} alt="Sample Book" />
-      <Typography type="BookCardTitle">Sample Book</Typography>
-      <Typography type="BookCardAuthor">Sample Author</Typography>
+      <Typography type="BookCardTitle">1Q84</Typography>
+      <Typography type="BookCardAuthor">Haruki Murakami</Typography>
     </Wrapper>
   );
 }
