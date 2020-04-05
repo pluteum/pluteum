@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 export default function BookCard() {
   return (
     <Wrapper>
-      <BookCover src={BookImage} alt="Sample Book" />
+      <BookCover image={BookImage} title="Sample Book" />
       <Typography type="BookCardTitle">1Q84</Typography>
       <Typography type="BookCardAuthor">Haruki Murakami</Typography>
     </Wrapper>

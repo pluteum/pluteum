@@ -20,7 +20,11 @@ const Wrapper = styled.div`
 export default function FeaturedBook() {
   return (
     <Wrapper>
-      <BookCover src={BookImage} alt="Sample Book" />
+      <BookCover
+        title="The Great Gatsby"
+        image={BookImage}
+        formats={['pdf', 'mobi']}
+      />
       <div>
         <Typography type="FeaturedBookTitle">The Great Gatsby</Typography>
         <Typography type="FeaturedBookAuthor">F. Scott Fitzgerald</Typography>
