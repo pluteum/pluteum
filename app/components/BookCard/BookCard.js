@@ -3,13 +3,15 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BookCover from '../common/BookCover';
 import BookImage from '../../images/sample_book.png';
 import Typography from '../common/Type/Typography';
 
 const Wrapper = styled.div`
-  display: flex;
+  display: inline-flex;
+  width: 180px;
   margin: 0 20px;
   flex-direction: column;
 
@@ -26,12 +28,16 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function BookCard() {
+export default function BookCard({ book }) {
   return (
     <Wrapper>
-      <BookCover image={BookImage} title="Sample Book" />
-      <Typography type="BookCardTitle">1Q84</Typography>
-      <Typography type="BookCardAuthor">Haruki Murakami</Typography>
+      <BookCover image={BookImage} title={book.title} />
+      <Typography type="BookCardTitle">{book.title}</Typography>
+      <Typography type="BookCardAuthor">{book.author}</Typography>
     </Wrapper>
   );
 }
+
+BookCard.propTypes = {
+  book: PropTypes.object,
+};

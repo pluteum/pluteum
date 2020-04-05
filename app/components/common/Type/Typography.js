@@ -33,6 +33,9 @@ const BookCardTitle = styled.p`
   font-size: 20px;
   color: #000000;
   letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const BookCardAuthor = styled.p`
@@ -43,8 +46,12 @@ const BookCardAuthor = styled.p`
   color: #555555;
 `;
 
-const FeaturedBookTitle = styled(BookCardTitle)`
+const FeaturedBookTitle = styled.p`
   font-size: 24px;
+  font-family: PT Serif;
+  font-weight: bold;
+  color: #000000;
+  letter-spacing: 0;
 `;
 
 const FeaturedBookAuthor = styled(BookCardAuthor)`

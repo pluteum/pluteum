@@ -10,27 +10,21 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import Header from '../../components/layout/header/Header';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
-import FeaturedBook from '../../components/FeaturedBook/FeaturedBook';
-import BookCard from '../../components/BookCard/BookCard';
-import Typography from '../../components/common/Type/Typography';
+import BookIndex from '../BookIndex';
 
 export default function App() {
   return (
     <div>
       <Header />
       <Breadcrumb />
-      <Typography type="SectionTitle">Suggestions from Your Library</Typography>
-      <FeaturedBook />
-      <Typography type="SectionTitle">Your Library</Typography>
-      <BookCard />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={BookIndex} />
+        <Route exact path="/index" component={BookIndex} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

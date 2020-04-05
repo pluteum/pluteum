@@ -50,7 +50,7 @@ const DropdownArrowButton = styled.button`
 const DropdownContent = styled.ul`
   position: absolute;
   width: 170px;
-  left: 5px;
+  left: 0;
   top: calc(100% + 10px);
   z-index: 10;
   background-color: #6374cf;
