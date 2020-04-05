@@ -16,19 +16,18 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 import Header from '../../components/layout/header/Header';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
-import Heading from '../../components/common/Type/Heading';
 import FeaturedBook from '../../components/FeaturedBook/FeaturedBook';
 import BookCard from '../../components/BookCard/BookCard';
+import Typography from '../../components/common/Type/Typography';
 
 export default function App() {
   return (
     <div>
       <Header />
       <Breadcrumb />
-      {/* <Heading level={1}>Search &amp; Filters</Heading> */}
-      <Heading level={1}>Suggestions from Your Library</Heading>
+      <Typography type="SectionTitle">Suggestions from Your Library</Typography>
       <FeaturedBook />
-      <Heading level={1}>Your Library</Heading>
+      <Typography type="SectionTitle">Your Library</Typography>
       <BookCard />
       <Switch>
         <Route exact path="/" component={HomePage} />
