@@ -11,11 +11,12 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Settings from 'containers/Settings/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import Header from '../../components/layout/header/Header';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
-import BookIndex from '../BookIndex';
+import Homepage from '../HomePage';
 
 export default function App() {
   return (
@@ -23,8 +24,8 @@ export default function App() {
       <Header />
       <Breadcrumb />
       <Switch>
-        <Route exact path="/" component={BookIndex} />
-        <Route exact path="/index" component={BookIndex} />
+        <Route exact path="/" component={Homepage} />
+        <Route path="/settings" component={Settings} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

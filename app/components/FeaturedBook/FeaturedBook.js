@@ -12,7 +12,7 @@ import Typography from '../common/Type/Typography';
 const Wrapper = styled.div`
   display: flex;
 
-  > div {
+  .book-details {
     margin-left: 40px;
   }
 `;
@@ -25,7 +25,7 @@ export default function FeaturedBook() {
         image={BookImage}
         formats={['pdf', 'mobi']}
       />
-      <div>
+      <div className="book-details">
         <Typography type="FeaturedBookTitle">The Great Gatsby</Typography>
         <Typography type="FeaturedBookAuthor">F. Scott Fitzgerald</Typography>
         <div>
