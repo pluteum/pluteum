@@ -70,6 +70,15 @@ const TextLink = styled(Link)`
   text-decoration: none;
 `;
 
+const SidebarHeader = styled.h1`
+  ${BASE_STYLE}
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+`;
+
 const styles = {
   BookCardTitle,
   BookCardAuthor,
@@ -78,6 +87,7 @@ const styles = {
   TextLink,
   SectionTitle,
   Paragraph,
+  SidebarHeader,
 };
 
 export default function Typography({ type = 'Paragraph', children, ...props }) {

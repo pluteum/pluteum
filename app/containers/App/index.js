@@ -20,7 +20,7 @@ import Homepage from '../HomePage';
 
 export default function App() {
   return (
-    <div>
+    <React.Fragment>
       <Header />
       <Breadcrumb />
       <Switch>
@@ -29,6 +29,6 @@ export default function App() {
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
-    </div>
+    </React.Fragment>
   );
 }
