@@ -21,6 +21,8 @@ import makeSelectLibraryManagement from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import Input from '../../../components/common/Input/Input';
+import Button from '../../../components/common/Button/Button';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -30,6 +32,8 @@ const Layout = styled.div`
 const SplitLayout = styled.div`
   display: flex;
   justify-content: space-between;
+
+  margin: 0 0 30px;
 
   > div {
     flex: 1 1 50%;
@@ -50,9 +54,12 @@ export function LibraryManagement() {
       <SplitLayout>
         <div>
           <Typography type="SettingsHeader">General Details</Typography>
+          <Input label="Library Name" />
+          <Input label="Library URL" />
         </div>
         <div>
           <Typography type="SettingsHeader">Upload Books</Typography>
+          <Button>Upload Book</Button>
         </div>
       </SplitLayout>
       <div>
