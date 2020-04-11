@@ -12,10 +12,18 @@ const BASE_STYLE = `
 `;
 
 const SectionTitle = styled.h1`
+  ${BASE_STYLE}
   font-family: PT Serif;
   font-weight: bold;
   font-size: 30px;
   color: #000000;
+`;
+
+const SettingsHeader = styled.h2`
+  font-family: PT Serif;
+  font-size: 22px;
+  color: #000000;
+  font-weight: normal;
 `;
 
 const Paragraph = styled.p`
@@ -88,6 +96,7 @@ const styles = {
   SectionTitle,
   Paragraph,
   SidebarHeader,
+  SettingsHeader,
 };
 
 export default function Typography({ type = 'Paragraph', children, ...props }) {

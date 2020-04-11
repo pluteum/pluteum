@@ -8,29 +8,57 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+
+import Typography from 'components/common/Type/Typography';
+
 import makeSelectLibraryManagement from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+
+const Layout = styled.div`
+  padding: 30px 25px;
+  width: 100%;
+`;
+
+const SplitLayout = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  > div {
+    flex: 1 1 50%;
+  }
+`;
 
 export function LibraryManagement() {
   useInjectReducer({ key: 'libraryManagement', reducer });
   useInjectSaga({ key: 'libraryManagement', saga });
 
   return (
-    <div>
+    <Layout>
       <Helmet>
         <title>Library Management</title>
         <meta name="description" content="Description of Library Management" />
       </Helmet>
-      <FormattedMessage {...messages.header} />
-    </div>
+      <Typography type="SectionTitle">Library Management</Typography>
+      <SplitLayout>
+        <div>
+          <Typography type="SettingsHeader">General Details</Typography>
+        </div>
+        <div>
+          <Typography type="SettingsHeader">Upload Books</Typography>
+        </div>
+      </SplitLayout>
+      <div>
+        <Typography type="SettingsHeader">Books</Typography>
+      </div>
+    </Layout>
   );
 }
 
