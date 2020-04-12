@@ -15,6 +15,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 
+import BookUpload from 'containers/BookUpload/Loadable';
 import Typography from 'components/common/Type/Typography';
 
 import makeSelectLibraryManagement from './selectors';
@@ -23,6 +24,7 @@ import saga from './saga';
 import messages from './messages';
 import Input from '../../../components/common/Input/Input';
 import Button from '../../../components/common/Button/Button';
+import ModalPortal from '../../../components/common/ModalPortal/ModalPortal';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -73,6 +75,9 @@ export function LibraryManagement() {
       <div>
         <Typography type="SettingsHeader">Books</Typography>
       </div>
+      <ModalPortal>
+        <BookUpload />
+      </ModalPortal>
     </Layout>
   );
 }
