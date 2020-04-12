@@ -38,6 +38,14 @@ const SplitLayout = styled.div`
   > div {
     flex: 1 1 50%;
   }
+
+  > div:first-child {
+    padding-right: 20px;
+  }
+
+  > div:last-child {
+    padding-left: 20px;
+  }
 `;
 
 export function LibraryManagement() {
