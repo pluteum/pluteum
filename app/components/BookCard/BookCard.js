@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import BookCover from '../common/BookCover';
+import BookThumbnail from '../common/BookThumbnail';
 import BookImage from '../../images/sample_book.png';
 import Typography from '../common/Type/Typography';
 
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 export default function BookCard({ book }) {
   return (
     <Wrapper>
-      <BookCover image={BookImage} title={book.title} formats={['pdf']} />
+      <BookThumbnail image={BookImage} title={book.title} formats={['pdf']} />
       <Typography type="BookCardTitle">{book.title}</Typography>
       <Typography type="BookCardAuthor">{book.author}</Typography>
     </Wrapper>

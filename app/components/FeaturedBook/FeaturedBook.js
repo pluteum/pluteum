@@ -5,7 +5,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import BookCover from '../common/BookCover';
+import BookThumbnail from '../common/BookThumbnail';
 import BookImage from '../../images/sample_book.png';
 import Typography from '../common/Type/Typography';
 
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 export default function FeaturedBook() {
   return (
     <Wrapper>
-      <BookCover
+      <BookThumbnail
         title="The Great Gatsby"
         image={BookImage}
         formats={['pdf', 'mobi']}

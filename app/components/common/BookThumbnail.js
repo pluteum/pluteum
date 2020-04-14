@@ -102,7 +102,7 @@ const BookImage = styled.img`
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
 `;
 
-export default function BookCover({ title, image, formats = [] }) {
+export default function BookThumbnail({ title, image, formats = [] }) {
   const [dropdownOpen, setDropdown] = useState(false);
 
   const handleBlur = e => {
@@ -149,7 +149,7 @@ export default function BookCover({ title, image, formats = [] }) {
   );
 }
 
-BookCover.propTypes = {
+BookThumbnail.propTypes = {
   title: PropTypes.string,
   image: PropTypes.string,
   formats: PropTypes.array,
