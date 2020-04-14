@@ -1,5 +1,5 @@
 /*
- * Ratings
+ * Button
  */
 
 import styled from 'styled-components';
@@ -17,4 +17,9 @@ export default styled.button`
   border: 0;
   padding: 15px 18px;
   text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    background: #3648b0;
+  }
 `;

@@ -1,30 +1,26 @@
 /**
  *
- * SettingsLibraryManagement
+ * Library Management
  *
  */
 
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-
-import BookUpload from 'containers/BookUpload/Loadable';
 import Typography from 'components/common/Type/Typography';
-
-import makeSelectLibraryManagement from './selectors';
+import BookUpload from 'containers/BookUpload/Loadable';
+import PropTypes from 'prop-types';
+import React, { memo, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import Input from '../../../components/common/Input/Input';
+import ModalPortal from '../../../components/common/ModalPortal/ModalPortal';
+import UploadButton from '../../../components/common/UploadButton/UploadButton';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
-import Input from '../../../components/common/Input/Input';
-import Button from '../../../components/common/Button/Button';
-import ModalPortal from '../../../components/common/ModalPortal/ModalPortal';
+import makeSelectLibraryManagement from './selectors';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -54,6 +50,16 @@ export function LibraryManagement() {
   useInjectReducer({ key: 'libraryManagement', reducer });
   useInjectSaga({ key: 'libraryManagement', saga });
 
+  const [uploadModal, onUploadModal] = useState(false);
+  const [files, onFilesChange] = useState([]);
+
+  const onBookUploaded = e => {
+    const fileList = e.target.files;
+
+    onFilesChange(fileList);
+    onUploadModal(true);
+  };
+
   return (
     <Layout>
       <Helmet>
@@ -69,15 +75,17 @@ export function LibraryManagement() {
         </div>
         <div>
           <Typography type="SettingsHeader">Upload Books</Typography>
-          <Button>Upload Book</Button>
+          <UploadButton label="Upload Book" onUpload={onBookUploaded} />
         </div>
       </SplitLayout>
       <div>
         <Typography type="SettingsHeader">Books</Typography>
       </div>
-      <ModalPortal>
-        <BookUpload />
-      </ModalPortal>
+      {uploadModal && (
+        <ModalPortal>
+          <BookUpload onExit={() => onUploadModal(false)} files={files} />
+        </ModalPortal>
+      )}
     </Layout>
   );
 }
