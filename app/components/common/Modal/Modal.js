@@ -13,8 +13,11 @@ const Backdrop = styled.div`
 
 const ModalContainer = styled.section`
   position: fixed;
-  width: 1000px;
-  height: 680px;
+  width: 60%;
+  height: 75%;
+  max-width: 1000px;
+  min-width: 600px;
+  max-height: 680px;
 
   padding: 35px 45px;
 

@@ -4,7 +4,6 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import BookThumbnail from '../common/BookThumbnail';
 import BookImage from '../../images/sample_book.png';
 import Typography from '../common/Type/Typography';

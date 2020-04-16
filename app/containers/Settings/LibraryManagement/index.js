@@ -50,7 +50,7 @@ export function LibraryManagement() {
   useInjectReducer({ key: 'libraryManagement', reducer });
   useInjectSaga({ key: 'libraryManagement', saga });
 
-  const [uploadModal, onUploadModal] = useState(false);
+  const [uploadModal, onUploadModal] = useState(true);
   const [files, onFilesChange] = useState([]);
 
   const onBookUploaded = e => {

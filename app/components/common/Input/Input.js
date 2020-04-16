@@ -1,5 +1,5 @@
 /*
- * Ratings
+ * Input
  */
 
 import React from 'react';
@@ -20,21 +20,37 @@ const FormControl = styled.div`
     margin-bottom: 2px;
   }
 
-  input {
+  input,
+  textarea {
     color: #222222;
     font-weight: 100;
     background-color: #f1f1f1;
     border: 0;
 
-    width: 380px;
-    height: 34px;
     padding: 0 13px;
 
     outline: none;
   }
+
+  input {
+    height: 34px;
+  }
+
+  textarea {
+    height: 85px;
+  }
 `;
 
-export default function Input({ label }) {
+export default function Input({ type, label }) {
+  if (type === 'textarea') {
+    return (
+      <FormControl>
+        <label>{label}</label>
+        <textarea />
+      </FormControl>
+    );
+  }
+
   return (
     <FormControl>
       <label>{label}</label>
@@ -44,5 +60,10 @@ export default function Input({ label }) {
 }
 
 Input.propTypes = {
+  type: PropTypes.string,
   label: PropTypes.string,
+};
+
+Input.defaultProps = {
+  type: 'input',
 };
