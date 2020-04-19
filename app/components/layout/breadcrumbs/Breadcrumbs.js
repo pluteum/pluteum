@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const BreadcrumbBar = styled.div`
   background: #f1f1f1;
-  padding: 20px 25px;
+  padding: 15px 25px;
 
   font-size: 15px;
   color: #555555;
@@ -18,14 +18,11 @@ const BreadcrumbBar = styled.div`
   }
 
   li {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
     display: inline-block;
     margin: 0 10px;
     font-weight: lighter;
-  }
-
-  li:first-of-type {
-    font-weight: bold;
-    margin-left: 0;
   }
 `;
 
@@ -34,16 +31,7 @@ export default function Breadcrumb() {
     <BreadcrumbBar>
       <ul>
         <li>George&apos;s Ebooks</li>
-        <svg width="6" height="12" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M0 10.818L6 5.91 0 1"
-            stroke="#AAA"
-            fill="none"
-            fillRule="evenodd"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <span className="seperator">/</span>
         <li>All</li>
       </ul>
     </BreadcrumbBar>
