@@ -54,20 +54,6 @@ const BookCardAuthor = styled.p`
   color: #555555;
 `;
 
-const FeaturedBookTitle = styled.p`
-  font-size: 24px;
-  font-family: PT Serif;
-  font-weight: bold;
-  color: #000000;
-  letter-spacing: 0;
-`;
-
-const FeaturedBookAuthor = styled(BookCardAuthor)`
-  font-size: 18px;
-  color: #000000;
-  font-weight: 500;
-`;
-
 const TextLink = styled(Link)`
   ${BASE_STYLE}
   font-size: 12px;
@@ -90,8 +76,6 @@ const SidebarHeader = styled.h1`
 const styles = {
   BookCardTitle,
   BookCardAuthor,
-  FeaturedBookTitle,
-  FeaturedBookAuthor,
   TextLink,
   SectionTitle,
   Paragraph,
