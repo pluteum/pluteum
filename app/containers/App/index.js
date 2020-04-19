@@ -14,14 +14,12 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Settings from 'containers/Settings/Loadable';
 
 import GlobalStyle from '../../global-styles';
-import Header from '../../components/layout/header/Header';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
 import Homepage from '../HomePage';
 
 export default function App() {
   return (
     <React.Fragment>
-      <Header />
       <Breadcrumb />
       <Switch>
         <Route exact path="/" component={Homepage} />
