@@ -3,9 +3,11 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledSVG = styled.svg`
+  width: 100%;
   color: #000000;
 
   &:hover {
@@ -13,9 +15,32 @@ const StyledSVG = styled.svg`
   }
 `;
 
-export default function Logo() {
+export default function Logo({ className, icon }) {
+  if (icon) {
+    return (
+      <StyledSVG
+        className={className}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 28"
+      >
+        <g fill="none" fillRule="evenodd">
+          <path
+            d="M10.61 19.088H0L4.5 0h9.927c2.9 0 5.045 2.688 4.382 5.495l-2.065 8.76c-.668 2.83-3.208 4.833-6.135 4.833zM20.926 5.64c1.835.87 2.95 2.928 2.448 5.06l-2.066 8.758c-.667 2.832-3.209 4.834-6.136 4.834h-8.17l-.83 3.52-2.596-2.004L0 27.814l1.498-6.347h11.28c2.928 0 5.47-2.003 6.137-4.834l2.066-8.76a4.406 4.406 0 00-.054-2.232z"
+            fill="currentColor"
+          />
+        </g>
+      </StyledSVG>
+    );
+  }
+
   return (
-    <StyledSVG width="177px" height="27px" viewBox="0 0 177 27" version="1.1">
+    <StyledSVG
+      className={className}
+      width="177px"
+      height="27px"
+      viewBox="0 0 177 27"
+      version="1.1"
+    >
       <g id="Symbols" stroke="none" strokeWidth="1" fillRule="evenodd">
         <g id="logo/pluteum-black" transform="translate(-1.000000, 0.000000)">
           <g id="Combined-Shape">
@@ -27,3 +52,8 @@ export default function Logo() {
     </StyledSVG>
   );
 }
+
+Logo.propTypes = {
+  className: PropTypes.string,
+  icon: PropTypes.bool,
+};

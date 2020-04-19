@@ -8,25 +8,37 @@
  */
 
 import React from 'react';
+import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Settings from 'containers/Settings/Loadable';
+import Sidebar from 'components/layout/Sidebar/Sidebar';
 
 import GlobalStyle from '../../global-styles';
 import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
 import Homepage from '../HomePage';
 
+const AppLayout = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 425px) {
+    flex-direction: row;
+  }
+`;
+
 export default function App() {
   return (
-    <React.Fragment>
-      <Breadcrumb />
+    <AppLayout>
+      <Sidebar />
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route path="/settings" component={Settings} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
-    </React.Fragment>
+    </AppLayout>
   );
 }
