@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev -r dotenv/config index.ts",
+    "start": "DEBUG=pluteum:* ts-node-dev -r dotenv/config index.ts",
     "start:docker": "ts-node-dev --respawn --poll --interval 1000 -r dotenv/config index.ts",
     "test": "jest"
   },
@@ -13,6 +13,7 @@
   "dependencies": {
     "amqplib": "^0.5.5",
     "axios": "^0.19.2",
+    "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "fs-extra": "^9.0.0",
     "pdf-parse": "^1.1.1",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.5.13",
+    "@types/debug": "^4.1.5",
     "@types/fs-extra": "^8.1.0",
     "@types/uuid": "^7.0.2",
     "jest": "^25.4.0",
