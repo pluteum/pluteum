@@ -2,16 +2,16 @@ import { gql } from "apollo-server-express";
 
 export const typeDef = gql`
   type Book {
-      id: Int
-      author: Author
-      uuid: String
-      title: String
-      isbn: String
-      seriesIndex: Int
-      filePath: String
-      coverImage: String
-      createdAt: String
-      lastModifiedAt: String
+    id: Int
+    author: Author
+    uuid: String
+    title: String
+    isbn: String
+    seriesIndex: Int
+    filePath: String
+    coverImage: String
+    createdAt: String
+    lastModifiedAt: String
   }
 
   input AuthorInput {
@@ -32,7 +32,8 @@ export const typeDef = gql`
   }
 
   extend type Query {
-      getBook(id: Int!): Book
+    books: [Book]
+    getBook(id: Int!): Book
   }
 
   extend type Mutation {
@@ -46,12 +47,14 @@ export const resolvers = {
       context.dataSources.bookshelf.authors.getAuthorOfBook(parent.id),
   },
   Query: {
+    books: (_: any, __: any, context: any) =>
+      context.dataSources.bookshelf.books.getBooks(),
     getBook: (_: any, args: any, context: any) =>
       context.dataSources.bookshelf.books.getBookById(args.id),
   },
   Mutation: {
     addBook: async (_: any, args: any, context: any) => {
       return context.dataSources.bookshelf.books.saveBook(args.input);
-    }
-  }
+    },
+  },
 };

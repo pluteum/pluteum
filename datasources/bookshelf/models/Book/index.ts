@@ -23,7 +23,7 @@ export default class Book {
     this.library = library;
   }
 
-  public getAllBooks() {
+  public getBooks() {
     const query = select()
       .from("books")
       .where({ library: this.library })
