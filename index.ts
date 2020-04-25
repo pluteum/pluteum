@@ -1,6 +1,6 @@
 import ampq from "amqplib";
-import pdf from "pdf-parse";
 
+import { getBookByISBN } from "./fetch/openlibrary";
 import downloadFile from "./file_management";
 import processPDF from "./parsing/pdf";
 
@@ -16,6 +16,9 @@ ampq
 
         if (file.format === "pdf") {
           const result = await processPDF(fileBuffer);
+          const book = await getBookByISBN(result.isbn);
+
+          console.log(book);
         }
 
         channel.ack(msg);
