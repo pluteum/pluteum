@@ -4,9 +4,10 @@
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [4000],
   "service": "cover",
-  "postCreateCommand": "npm install",
   "shutdownAction": "none",
-  "workspaceFolder": "/home/node"
+  "postCreateCommand": "GIT_SSH_COMMAND=\"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no\" git clone git@github.com:Pluteum/Cover.git . && npm install",
+  "workspaceFolder": "/usr/src",
+  "workspaceMount": "source=remote-workspace,target=/usr/src,type=volume"
 }
