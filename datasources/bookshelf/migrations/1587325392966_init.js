@@ -27,6 +27,7 @@ exports.up = (pgm) => {
   pgm.createTable("files", {
     id: "id",
     uuid: "string",
+    md5: "string",
     library: {
       type: "string",
     },
@@ -36,7 +37,7 @@ exports.up = (pgm) => {
     format: "string",
     size: "decimal", // in kb
     image: "string",
-    processed: {type: "boolean", notNull: false, default: false}
+    processed: { type: "boolean", notNull: false, default: false },
   });
 
   pgm.createTable("authors", {
@@ -46,7 +47,7 @@ exports.up = (pgm) => {
       type: "string",
     },
   });
-  
+
   pgm.createTable("books_files_link", {
     id: "id",
     book: {
@@ -59,7 +60,7 @@ exports.up = (pgm) => {
       notNull: true,
       references: "files",
     },
-  })
+  });
 
   pgm.createTable("books_authors_link", {
     id: "id",
@@ -77,9 +78,9 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable("books_files_link")
+  pgm.dropTable("books_files_link");
   pgm.dropTable("books_authors_link");
   pgm.dropTable("books");
-  pgm.dropTable("files")
+  pgm.dropTable("files");
   pgm.dropTable("authors");
 };

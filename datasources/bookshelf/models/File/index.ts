@@ -1,17 +1,11 @@
-import { PoolClient } from "pg";
-import { select, insert } from "sql-bricks";
-import {
-  stat,
-  mkdir,
-  createWriteStream,
-  ReadStream,
-  WriteStream,
-  access,
-  ensureDir,
-} from "fs-extra";
-import { resolve } from "path";
 import { Channel } from "amqplib";
+import { createWriteStream, ReadStream, remove } from "fs-extra";
+import { resolve } from "path";
+import { PoolClient } from "pg";
+import { insert, select } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
+import digestStream from "digest-stream";
+
 import MIME_FORMAT_MAP from "../../constants/mimetypes";
 
 type GraphQLUpload = {
@@ -33,7 +27,10 @@ export default class Files {
   }
 
   public getFiles() {
-    const query = select().from('files').where({ library: this.library }).toParams();
+    const query = select()
+      .from("files")
+      .where({ library: this.library })
+      .toParams();
 
     return this.pool.query(query).then((result) => result.rows);
   }
@@ -59,45 +56,64 @@ export default class Files {
 
     const inputStream = input.createReadStream();
     const outputStream = createWriteStream(filePath);
-    let fileSize = 0;
+
+    let md5;
+    let dataLength = 0;
+
+    const digestFn = (resultDigest: string, length: number) => {
+      md5 = resultDigest;
+      dataLength = length;
+    };
+
+    const dstream = digestStream("md5", "hex", digestFn);
 
     const upload = new Promise((resolve, reject) => {
-      inputStream.on("data", (c) => (fileSize += c.length));
-
       inputStream
+        .pipe(dstream)
         .pipe(outputStream)
         .on("finish", () => resolve(true))
-        .on("error", (e) => reject(e));
+        .on("error", (e: Error) => reject(e));
     });
 
     await upload;
 
-    let file = {
-      uuid,
-      format,
-      filePath,
-      url,
-      library: this.library,
-      name: input.filename,
-      size: fileSize / 1000,
-    };
+    const isUnique = await this.pool
+      .query(
+        select().from("files").where({ library: this.library, md5 }).toParams()
+      )
+      .then((result) => result.rowCount === 0);
 
-    const query = insert("files", file).toParams();
-    query.text = `${query.text} RETURNING *`;
+    if (isUnique) {
+      let file = {
+        uuid,
+        md5,
+        format,
+        filePath,
+        url,
+        library: this.library,
+        name: input.filename,
+        size: dataLength / 1000,
+      };
 
-    return this.pool
-      .query(query)
-      .then((result) => result.rows[0])
-      .then((fileRow) => {
+      const query = insert("files", file).toParams();
+      query.text = `${query.text} RETURNING *`;
 
-        if (fileRow.format === "pdf") {
-          this.channel.sendToQueue(
-            "monocle_pdf_isbn",
-            Buffer.from(JSON.stringify(fileRow))
-          );
-        }
+      return this.pool
+        .query(query)
+        .then((result) => result.rows[0])
+        .then((fileRow) => {
+          if (fileRow.format === "pdf") {
+            this.channel.sendToQueue(
+              "monocle_pdf_isbn",
+              Buffer.from(JSON.stringify(fileRow))
+            );
+          }
 
-        return fileRow;
-      });
+          return fileRow;
+        });
+    } else {
+      await remove(filePath);
+      return new Error("File already exists");
+    }
   }
 }
