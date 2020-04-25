@@ -17,9 +17,12 @@ ampq
 
         if (file.format === "pdf") {
           const result = await processPDF(fileBuffer);
-          const book = await getBookByISBN(result.isbn);
 
-          await createBookFromFile({ file: { id: file.id }, ...book });
+          if (result.isbn) {
+            const book = await getBookByISBN(result.isbn);
+            await createBookFromFile({ file: { id: file.id }, ...book });
+          }
+
         }
 
         channel.ack(msg);
