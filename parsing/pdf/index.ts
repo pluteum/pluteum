@@ -17,8 +17,8 @@ export default async function process(pdf: Buffer): Promise<ParseResult> {
 }
 
 function getISBN(text: string): string | undefined {
-  const isbn13i = text.indexOf("ISBN-10");
-  const isbn10i = text.indexOf("ISBN-13");
+  const isbn13i = text.indexOf("ISBN-13");
+  const isbn10i = text.indexOf("ISBN-10");
   const isbni = text.indexOf("ISBN");
 
   const isbn13 = text
