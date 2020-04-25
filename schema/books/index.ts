@@ -4,7 +4,7 @@ export const typeDef = gql`
   type Book {
       id: Int
       author: Author
-      uid: String
+      uuid: String
       title: String
       isbn: String
       seriesIndex: Int
@@ -19,11 +19,16 @@ export const typeDef = gql`
     name: String
   }
 
+  input FileInput {
+    id: Int
+  }
+
   input AddBookInput {
     title: String!
     isbn: String
     seriesIndex: Int
-    author: AuthorInput
+    authors: [AuthorInput]
+    file: FileInput
   }
 
   extend type Query {
@@ -46,11 +51,7 @@ export const resolvers = {
   },
   Mutation: {
     addBook: async (_: any, args: any, context: any) => {
-      // Save book and author details via Bookshelf
-      const book = {title: args.input.title, isbn: args.input.isbn, seriesIndex: args.input.seriesIndex, author: args.input.author};
-      const files = await Promise.all(args.input.files);
-
-      await context.dataSources.bookshelf.books.saveBook(book, files);
+      return context.dataSources.bookshelf.books.saveBook(args.input);
     }
   }
 };

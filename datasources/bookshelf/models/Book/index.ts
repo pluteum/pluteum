@@ -1,7 +1,15 @@
 import { PoolClient } from "pg";
 import { select, insert } from "sql-bricks";
-import { stat, mkdir, createWriteStream, ReadStream, WriteStream, access, ensureDir } from 'fs-extra';
-import { resolve } from 'path';
+import {
+  stat,
+  mkdir,
+  createWriteStream,
+  ReadStream,
+  WriteStream,
+  access,
+  ensureDir,
+} from "fs-extra";
+import { resolve } from "path";
 import { Channel } from "amqplib";
 
 export default class Book {
@@ -45,62 +53,76 @@ export default class Book {
   }
 
   public async saveBook(input: any) {
-    // NOTE: removing file handling from books, will be handled under Files instead and linked there, 
-    // adding a book on it's own without a file is and should be possible, similarly, files can be uploaded 
+    // NOTE: removing file handling from books, will be handled under Files instead and linked there,
+    // adding a book on it's own without a file is and should be possible, similarly, files can be uploaded
     // independently of a book, Bookshelf does not try to associate them with a book, Monocle will though
     // if it can find an ISBN or other linking information
 
     // TODO: validate
     // TODO: uid generation
-    const { author, ...book } = input; // look, blame the javascript aliens, this is just the shortest way to do this
-    console.log(author, book)
+    const { authors, file, ...book } = input; // look, blame the javascript aliens, this is just the shortest way to do this
+    console.log(authors, file, book);
 
-    const query = insert("books", {library: this.library, ...book}).toParams();
+    const query = insert("books", {
+      library: this.library,
+      ...book,
+    }).toParams();
     query.text = `${query.text} RETURNING *`; // return new book
 
     const newBook = await this.pool
       .query(query)
       .then((result) => result.rows[0]);
 
-    if (author) {
-      let id = author.id;
+    if (authors) {
+      authors.forEach(async (author: any) => {
+        let id = author.id;
 
-      if (!id && author.name) {
-        // look up by name, if existing, use that author, otherwise new author
-        // TODO: probably a way to do this in one SQL query
-        const authorID = await this.pool
-          .query(
-            select("id")
-              .from("authors")
-              .where({ name: author.name })
-              .toParams()
-          )
-          .then((result) => result.rows[0] ? result.rows[0].id : undefined);
+        if (!id && author.name) {
+          // look up by name, if existing, use that author, otherwise new author
+          // TODO: probably a way to do this in one SQL query
+          const authorID = await this.pool
+            .query(
+              select("id")
+                .from("authors")
+                .where({ name: author.name })
+                .toParams()
+            )
+            .then((result) => (result.rows[0] ? result.rows[0].id : undefined));
 
-        if (authorID) {
-          // author exists, this is the ID
-          id = authorID;
-        } else {
-          let newAuthorQuery = insert("authors", {
-            name: author.name,
-            library: this.library,
-          }).toParams();
-          newAuthorQuery.text = `${newAuthorQuery.text} RETURNING "id"`; // return id
+          if (authorID) {
+            // author exists, this is the ID
+            id = authorID;
+          } else {
+            let newAuthorQuery = insert("authors", {
+              name: author.name,
+              library: this.library,
+            }).toParams();
+            newAuthorQuery.text = `${newAuthorQuery.text} RETURNING "id"`; // return id
 
-          id = await this.pool
-            .query(newAuthorQuery)
-            .then((result) => result.rows[0].id);
+            id = await this.pool
+              .query(newAuthorQuery)
+              .then((result) => result.rows[0].id);
+          }
         }
-      }
 
-      const linkingQuery = insert("books_authors_link", {
+        const linkingQuery = insert("books_authors_link", {
+          book: newBook.id,
+          author: id,
+        }).toParams();
+
+        await this.pool.query(linkingQuery);
+      });
+    }
+
+    if (file) {
+      const linkingQuery = insert("books_files_link", {
         book: newBook.id,
-        author: id,
+        file: newBook.id,
       }).toParams();
 
       await this.pool.query(linkingQuery);
     }
 
-    return newBook
+    return newBook;
   }
 }
