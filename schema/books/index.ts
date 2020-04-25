@@ -3,7 +3,7 @@ import { gql } from "apollo-server-express";
 export const typeDef = gql`
   type Book {
     id: Int
-    author: Author
+    author: [Author]
     uuid: String
     title: String
     isbn: String
@@ -44,7 +44,7 @@ export const typeDef = gql`
 export const resolvers = {
   Book: {
     author: (parent: any, _: any, context: any) =>
-      context.dataSources.bookshelf.authors.getAuthorOfBook(parent.id),
+      context.dataSources.bookshelf.authors.getAuthorsOfBook(parent.id),
   },
   Query: {
     books: (_: any, __: any, context: any) =>

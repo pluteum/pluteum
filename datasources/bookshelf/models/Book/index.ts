@@ -1,16 +1,10 @@
 import { PoolClient } from "pg";
 import { select, insert } from "sql-bricks";
-import {
-  stat,
-  mkdir,
-  createWriteStream,
-  ReadStream,
-  WriteStream,
-  access,
-  ensureDir,
-} from "fs-extra";
-import { resolve } from "path";
+import { v4 as uuidv4 } from "uuid";
 import { Channel } from "amqplib";
+import Debug from "debug";
+
+const bookModelDebug = Debug("pluteum:bookshelf:book");
 
 export default class Book {
   private pool: PoolClient;
@@ -53,20 +47,12 @@ export default class Book {
   }
 
   public async saveBook(input: any) {
-    // NOTE: removing file handling from books, will be handled under Files instead and linked there,
-    // adding a book on it's own without a file is and should be possible, similarly, files can be uploaded
-    // independently of a book, Bookshelf does not try to associate them with a book, Monocle will though
-    // if it can find an ISBN or other linking information
+    let { authors, file, ...book } = input;
 
-    // TODO: validate
-    // TODO: uid generation
-    const { authors, file, ...book } = input; // look, blame the javascript aliens, this is just the shortest way to do this
-    console.log(authors, file, book);
+    book.library = this.library;
+    book.uuid = uuidv4();
 
-    const query = insert("books", {
-      library: this.library,
-      ...book,
-    }).toParams();
+    const query = insert("books", book).toParams();
     query.text = `${query.text} RETURNING *`; // return new book
 
     const newBook = await this.pool
@@ -78,8 +64,9 @@ export default class Book {
         let id = author.id;
 
         if (!id && author.name) {
-          // look up by name, if existing, use that author, otherwise new author
-          // TODO: probably a way to do this in one SQL query
+          bookModelDebug(
+            `No Author ID found for ${book.uuid}, attempting to look up name ${author.name}`
+          );
           const authorID = await this.pool
             .query(
               select("id")
@@ -91,8 +78,14 @@ export default class Book {
 
           if (authorID) {
             // author exists, this is the ID
+            bookModelDebug(
+              `Found an existing author with the name ${author.name}, ID ${authorID}`
+            );
             id = authorID;
           } else {
+            bookModelDebug(
+              `Unable to find an existing author with name ${author.name}, adding to Author table`
+            );
             let newAuthorQuery = insert("authors", {
               name: author.name,
               library: this.library,
@@ -105,6 +98,7 @@ export default class Book {
           }
         }
 
+        bookModelDebug(`Linking author ${id} and book ${newBook.id} together`);
         const linkingQuery = insert("books_authors_link", {
           book: newBook.id,
           author: id,
@@ -115,9 +109,10 @@ export default class Book {
     }
 
     if (file) {
+      bookModelDebug(`Linking file ${file.id} and book ${newBook.id} together`);
       const linkingQuery = insert("books_files_link", {
         book: newBook.id,
-        file: newBook.id,
+        file: file.id,
       }).toParams();
 
       await this.pool.query(linkingQuery);
