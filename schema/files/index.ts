@@ -15,7 +15,8 @@ export const typeDef = gql`
   }
 
   extend type Query {
-      getFile(id: Int!): File
+    files: [File]
+    getFile(id: Int!): File
   }
 
   extend type Mutation {
@@ -25,6 +26,7 @@ export const typeDef = gql`
 
 export const resolvers = {
   Query: {
+    files: (_: any, __: any, context: any) => context.dataSources.bookshelf.files.getFiles(),
     getFile: (_: any, args: any, context: any) =>
       context.dataSources.bookshelf.files.getFileById(args.id),
   },

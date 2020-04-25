@@ -32,6 +32,12 @@ export default class Files {
     this.library = library;
   }
 
+  public getFiles() {
+    const query = select().from('files').where({ library: this.library }).toParams();
+
+    return this.pool.query(query).then((result) => result.rows);
+  }
+
   public getFileById(id: number) {
     const query = select()
       .from("files")
