@@ -1,0 +1,12 @@
+{
+  "name": "Librarian",
+  "dockerComposeFile": ["../docker-compose.development.yml"],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "forwardPorts": [3000],
+  "service": "librarian",
+  "postCreateCommand": "npm install",
+  "shutdownAction": "none",
+  "workspaceFolder": "/home/node"
+}
