@@ -16,7 +16,6 @@ import Settings from 'containers/Settings/Loadable';
 import Sidebar from 'components/layout/Sidebar/Sidebar';
 
 import GlobalStyle from '../../global-styles';
-import Homepage from '../HomePage';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -33,7 +32,6 @@ export default function App() {
     <AppLayout>
       <Sidebar />
       <Switch>
-        <Route exact path="/" component={Homepage} />
         <Route path="/settings" component={Settings} />
         <Route component={NotFoundPage} />
       </Switch>

@@ -4,7 +4,6 @@
  *
  */
 import Typography from 'components/common/Type/Typography';
-import BookUpload from 'containers/BookUpload/Loadable';
 import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
@@ -39,12 +38,8 @@ const SplitLayout = styled.div`
 
 export function LibraryManagement() {
   const [uploadModal, onUploadModal] = useState(true);
-  const [files, onFilesChange] = useState([]);
 
-  const onBookUploaded = e => {
-    const fileList = e.target.files;
-
-    onFilesChange(fileList);
+  const onBookUploaded = () => {
     onUploadModal(true);
   };
 
@@ -69,11 +64,7 @@ export function LibraryManagement() {
       <div>
         <Typography type="SettingsHeader">Books</Typography>
       </div>
-      {uploadModal && (
-        <ModalPortal>
-          <BookUpload onExit={() => onUploadModal(false)} files={files} />
-        </ModalPortal>
-      )}
+      {uploadModal && <ModalPortal />}
     </Layout>
   );
 }
