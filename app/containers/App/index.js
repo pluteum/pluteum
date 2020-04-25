@@ -16,7 +16,6 @@ import Settings from 'containers/Settings/Loadable';
 import Sidebar from 'components/layout/Sidebar/Sidebar';
 
 import GlobalStyle from '../../global-styles';
-import Breadcrumb from '../../components/layout/breadcrumbs/Breadcrumbs';
 import Homepage from '../HomePage';
 
 const AppLayout = styled.div`
