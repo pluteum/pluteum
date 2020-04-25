@@ -3,24 +3,15 @@
  * Library Management
  *
  */
-
 import Typography from 'components/common/Type/Typography';
 import BookUpload from 'containers/BookUpload/Loadable';
-import PropTypes from 'prop-types';
 import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
+
 import Input from '../../../components/common/Input/Input';
 import ModalPortal from '../../../components/common/ModalPortal/ModalPortal';
 import UploadButton from '../../../components/common/UploadButton/UploadButton';
-import reducer from './reducer';
-import saga from './saga';
-import makeSelectLibraryManagement from './selectors';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -47,9 +38,6 @@ const SplitLayout = styled.div`
 `;
 
 export function LibraryManagement() {
-  useInjectReducer({ key: 'libraryManagement', reducer });
-  useInjectSaga({ key: 'libraryManagement', saga });
-
   const [uploadModal, onUploadModal] = useState(true);
   const [files, onFilesChange] = useState([]);
 
@@ -90,26 +78,6 @@ export function LibraryManagement() {
   );
 }
 
-LibraryManagement.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+LibraryManagement.propTypes = {};
 
-const mapStateToProps = createStructuredSelector({
-  settingsLibraryManagement: makeSelectLibraryManagement(),
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-
-export default compose(
-  withConnect,
-  memo,
-)(LibraryManagement);
+export default memo(LibraryManagement);

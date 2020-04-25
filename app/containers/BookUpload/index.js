@@ -3,26 +3,14 @@
  * BookUpload
  *
  */
-
+import BookCover from 'components/BookCover/BookCover';
+import Input from 'components/common/Input/Input';
+import Modal from 'components/common/Modal/Modal';
+import Ratings from 'components/common/Ratings/Ratings';
+import Typography from 'components/common/Type/Typography';
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-
-import Modal from 'components/common/Modal/Modal';
-import Typography from 'components/common/Type/Typography';
-import Input from 'components/common/Input/Input';
-import Ratings from 'components/common/Ratings/Ratings';
-import BookCover from 'components/BookCover/BookCover';
-
-import makeSelectBookUpload from './selectors';
-import reducer from './reducer';
-import saga from './saga';
 
 const Layout = styled.div`
   display: flex;
@@ -48,9 +36,6 @@ const FormLayout = styled.form`
 `;
 
 export function BookUpload({ onExit }) {
-  useInjectReducer({ key: 'bookUpload', reducer });
-  useInjectSaga({ key: 'bookUpload', saga });
-
   return (
     <Modal onExit={onExit}>
       <Typography type="SectionTitle">New Book</Typography>
@@ -89,19 +74,4 @@ BookUpload.propTypes = {
   // files: PropTypes.array,
 };
 
-const mapStateToProps = createStructuredSelector({
-  bookUpload: makeSelectBookUpload(),
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-
-export default compose(withConnect)(BookUpload);
+export default BookUpload;

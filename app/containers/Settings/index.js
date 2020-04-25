@@ -3,19 +3,15 @@
  * Setting
  *
  */
-
-import React, { memo } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
-import { compose } from 'redux';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-
-import LibraryManagement from 'containers/Settings/LibraryManagement/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import LibraryManagement from 'containers/Settings/LibraryManagement/Loadable';
+import React, { memo } from 'react';
+import { Helmet } from 'react-helmet';
+import { Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+
 import Sidebar from '../../components/common/Sidebar';
 import SidebarItem from '../../components/common/SidebarItem';
 
@@ -44,22 +40,6 @@ export function Settings() {
   );
 }
 
-Settings.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+Settings.propTypes = {};
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
-
-export default compose(
-  withConnect,
-  memo,
-)(Settings);
+export default memo(Settings);
