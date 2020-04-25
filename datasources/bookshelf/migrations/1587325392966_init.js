@@ -11,7 +11,7 @@ exports.up = (pgm) => {
     },
     title: { type: "text", notNull: true },
     isbn: "text",
-    seriesIndex: "integer",
+    seriesIndex: { type: "integer", default: 1 },
     createdAt: {
       type: "timestamp",
       notNull: true,
