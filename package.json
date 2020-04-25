@@ -1,0 +1,28 @@
+{
+  "name": "@pluteum/monocle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev -r dotenv/config index.ts",
+    "start:docker": "ts-node-dev --respawn --poll --interval 1000 -r dotenv/config index.ts",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.0",
+    "pdf-parse": "^1.1.1",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.5.13",
+    "@types/fs-extra": "^8.1.0",
+    "@types/uuid": "^7.0.2",
+    "jest": "^25.4.0",
+    "ts-node-dev": "^1.0.0-pre.44"
+  }
+}
