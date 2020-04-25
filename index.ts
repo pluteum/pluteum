@@ -3,6 +3,7 @@ import ampq from "amqplib";
 import { getBookByISBN } from "./fetch/openlibrary";
 import downloadFile from "./file_management";
 import processPDF from "./parsing/pdf";
+import createBookFromFile from "./entry";
 
 ampq
   .connect(process.env.AMPQ_URL || "")
@@ -18,7 +19,7 @@ ampq
           const result = await processPDF(fileBuffer);
           const book = await getBookByISBN(result.isbn);
 
-          console.log(book);
+          await createBookFromFile({ file: { id: file.id }, ...book });
         }
 
         channel.ack(msg);

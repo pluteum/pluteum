@@ -19,8 +19,9 @@ export async function getBookByISBN(isbn: any) {
 
   return {
     title: response.data[isbnKey].title,
-    url: response.data[isbnKey].url,
-    authors: response.data[isbnKey].authors.map((author: any) => author.name),
+    authors: response.data[isbnKey].authors.map((author: any) => ({
+      name: author.name,
+    })),
     isbn,
   };
 }
