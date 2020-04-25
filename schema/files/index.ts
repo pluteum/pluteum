@@ -31,6 +31,7 @@ export const resolvers = {
       context.dataSources.bookshelf.files.getFileById(args.id),
   },
   Mutation: {
+    // TODO: add some basic input validation here
     uploadFile: async (_: any, args: any, context: any) => context.dataSources.bookshelf.files.addFile(args.file),
   }
 };

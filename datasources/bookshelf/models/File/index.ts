@@ -47,8 +47,8 @@ export default class Files {
     return this.pool.query(query).then((result) => result.rows[0]);
   }
 
-  public async addFile(inputs: GraphQLUpload[]) {
-    const input = await inputs[0];
+  public async addFile(newFile: Promise<GraphQLUpload>) {
+    const input = await newFile;
     const uuid = uuidv4();
     const format = MIME_FORMAT_MAP[input.mimetype];
     const filePath = resolve(
