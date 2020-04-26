@@ -37,4 +37,8 @@ export const resolvers = {
     uploadFile: async (_: any, args: any, context: any) =>
       context.dataSources.bookshelf.files.addFile(args.file),
   },
+  File: {
+    book: async (parent: any, _: any, context: any) =>
+      context.dataSources.bookshelf.books.getBookByFile(parent.id),
+  },
 };

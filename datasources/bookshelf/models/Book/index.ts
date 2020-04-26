@@ -26,6 +26,17 @@ export default class Book {
     return this.pool.query(query).then((result) => result.rows);
   }
 
+  public getBookByFile(fileId: number) {
+    const query = select("books.*")
+      .from("books")
+      .join("books_files_link")
+      .on("books.id", "books_files_link.book")
+      .where({ "books_files_link.file": fileId })
+      .toParams();
+
+    return this.pool.query(query).then((result) => result.rows[0]);
+  }
+
   public getBooksByAuthor(authorId: number) {
     const query = select()
       .from("books")
