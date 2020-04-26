@@ -15,7 +15,8 @@ const Wrapper = styled.li`
   list-style: none;
   text-decoration: none;
 
-  font-family: OpenSans-Light;
+  font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
   font-size: 16px;
   color: #555555;
   font-weight: 100;

@@ -13,21 +13,22 @@ const BASE_STYLE = `
 
 const SectionTitle = styled.h1`
   ${BASE_STYLE}
-  font-family: PT Serif;
-  font-weight: bold;
+  font-family: 'DM Serif Display', serif;
+  font-weight: normal;
   font-size: 30px;
   color: #000000;
 `;
 
 const SettingsHeader = styled.h2`
-  font-family: PT Serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 22px;
   color: #000000;
   font-weight: normal;
 `;
 
 const Paragraph = styled.p`
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
   font-weight: lighter;
   font-size: 20px;
   line-height: 30px;
@@ -36,7 +37,7 @@ const Paragraph = styled.p`
 
 const BookCardTitle = styled.p`
   ${BASE_STYLE}
-  font-family: PT Serif;
+  font-family: 'DM Serif Text', serif;
   font-weight: bold;
   font-size: 20px;
   color: #000000;
@@ -48,7 +49,7 @@ const BookCardTitle = styled.p`
 
 const BookCardAuthor = styled.p`
   ${BASE_STYLE}
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'IBM Plex Mono', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 100;
   font-size: 15px;
   color: #555555;
@@ -66,7 +67,8 @@ const TextLink = styled(Link)`
 
 const SidebarHeader = styled.h1`
   ${BASE_STYLE}
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
   font-size: 14px;
   color: #000000;
   letter-spacing: 3px;

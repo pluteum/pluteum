@@ -8,10 +8,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Sidebar from 'containers/Frame/Sidebar';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+
+import Settings from 'containers/Settings';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 import Modal from 'components/common/Modal/Modal';
@@ -50,7 +52,9 @@ export default function Frame() {
   return (
     <AppLayout>
       <Sidebar onUpload={onUpload} />
-      <Switch />
+      <Switch>
+        <Route path="/settings" component={Settings} />
+      </Switch>
       {mutationLoading && (
         <ModalPortal>
           <Modal>
