@@ -4,7 +4,7 @@
  *
  */
 import Typography from 'components/common/Type/Typography';
-import React, { memo } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { useTable } from 'react-table';
@@ -36,7 +36,9 @@ const GET_FILES = gql`
 `;
 
 export function FileManagement() {
-  const { data: { files = [] } = {} } = useQuery(GET_FILES);
+  const { data: { files = [] } = {} } = useQuery(GET_FILES, {
+    fetchPolicy: 'cache-and-network',
+  });
 
   const columns = React.useMemo(columnDef, []);
   const tableData = React.useMemo(() => files, [files]);
@@ -86,4 +88,4 @@ export function FileManagement() {
 
 FileManagement.propTypes = {};
 
-export default memo(FileManagement);
+export default FileManagement;

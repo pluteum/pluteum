@@ -32,14 +32,42 @@ const MUTATION = gql`
   mutation($file: FileUpload!) {
     uploadFile(file: $file) {
       id
-      md5
+      uuid
+      image
       name
+      url
+      book {
+        id
+        title
+      }
+      processed
+    }
+  }
+`;
+
+const GET_FILES = gql`
+  {
+    files {
+      id
+      uuid
+      image
+      name
+      url
+      processed
     }
   }
 `;
 
 export default function Frame() {
-  const [upload, { loading: mutationLoading }] = useMutation(MUTATION);
+  const [upload, { loading: mutationLoading }] = useMutation(MUTATION, {
+    update(cache, { data }) {
+      const { files } = cache.readQuery({ query: GET_FILES });
+      cache.writeQuery({
+        query: GET_FILES,
+        data: { files: files.concat([data.uploadFile]) },
+      });
+    },
+  });
 
   function onUpload({
     target: {
