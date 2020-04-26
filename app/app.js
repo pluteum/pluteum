@@ -12,7 +12,9 @@ import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from '@apollo/react-hooks';
 import 'sanitize.css/sanitize.css';
 
@@ -23,10 +25,15 @@ import App from 'containers/App';
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
+import { createUploadLink } from 'apollo-upload-client';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 const MOUNT_NODE = document.getElementById('app');
-const client = new ApolloClient();
+
+const client = new ApolloClient({
+  link: ApolloLink.from([createUploadLink()]),
+  cache: new InMemoryCache(),
+});
 
 const render = () => {
   ReactDOM.render(

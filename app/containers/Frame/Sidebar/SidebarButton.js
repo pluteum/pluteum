@@ -23,8 +23,8 @@ const ButtonLink = styled(Link)`
   }
 `;
 
-export default function SidebarButton({ to, children }) {
-  return <ButtonLink to={to}>{children}</ButtonLink>;
+export default function SidebarButton({ children, ...props }) {
+  return <ButtonLink {...props}>{children}</ButtonLink>;
 }
 
 SidebarButton.propTypes = {

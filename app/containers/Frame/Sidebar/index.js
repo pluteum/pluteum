@@ -1,8 +1,8 @@
 // Sidebar
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import SidebarButton from 'components/layout/Sidebar/SidebarButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlusCircle,
@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Logo from 'components/common/Logo/Logo';
 import { Link } from 'react-router-dom';
+import SidebarButton from './SidebarButton';
 
 const Layout = styled.div`
   background: #ffffff;
@@ -42,16 +43,23 @@ const LogoLink = styled(Link)`
   }
 `;
 
-export default function Sidebar() {
+export default function Sidebar({ onUpload }) {
   return (
     <Layout>
       <div className="top">
         <LogoLink to="/">
           <Logo icon />
         </LogoLink>
-        <SidebarButton to="">
+        <SidebarButton as="label" htmlFor="fileupload">
           <FontAwesomeIcon icon={faPlusCircle} />
         </SidebarButton>
+        <input
+          type="file"
+          id="fileupload"
+          name="fileupload"
+          style={{ display: 'none' }}
+          onChange={e => onUpload(e)}
+        />
         <SidebarButton to="">
           <FontAwesomeIcon icon={faListUl} />
         </SidebarButton>
@@ -71,6 +79,8 @@ export default function Sidebar() {
   );
 }
 
-Sidebar.propTypes = {};
+Sidebar.propTypes = {
+  onUpload: PropTypes.func,
+};
 
 Sidebar.defaultProps = {};
