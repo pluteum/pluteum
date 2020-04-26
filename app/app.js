@@ -28,10 +28,12 @@ import 'file-loader?name=.htaccess!./.htaccess';
 import { createUploadLink } from 'apollo-upload-client';
 /* eslint-enable import/no-unresolved, import/extensions */
 
+import { customFetch } from 'utils/fetch';
+
 const MOUNT_NODE = document.getElementById('app');
 
 const client = new ApolloClient({
-  link: ApolloLink.from([createUploadLink()]),
+  link: ApolloLink.from([createUploadLink({ fetch: customFetch })]),
   cache: new InMemoryCache(),
 });
 

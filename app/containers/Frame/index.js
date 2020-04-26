@@ -6,7 +6,7 @@
 //
 //
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 import Sidebar from 'containers/Frame/Sidebar';
@@ -17,6 +17,8 @@ import Settings from 'containers/Settings';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 import Modal from 'components/common/Modal/Modal';
+import Typography from 'components/common/Type/Typography';
+import ProgressBar from 'components/common/ProgressBar';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -59,6 +61,8 @@ const GET_FILES = gql`
 `;
 
 export default function Frame() {
+  const [uploadProgress, setProgress] = useState(0);
+
   const [upload, { loading: mutationLoading }] = useMutation(MUTATION, {
     update(cache, { data }) {
       const { files } = cache.readQuery({ query: GET_FILES });
@@ -74,7 +78,20 @@ export default function Frame() {
       files: [file],
     },
   }) {
-    upload({ variables: { file } });
+    upload({
+      variables: {
+        file,
+      },
+      context: {
+        fetchOptions: {
+          useUpload: true,
+          onProgress: ev => {
+            setProgress(ev.loaded / ev.total);
+          },
+          onAbortPossible: () => undefined,
+        },
+      },
+    });
   }
 
   return (
@@ -86,7 +103,8 @@ export default function Frame() {
       {mutationLoading && (
         <ModalPortal>
           <Modal>
-            <h1>loading</h1>
+            <Typography type="SectionTitle">Uploading</Typography>
+            <ProgressBar percent={uploadProgress} />
           </Modal>
         </ModalPortal>
       )}
