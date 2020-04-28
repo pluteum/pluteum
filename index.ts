@@ -1,12 +1,10 @@
 import express from "express";
-import { Pool } from "pg";
+import { initDb } from "./db";
 
-const pool = new Pool();
-
-pool
-  .connect()
-  .then((client) => {
+initDb()
+  .then(() => {
     const app = express();
+
     app.listen({ port: 4000 }, () => {
       console.log(`🚀 Server ready`);
     });
