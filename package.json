@@ -6,7 +6,7 @@
   "scripts": {
     "start": "DEBUG=pluteum:* ts-node-dev -r dotenv/config index.ts",
     "start:docker": "ts-node-dev --respawn --poll --interval 1000 -r dotenv/config index.ts",
-    "migrate": "node-pg-migrate -m datasources/bookshelf/migrations"
+    "migrate": "node-pg-migrate -m datasources/bookshelf/migrations -t bookshelf_migrations"
   },
   "author": "",
   "license": "ISC",
