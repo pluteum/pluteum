@@ -59,23 +59,16 @@ const LogoLink = styled(Link)`
   }
 `;
 
-export default function Sidebar({ onUpload }) {
+export default function Sidebar({ onOpenUpload }) {
   return (
     <Layout>
       <div className="top">
         <LogoLink to="/">
           <Logo icon />
         </LogoLink>
-        <SidebarButton as="label" htmlFor="fileupload">
+        <SidebarButton as="button" onClick={onOpenUpload}>
           <FontAwesomeIcon icon={faPlusCircle} />
         </SidebarButton>
-        <input
-          type="file"
-          id="fileupload"
-          name="fileupload"
-          style={{ display: 'none' }}
-          onChange={e => onUpload(e)}
-        />
         <SidebarButton to="">
           <FontAwesomeIcon icon={faListUl} />
         </SidebarButton>
@@ -96,7 +89,7 @@ export default function Sidebar({ onUpload }) {
 }
 
 Sidebar.propTypes = {
-  onUpload: PropTypes.func,
+  onOpenUpload: PropTypes.func,
 };
 
 Sidebar.defaultProps = {};

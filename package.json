@@ -97,6 +97,7 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "react-dropzone": "^11.0.1",
     "react-helmet": "6.0.0-beta",
     "react-intl": "2.8.0",
     "react-popper": "^2.0.0",

@@ -6,20 +6,24 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const ButtonLink = styled(Link)`
-  display: inline-flex;
-  width: 100%;
+  display: flex;
   margin: 6px auto;
+  width: 40px;
   height: 40px;
   justify-content: center;
   align-items: center;
   font-size: 18px;
   color: #494b4f;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
+  outline: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+
+  transition: color 0.25s ease, background 0.25s ease;
 
   &:hover {
     color: #0a4fcd;
-    border-right-color: #0a4fcd;
+    background: #eff1f7;
   }
 `;
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropType from 'prop-types';
 
 const Bar = styled.div`
-  width: 160px;
+  width: 100%;
   height: 8px;
   background: #dbdde2;
   border-radius: 4px;
@@ -17,7 +17,7 @@ const Bar = styled.div`
     top: 0;
     background: #0a4fcd;
     height: 8px;
-    width: ${props => props.percent * 160}px;
+    width: ${props => props.percent * 100}%;
     border-radius: 4px;
     transition: width 0.5s ease-in;
   }
