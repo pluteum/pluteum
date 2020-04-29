@@ -1,12 +1,12 @@
-import { Pool } from "pg";
+import { Pool, PoolClient } from "pg";
 
-let _db: Pool;
+let _db: PoolClient;
 
 export async function initDb(): Promise<void> {
   const pool = new Pool();
-  await pool.connect();
+  _db = await pool.connect();
 }
 
-export function getDb(): Pool {
+export function getDb(): PoolClient {
   return _db;
 }

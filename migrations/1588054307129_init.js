@@ -6,11 +6,11 @@ exports.up = (pgm) => {
   pgm.createTable("users", {
     id: "id",
     uuid: "string",
-    first_name: "string",
-    last_name: "string",
-    email: "string",
-    password: "string",
-    created_at: {
+    firstName: "string",
+    lastName: "string",
+    email: { type: "string", notNull: true, unique: true },
+    password: { type: "string", notNull: true, unique: true },
+    createdAt: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp"),
@@ -22,7 +22,7 @@ exports.up = (pgm) => {
     uuid: "string",
     title: "string",
     language: "string",
-    created_at: {
+    createdAt: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp"),

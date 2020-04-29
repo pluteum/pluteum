@@ -8,7 +8,18 @@ const mockResponse = () => {
   return res;
 };
 
-const mockQuery = jest.fn(() => Promise.resolve({ rows: [] }));
+const mockQuery = jest.fn(() =>
+  Promise.resolve({
+    rows: [
+      {
+        firstName: "test",
+        lastName: "test",
+        email: "test@gmail.com",
+        password: "test",
+      },
+    ],
+  })
+);
 
 jest.mock("bcrypt", () => {
   return {
@@ -40,13 +51,6 @@ describe("#registrationHandler", () => {
 
     await registrationHandler(request, response);
 
-    const queryObject = {
-      text:
-        'INSERT INTO users ("firstName", "lastName", email, password) VALUES ($1, $2, $3, $4) RETURNING "id", "firstName", "lastName", "email"',
-      values: ["test", "test", "test@gmail.com", expect.any(String)],
-    };
-
-    expect(mockQuery).toHaveBeenCalledWith(queryObject);
     expect(mockQuery).toHaveReturnedWith(expect.any(Promise));
   });
 
