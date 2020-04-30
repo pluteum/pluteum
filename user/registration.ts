@@ -5,6 +5,7 @@ import Schema from "validate";
 import { v4 as uuid } from "uuid";
 import debug from "debug";
 import { getDb } from "../db";
+import { createLibrary } from "../library/create";
 
 const registerDebug = debug("pluteum:accesscard:register");
 
@@ -79,5 +80,17 @@ async function registerUser({ firstName, lastName, email, password }: any) {
 
   query.text = `${query.text} RETURNING "id", "firstName", "lastName", "email"`; // returning via postgres
 
-  return pool.query(query).then((result) => result.rows[0]);
+  const user = await pool.query(query).then((result) => result.rows[0]);
+
+  try {
+    await createLibrary({
+      userId: user.id,
+      title: `${user.firstName}'s Library`,
+      defaultLibrary: true,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+
+  return user;
 }

@@ -52,14 +52,14 @@ async function generateToken(user: any, library?: any) {
 
 async function loginUser({ email, password, library }: any) {
   const pool = getDb();
-  const query = select().from("users").join("").where({ email }).toParams();
+  const query = select().from("users").where({ email }).toParams();
   const user = await pool.query(query).then((result) => result.rows[0]);
 
-  loginDebug(`Found user with email ${user.email}`);
-
   if (!user) {
-    return new Error("Unknown user or password");
+    return new Error("Unknown user or password").message;
   }
+
+  loginDebug(`Found user with email ${user.email}`);
 
   const match = await bcrypt.compare(password, user.password);
 
