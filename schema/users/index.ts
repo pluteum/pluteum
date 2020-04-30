@@ -31,11 +31,6 @@ export const typeDef = `
       me: User
       user(id: Int!): User
   }
-
-  extend type Mutation {
-    login(input: LoginInput): LoginResponse
-    register(input: RegisterInput!): User
-  }
 `;
 
 export const resolvers = {
@@ -51,14 +46,7 @@ export const resolvers = {
       return db.query(query).then((val: QueryResult) => val.rows[0]);
     },
   },
-  Mutation: {
-    login: (_: any, args: any, context: any) => {
-      return loginUser(args.input, context.client)
-    },
-    register: (_: any, args: any, context: any) => {
-      return registerUser(args.input, context.client);
-    }
-  },
+  Mutation: {},
   User: {
     libraries: (parent: any, args: any, context: any) => {
       const userId = parent.id;
