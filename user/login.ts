@@ -21,6 +21,10 @@ const LoginInputSchema = new Schema({
     type: String,
     required: true,
   },
+  library: {
+    type: Number,
+    required: false,
+  },
 });
 
 export default async function loginHandler(req: Request, res: Response) {
@@ -42,13 +46,13 @@ export default async function loginHandler(req: Request, res: Response) {
 
 const JWT_KEY = process.env.JWT_KEY || "";
 
-async function generateToken(user: any) {
-  return jwt.sign(user, JWT_KEY, { expiresIn: "1000" });
+async function generateToken(user: any, library?: any) {
+  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "1000" });
 }
 
-async function loginUser({ email, password }: any) {
+async function loginUser({ email, password, library }: any) {
   const pool = getDb();
-  const query = select().from("users").where({ email }).toParams();
+  const query = select().from("users").join("").where({ email }).toParams();
   const user = await pool.query(query).then((result) => result.rows[0]);
 
   loginDebug(`Found user with email ${user.email}`);
@@ -59,10 +63,11 @@ async function loginUser({ email, password }: any) {
 
   const match = await bcrypt.compare(password, user.password);
 
-  if (match) {
+  if (match && !library) {
     delete user.password;
 
-    return { token: await generateToken(user), user };
+    return { token: await generateToken(user), user, library: null };
+  } else if (match && library) {
   }
 
   return new Error("Unknown user or password");
