@@ -21,7 +21,7 @@ exports.up = (pgm) => {
     id: "id",
     uuid: "string",
     title: "string",
-    language: "string",
+    language: { type: "string", default: "en-us" },
     createdAt: {
       type: "timestamp",
       notNull: true,
@@ -41,6 +41,7 @@ exports.up = (pgm) => {
       notNull: true,
       references: "libraries",
     },
+    default: { type: "boolean", default: false },
   });
 };
 

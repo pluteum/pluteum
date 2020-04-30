@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { initDb } from "./db";
 import User from "./user";
+import Library from "./library";
 
 initDb()
   .then(() => {
@@ -9,7 +10,8 @@ initDb()
 
     app.use(bodyParser.json());
 
-    app.use("/access", User);
+    app.use("/user", User);
+    app.use("/library", Library);
 
     app.listen({ port: 4000 }, () => {
       console.log(`🚀 Server ready`);
