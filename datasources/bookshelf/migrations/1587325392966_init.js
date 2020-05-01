@@ -8,6 +8,7 @@ exports.up = (pgm) => {
     uuid: "string",
     library: {
       type: "string",
+      notNull: true,
     },
     title: { type: "text", notNull: true },
     isbn: "text",
@@ -30,6 +31,7 @@ exports.up = (pgm) => {
     md5: "string",
     library: {
       type: "string",
+      notNull: true,
     },
     name: "string",
     filePath: "string",
@@ -45,6 +47,7 @@ exports.up = (pgm) => {
     name: { type: "text", notNull: true },
     library: {
       type: "string",
+      notNull: true,
     },
   });
 

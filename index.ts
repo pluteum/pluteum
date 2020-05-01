@@ -14,7 +14,7 @@ const channel = ampq
 function getUser(authorizationHeader: string = "") {
   const token = authorizationHeader.replace("Bearer: ", "");
 
-  return verify(token, process.env.JWT_KEY || "") as object;
+  return verify(token, process.env.JWT_KEY || "default") as object;
 }
 
 Promise.all([pool.connect(), channel])
