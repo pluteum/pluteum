@@ -44,10 +44,10 @@ export default async function loginHandler(req: Request, res: Response) {
   res.status(200).send(auth);
 }
 
-const JWT_KEY = process.env.JWT_KEY || "";
+const JWT_KEY = process.env.JWT_KEY || "default";
 
 async function generateToken(user: any, library?: any) {
-  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "1000" });
+  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "900000" });
 }
 
 async function loginUser({ email, password, library }: any) {
@@ -65,10 +65,48 @@ async function loginUser({ email, password, library }: any) {
 
   if (match && !library) {
     delete user.password;
+    const hasLibraryQuery = select()
+      .from("users")
+      .join("users_libraries_link")
+      .on("users.id", "users_libraries_link.user")
+      .where({ user: user.id, default: true })
+      .toParams();
+
+    const result = await pool
+      .query(hasLibraryQuery)
+      .then((result) => result.rows[0]);
+
+    if (result) {
+      loginDebug(
+        `Found default library ${result.library} for user with email ${user.email}`
+      );
+      return {
+        token: await generateToken(user, result.library),
+        user,
+        library: result.library,
+      };
+    }
+
+    loginDebug(
+      `Failed to find default library for user with email ${user.email}`
+    );
 
     return { token: await generateToken(user), user, library: null };
   } else if (match && library) {
+    const hasLibraryQuery = select()
+      .from("users")
+      .join("users_libraries_link")
+      .on("users.id", "users_libraries_link.user")
+      .where({ user: user.id, library })
+      .toParams();
+    const result = await pool
+      .query(hasLibraryQuery)
+      .then((result) => result.rows[0]);
+
+    if (result) {
+      return { token: await generateToken(user, library), user, library };
+    }
   }
 
-  return new Error("Unknown user or password");
+  return new Error("Unknown user or password").message;
 }
