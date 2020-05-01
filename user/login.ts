@@ -80,9 +80,10 @@ async function loginUser({ email, password, library }: any) {
   loginDebug(`Found user with email ${user.email}`);
 
   const match = await bcrypt.compare(password, user.password);
+  delete user.password;
+  delete user.refreshToken;
 
   if (match && !library) {
-    delete user.password;
     const hasLibraryQuery = select()
       .from("users")
       .join("users_libraries_link")
