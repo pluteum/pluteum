@@ -1,1 +1,44 @@
-// todo: export token generation to seperate file
+import debug from "debug";
+import { Request, Response } from "express";
+import Schema from "validate";
+import jwt from "jsonwebtoken";
+import { select } from "sql-bricks";
+import { getDb } from "../db";
+import { generateRefreshToken, generateToken } from "./token";
+
+const refreshDebug = debug("pluteum:accesscard:refresh");
+const JWT_KEY = process.env.JWT_KEY || "default";
+
+export default async function refreshHandler(req: Request, res: Response) {
+  // Validate request
+  const pool = getDb();
+  const token = jwt.verify(req.cookies["accesscard-refresh"], JWT_KEY);
+
+  if (typeof token === "object") {
+    const { id, library, jti } = token as any;
+
+    const query = select(
+      "id",
+      "uuid",
+      "firstName",
+      "lastName",
+      "email",
+      "createdAt"
+    )
+      .from("users")
+      .where({ id, refreshToken: jti })
+      .toParams();
+
+    const user = await pool.query(query).then((result) => result.rows[0]);
+    const refresh = await generateRefreshToken(user, library);
+
+    res
+      .status(200)
+      .cookie("accesscard-refresh", refresh)
+      .send({ token: await generateToken(user, library), user });
+  }
+
+  //   const { refresh, ...auth } = await loginUser(body);
+
+  //   res.status(200).cookie("accesscard-refresh", refresh).send(auth);
+}

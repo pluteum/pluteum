@@ -1,13 +1,11 @@
 import bcrypt from "bcrypt";
+import debug from "debug";
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { select, update } from "sql-bricks";
+import { select } from "sql-bricks";
 import Schema from "validate";
 
 import { getDb } from "../db";
-import debug from "debug";
-import { v4 as uuid } from "uuid";
-import { PoolClient } from "pg";
+import { generateToken, generateRefreshToken } from "./token";
 
 const loginDebug = debug("pluteum:accesscard:login");
 
@@ -46,28 +44,6 @@ export default async function loginHandler(req: Request, res: Response) {
   res.status(200).cookie("accesscard-refresh", refresh).send(auth);
 }
 
-const JWT_KEY = process.env.JWT_KEY || "default";
-
-function generateToken(user: any, library?: any) {
-  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "30m" });
-}
-
-async function generateRefreshToken(user: any, pool: PoolClient) {
-  const jwtid = uuid();
-  const token = jwt.sign({ id: user.id }, JWT_KEY, {
-    jwtid,
-    expiresIn: "1d",
-  });
-
-  const updateQuery = update("users", { refreshToken: jwtid })
-    .where({ id: user.id })
-    .toParams();
-
-  await pool.query(updateQuery);
-
-  return token;
-}
-
 async function loginUser({ email, password, library }: any) {
   const pool = getDb();
   const query = select().from("users").where({ email }).toParams();
@@ -101,7 +77,7 @@ async function loginUser({ email, password, library }: any) {
       );
       return {
         token: await generateToken(user, result.library),
-        refresh: await generateRefreshToken(user, pool),
+        refresh: await generateRefreshToken(user, result.library),
         user,
         library: result.library,
       };
@@ -113,7 +89,7 @@ async function loginUser({ email, password, library }: any) {
 
     return {
       token: await generateToken(user),
-      refresh: await generateRefreshToken(user, pool),
+      refresh: await generateRefreshToken(user, undefined),
       user,
       library: null,
     };
@@ -131,7 +107,7 @@ async function loginUser({ email, password, library }: any) {
     if (result) {
       return {
         token: await generateToken(user, library),
-        refresh: await generateRefreshToken(user, pool),
+        refresh: await generateRefreshToken(user, library),
         user,
         library,
       };

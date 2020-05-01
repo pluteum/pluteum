@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import { initDb } from "./db";
 import User from "./user";
 import Library from "./library";
@@ -9,6 +10,7 @@ initDb()
     const app = express();
 
     app.use(bodyParser.json());
+    app.use(cookieParser());
 
     app.use("/user", User);
     app.use("/library", Library);
