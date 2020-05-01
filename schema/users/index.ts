@@ -24,12 +24,10 @@ export const typeDef = `
       firstName: String
       lastName: String
       email: String
-      libraries: [Library]
   }
 
   extend type Query {
       me: User
-      user(id: Int!): User
   }
 `;
 
@@ -38,28 +36,6 @@ export const resolvers = {
     me: (parent: any, args: any, context: any) => {
       return context.user;
     },
-    user: (parent: any, args: any, context: any) => {
-      const db: Pool = context.client;
-
-      const query = select().from("users").where({ id: args.id }).toParams();
-
-      return db.query(query).then((val: QueryResult) => val.rows[0]);
-    },
   },
   Mutation: {},
-  User: {
-    libraries: (parent: any, args: any, context: any) => {
-      const userId = parent.id;
-      const db: Pool = context.client;
-
-      const query = select("libraries.*")
-        .from("libraries")
-        .join("users_libraries_link")
-        .on("libraries.id", "users_libraries_link.library")
-        .where({ user: userId })
-        .toParams();
-
-      return db.query(query).then((val: QueryResult) => val.rows);
-    },
-  },
 };

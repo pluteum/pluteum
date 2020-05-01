@@ -17,6 +17,12 @@ const query = `
 `;
 
 export default makeExecutableSchema({
-  typeDefs: [query, Upload, Author, Book, File],
-  resolvers: [UploadResolvers, AuthorResolvers, BookResolvers, FileResolvers],
+  typeDefs: [query, Upload, Author, Book, File, User],
+  resolvers: [
+    UploadResolvers,
+    AuthorResolvers,
+    BookResolvers,
+    FileResolvers,
+    UserResolvers,
+  ],
 });

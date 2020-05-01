@@ -16,6 +16,8 @@ function getUser(authorizationHeader: string = "") {
 
   return verify(token, process.env.JWT_KEY || "default") as object;
 }
+// todo: need better context authentication, better token validation and error handling
+// should the server handle refreshing itself, the token is there, right?
 
 Promise.all([pool.connect(), channel])
   .then(([client, channel]) => {
@@ -23,7 +25,8 @@ Promise.all([pool.connect(), channel])
 
     const server = new ApolloServer({
       schema,
-      context: ({ req }) => ({
+      context: ({ req, res }) => ({
+        setCookie: res.cookie.bind(res),
         client: pool,
         ...getUser(req.headers.authorization),
       }),
