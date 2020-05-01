@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { select } from "sql-bricks";
+import { select, update } from "sql-bricks";
 import Schema from "validate";
 
 import { getDb } from "../db";
 import debug from "debug";
+import { v4 as uuid } from "uuid";
+import { PoolClient } from "pg";
 
 const loginDebug = debug("pluteum:accesscard:login");
 
@@ -39,15 +41,31 @@ export default async function loginHandler(req: Request, res: Response) {
     return res.status(400).send(errors);
   }
 
-  const auth = await loginUser(body);
+  const { refresh, ...auth } = await loginUser(body);
 
-  res.status(200).send(auth);
+  res.status(200).cookie("accesscard-refresh", refresh).send(auth);
 }
 
 const JWT_KEY = process.env.JWT_KEY || "default";
 
-async function generateToken(user: any, library?: any) {
-  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "900000" });
+function generateToken(user: any, library?: any) {
+  return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "30m" });
+}
+
+async function generateRefreshToken(user: any, pool: PoolClient) {
+  const jwtid = uuid();
+  const token = jwt.sign({ id: user.id }, JWT_KEY, {
+    jwtid,
+    expiresIn: "1d",
+  });
+
+  const updateQuery = update("users", { refreshToken: jwtid })
+    .where({ id: user.id })
+    .toParams();
+
+  await pool.query(updateQuery);
+
+  return token;
 }
 
 async function loginUser({ email, password, library }: any) {
@@ -56,7 +74,7 @@ async function loginUser({ email, password, library }: any) {
   const user = await pool.query(query).then((result) => result.rows[0]);
 
   if (!user) {
-    return new Error("Unknown user or password").message;
+    throw new Error("Unknown user or password");
   }
 
   loginDebug(`Found user with email ${user.email}`);
@@ -82,6 +100,7 @@ async function loginUser({ email, password, library }: any) {
       );
       return {
         token: await generateToken(user, result.library),
+        refresh: await generateRefreshToken(user, pool),
         user,
         library: result.library,
       };
@@ -91,7 +110,12 @@ async function loginUser({ email, password, library }: any) {
       `Failed to find default library for user with email ${user.email}`
     );
 
-    return { token: await generateToken(user), user, library: null };
+    return {
+      token: await generateToken(user),
+      refresh: await generateRefreshToken(user, pool),
+      user,
+      library: null,
+    };
   } else if (match && library) {
     const hasLibraryQuery = select()
       .from("users")
@@ -104,9 +128,14 @@ async function loginUser({ email, password, library }: any) {
       .then((result) => result.rows[0]);
 
     if (result) {
-      return { token: await generateToken(user, library), user, library };
+      return {
+        token: await generateToken(user, library),
+        refresh: await generateRefreshToken(user, pool),
+        user,
+        library,
+      };
     }
   }
 
-  return new Error("Unknown user or password").message;
+  throw new Error("Unknown user or password");
 }

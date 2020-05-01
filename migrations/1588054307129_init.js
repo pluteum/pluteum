@@ -10,6 +10,7 @@ exports.up = (pgm) => {
     lastName: "string",
     email: { type: "string", notNull: true, unique: true },
     password: { type: "string", notNull: true, unique: true },
+    refreshToken: "string",
     createdAt: {
       type: "timestamp",
       notNull: true,
