@@ -26,6 +26,11 @@ export const typeDef = `
       email: String
   }
 
+  extend type Mutation {
+    login(input: LoginInput!): LoginResponse
+    register(input: RegisterInput!): User
+  }
+
   extend type Query {
       me: User
   }
@@ -37,5 +42,12 @@ export const resolvers = {
       return context.user;
     },
   },
-  Mutation: {},
+  Mutation: {
+    login: (_: any, { input }: any, context: any) => {
+      return context.dataSources.accesscard.login(input);
+    },
+    register: (_: any, { input }: any, context: any) => {
+      return context.dataSources.accesscard.register(input);
+    },
+  },
 };

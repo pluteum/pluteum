@@ -5,16 +5,26 @@ import { Pool } from "pg";
 import schema from "./schema/schema";
 import Bookshelf from "./datasources/bookshelf";
 import { verify } from "jsonwebtoken";
+import AccessCard from "./datasources/access_card";
 
 const pool = new Pool();
 const channel = ampq
   .connect(process.env.AMPQ_URL || "")
   .then((conn) => conn.createChannel());
 
-function getUser(authorizationHeader: string = "") {
-  const token = authorizationHeader.replace("Bearer: ", "");
+function getToken(header: string = "") {
+  return header.replace("Bearer: ", "") || "";
+}
 
-  return verify(token, process.env.JWT_KEY || "default") as object;
+function getUser(token: string) {
+  if (token) {
+    const decodedToken = verify(token, process.env.JWT_KEY || "default");
+    if (decodedToken) {
+      return decodedToken;
+    }
+  }
+
+  return {};
 }
 // todo: need better context authentication, better token validation and error handling
 // should the server handle refreshing itself, the token is there, right?
@@ -27,10 +37,14 @@ Promise.all([pool.connect(), channel])
       schema,
       context: ({ req, res }) => ({
         setCookie: res.cookie.bind(res),
+        token: getToken(req.headers.authorization),
         client: pool,
-        ...getUser(req.headers.authorization),
+        ...getUser(getToken(req.headers.authorization)),
       }),
-      dataSources: () => ({ bookshelf: new Bookshelf(client, channel) }),
+      dataSources: () => ({
+        bookshelf: new Bookshelf(client, channel),
+        accesscard: new AccessCard(),
+      }),
       tracing: true,
     });
 
