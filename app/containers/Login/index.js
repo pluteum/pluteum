@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Logo from 'components/common/Logo/Logo';
@@ -25,38 +25,47 @@ const Box = styled.div`
 `;
 
 const MUTATION = gql`
-  mutation login($input: RegisterInput!) {
-    register(input: $input) {
-      firstName
-      lastName
+  mutation login($input: LoginInput!) {
+    login(input: $input) {
+      token
+      user {
+        firstName
+        lastName
+      }
     }
   }
 `;
 
-export default function Register() {
-  const [register] = useMutation(MUTATION);
+export default function Login({ setJWT, history }) {
+  const [login] = useMutation(MUTATION);
 
   function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const input = Object.fromEntries(formData.entries());
 
-    register({ variables: { input } }).then(result => console.log(result));
+    login({ variables: { input } }).then(({ data: { login: { token } } }) => {
+      setJWT(token);
+      history.push('/');
+    });
   }
 
   return (
     <Layout>
       <Box>
         <Logo />
-        <Typography type="SectionTitle">Sign Up</Typography>
+        <Typography type="SectionTitle">Sign In</Typography>
         <form onSubmit={onSubmit}>
-          <Input name="firstName" label="First Name" />
-          <Input name="lastName" label="Last Name" />
           <Input name="email" label="Email" />
           <Input name="password" label="Password" type="password" />
-          <Button>Sign Up</Button>
+          <Button>Sign In</Button>
         </form>
       </Box>
     </Layout>
   );
 }
+
+Login.propTypes = {
+  setJWT: PropTypes.func,
+  history: PropTypes.object,
+};

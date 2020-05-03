@@ -39,7 +39,7 @@ const FormControl = styled.div`
   }
 `;
 
-export default function Input({ type, label }) {
+export default function Input({ type, label, name }) {
   if (type === 'textarea') {
     return (
       <FormControl>
@@ -51,8 +51,8 @@ export default function Input({ type, label }) {
 
   return (
     <FormControl>
-      <label>{label}</label>
-      <input type="text" />
+      <label htmlFor={name}>{label}</label>
+      <input name={name} type={type} />
     </FormControl>
   );
 }
@@ -60,8 +60,9 @@ export default function Input({ type, label }) {
 Input.propTypes = {
   type: PropTypes.string,
   label: PropTypes.string,
+  name: PropTypes.string,
 };
 
 Input.defaultProps = {
-  type: 'input',
+  type: 'text',
 };

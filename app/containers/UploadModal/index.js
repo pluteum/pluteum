@@ -6,8 +6,9 @@ import UploadZone from 'components/common/UploadZone';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import ProgressBar from 'components/common/ProgressBar';
+
 const MUTATION = gql`
-  mutation($file: FileUpload!) {
+  mutation($file: Upload!) {
     uploadFile(file: $file) {
       id
       uuid

@@ -9,37 +9,28 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
 
 import GlobalStyle from '../../global-styles';
 import Frame from '../Frame';
 import Register from '../Register';
+import Login from '../Login';
 
 const AppLayout = styled.div`
   height: 100%;
 `;
 
-const query = gql`
-  {
-    me {
-      firstName
-      lastName
-    }
-  }
-`;
-
-export default function App() {
-  const { data } = useQuery(query);
-
-  console.log(data);
-
+export default function App({ setJWT }) {
   return (
     <AppLayout>
       <Switch>
+        <Route
+          path="/login"
+          render={props => <Login {...props} setJWT={setJWT} />}
+        />
         <Route path="/register" component={Register} />
         <Route path="/" component={Frame} />
         <Route component={NotFoundPage} />
@@ -49,3 +40,7 @@ export default function App() {
     </AppLayout>
   );
 }
+
+App.propTypes = {
+  setJWT: PropTypes.func,
+};

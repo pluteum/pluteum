@@ -28,23 +28,43 @@ import App from 'containers/App';
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 import { createUploadLink } from 'apollo-upload-client';
+import { setContext } from 'apollo-link-context';
+
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import { customFetch } from 'utils/fetch';
 
 const MOUNT_NODE = document.getElementById('app');
 const browserHistory = createBrowserHistory();
+let jwt;
 
 const errorLink = onError(({ graphQLErrors }) => {
   if (graphQLErrors) {
     if (graphQLErrors.some(error => error.message === 'UNAUTHENTICATED')) {
-      browserHistory.push('/register');
+      browserHistory.push('/login');
     }
   }
 });
 
+function setToken(token) {
+  jwt = token;
+}
+
+const authLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    Authorization: jwt ? `Bearer: ${jwt}` : '',
+  },
+}));
+
 const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, createUploadLink({ fetch: customFetch })]),
+  link: ApolloLink.from([
+    errorLink,
+    authLink,
+    createUploadLink({
+      fetch: customFetch,
+    }),
+  ]),
   cache: new InMemoryCache(),
 });
 
@@ -52,7 +72,7 @@ const render = () => {
   ReactDOM.render(
     <Router history={browserHistory}>
       <ApolloProvider client={client}>
-        <App />
+        <App setJWT={setToken} />
       </ApolloProvider>
     </Router>,
     MOUNT_NODE,
