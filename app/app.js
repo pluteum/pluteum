@@ -11,10 +11,12 @@ import '@babel/polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
+import { onError } from 'apollo-link-error';
+import { createBrowserHistory } from 'history';
 import { ApolloProvider } from '@apollo/react-hooks';
 import 'sanitize.css/sanitize.css';
 
@@ -31,19 +33,28 @@ import { createUploadLink } from 'apollo-upload-client';
 import { customFetch } from 'utils/fetch';
 
 const MOUNT_NODE = document.getElementById('app');
+const browserHistory = createBrowserHistory();
+
+const errorLink = onError(({ graphQLErrors }) => {
+  if (graphQLErrors) {
+    if (graphQLErrors.some(error => error.message === 'UNAUTHENTICATED')) {
+      browserHistory.push('/register');
+    }
+  }
+});
 
 const client = new ApolloClient({
-  link: ApolloLink.from([createUploadLink({ fetch: customFetch })]),
+  link: ApolloLink.from([errorLink, createUploadLink({ fetch: customFetch })]),
   cache: new InMemoryCache(),
 });
 
 const render = () => {
   ReactDOM.render(
-    <BrowserRouter>
+    <Router history={browserHistory}>
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
-    </BrowserRouter>,
+    </Router>,
     MOUNT_NODE,
   );
 };
