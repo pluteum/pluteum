@@ -1,6 +1,3 @@
-import { Pool, QueryResult } from "pg";
-import { select } from "sql-bricks";
-
 export const typeDef = `
   input RegisterInput {
     firstName: String!
@@ -32,7 +29,7 @@ export const typeDef = `
   }
 
   extend type Query {
-      me: User
+      me: User @isAuthenticated
   }
 `;
 

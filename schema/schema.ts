@@ -5,6 +5,10 @@ import { typeDef as Book, resolvers as BookResolvers } from "./books";
 import { typeDef as File, resolvers as FileResolvers } from "./files";
 import { typeDef as Upload, resolvers as UploadResolvers } from "./util/upload";
 import { makeExecutableSchema } from "apollo-server-express";
+import {
+  typeDef as isAuthenticated,
+  isAuthenticatedDirective,
+} from "./util/auth-directive";
 
 const query = `
     type Query {
@@ -17,7 +21,7 @@ const query = `
 `;
 
 export default makeExecutableSchema({
-  typeDefs: [query, Upload, Author, Book, File, User],
+  typeDefs: [query, isAuthenticated, Upload, Author, Book, File, User],
   resolvers: [
     UploadResolvers,
     AuthorResolvers,
@@ -25,4 +29,7 @@ export default makeExecutableSchema({
     FileResolvers,
     UserResolvers,
   ],
+  schemaDirectives: {
+    isAuthenticated: isAuthenticatedDirective,
+  },
 });
