@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Logo from 'components/common/Logo/Logo';
 import Typography from 'components/common/Type/Typography';
 import TextInput from 'components/form/input/Text';
+import Checkbox from 'components/form/input/Checkbox';
 import Button from 'components/form/Button';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -66,6 +67,7 @@ export default function Login({ setJWT, history }) {
           <Typography type="SectionTitle">Sign In</Typography>
           <TextInput name="email" label="Email" />
           <TextInput name="password" label="Password" type="password" />
+          <Checkbox name="rememberme" label="Remember Me" />
           <Button>Login</Button>
         </form>
       </Box>
