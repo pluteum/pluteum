@@ -13,27 +13,25 @@ const FormControl = styled.div`
   margin-bottom: 10px;
 
   label {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 100;
-    font-size: 12px;
-    color: #555555;
-    margin-bottom: 2px;
+    font-family: 'IBM Plex Sans';
+    font-weight: 500;
+    font-size: 16px;
+    color: #494b4f;
+    line-height: 22px;
+    margin-bottom: 3px;
   }
 
   input,
   textarea {
-    color: #222222;
-    font-weight: 100;
-    background-color: #f1f1f1;
-    border: 0;
+    font-family: 'IBM Plex Sans';
 
-    padding: 0 13px;
+    font-weight: 400;
+    border: #bdc0c4 1px solid;
+    border-radius: 4px;
+
+    padding: 10px 13px;
 
     outline: none;
-  }
-
-  input {
-    height: 34px;
   }
 
   textarea {
