@@ -4,8 +4,10 @@ import styled from 'styled-components';
 
 import Logo from 'components/common/Logo/Logo';
 import Typography from 'components/common/Type/Typography';
-import Input from 'components/common/Input/Input';
-import Button from 'components/common/Button/Button';
+
+import TextInput from 'components/form/input/Text';
+import Button from 'components/form/Button';
+
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
@@ -50,10 +52,10 @@ export default function Register() {
         <Logo />
         <Typography type="SectionTitle">Sign Up</Typography>
         <form onSubmit={onSubmit}>
-          <Input name="firstName" label="First Name" />
-          <Input name="lastName" label="Last Name" />
-          <Input name="email" label="Email" />
-          <Input name="password" label="Password" type="password" />
+          <TextInput name="firstName" label="First Name" />
+          <TextInput name="lastName" label="Last Name" />
+          <TextInput name="email" label="Email" />
+          <TextInput name="password" label="Password" type="password" />
           <Button>Sign Up</Button>
         </form>
       </Box>

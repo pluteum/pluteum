@@ -2,9 +2,9 @@
  * Ratings
  */
 
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../Button/Button';
+import Button from 'components/form/Button';
 
 export default function UploadButton({ label, onUpload }) {
   return (

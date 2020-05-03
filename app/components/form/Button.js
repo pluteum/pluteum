@@ -5,13 +5,12 @@
 import styled from 'styled-components';
 
 export default styled.button`
-  background: #0a4fcd;
+  background: ${props => props.theme.colors.primary};
   border-radius: 20px;
-  font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
-    sans-serif;
+  font-family: ${props => props.theme.type.sans_serif};
   font-weight: 500;
   font-size: 16px;
-  color: #ffffff;
+  color: ${props => props.theme.colors.white};
   text-align: center;
   -webkit-appearance: none;
   border: 0;
@@ -19,6 +18,6 @@ export default styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #105de7;
+    background: ${props => props.theme.colors.primary__hover};
   }
 `;

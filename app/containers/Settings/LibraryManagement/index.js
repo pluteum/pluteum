@@ -8,7 +8,7 @@ import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 
-import Input from '../../../components/common/Input/Input';
+import TextInput from 'components/form/input/Text';
 import ModalPortal from '../../../components/common/ModalPortal/ModalPortal';
 import UploadButton from '../../../components/common/UploadButton/UploadButton';
 
@@ -53,8 +53,8 @@ export function LibraryManagement() {
       <SplitLayout>
         <div>
           <Typography type="SettingsHeader">General Details</Typography>
-          <Input label="Library Name" />
-          <Input label="Library URL" />
+          <TextInput label="Library Name" />
+          <TextInput label="Library URL" />
         </div>
         <div>
           <Typography type="SettingsHeader">Upload Books</Typography>

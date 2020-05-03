@@ -7,9 +7,10 @@ export default {
     primary: '#0A4FCD',
     primary__hover: '#105DE7',
     black: '#131314', // primary text color
-    darkGrey: '#494B4F', // labels
-    grey: '#494B4F', // borders
+    darkGrey: '#494B4F', // labels, input text color
+    grey: '#BDC0C4', // borders
     lightBlue: '#F7F8FA',
+    white: '#FFFFFF',
   },
   type: {
     display_serif: "'DM Serif Display', serif",

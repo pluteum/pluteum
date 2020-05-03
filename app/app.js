@@ -34,6 +34,7 @@ import { setContext } from 'apollo-link-context';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import { customFetch } from 'utils/fetch';
+import theme from './theme';
 
 const MOUNT_NODE = document.getElementById('app');
 const browserHistory = createBrowserHistory();
@@ -73,7 +74,7 @@ const render = () => {
   ReactDOM.render(
     <Router history={browserHistory}>
       <ApolloProvider client={client}>
-        <ThemeProvider>
+        <ThemeProvider theme={theme}>
           <App setJWT={setToken} />
         </ThemeProvider>
       </ApolloProvider>
