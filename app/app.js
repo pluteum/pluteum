@@ -10,6 +10,7 @@ import '@babel/polyfill';
 
 // Import all the third party stuff
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
@@ -72,7 +73,9 @@ const render = () => {
   ReactDOM.render(
     <Router history={browserHistory}>
       <ApolloProvider client={client}>
-        <App setJWT={setToken} />
+        <ThemeProvider>
+          <App setJWT={setToken} />
+        </ThemeProvider>
       </ApolloProvider>
     </Router>,
     MOUNT_NODE,
