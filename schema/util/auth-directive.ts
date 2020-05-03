@@ -1,4 +1,4 @@
-import { GraphQLField } from "graphql";
+import { GraphQLField, defaultFieldResolver } from "graphql";
 import { SchemaDirectiveVisitor } from "apollo-server-express";
 
 export const typeDef = `
@@ -7,11 +7,14 @@ export const typeDef = `
 
 export class isAuthenticatedDirective extends SchemaDirectiveVisitor {
   public visitFieldDefinition(field: GraphQLField<any, any, any>) {
-    field.resolve = async function (result, args, context, info) {
+    const { resolve = defaultFieldResolver } = field;
+    field.resolve = async function (source, args, context, info) {
+      const result = await resolve.call(this, source, args, context, info);
+
       if (!context || !context.user) {
         throw new Error("UNAUTHENTICATED");
       } else {
-        result[field.name];
+        return result;
       }
     };
   }

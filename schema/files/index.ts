@@ -16,8 +16,8 @@ export const typeDef = gql`
   }
 
   extend type Query {
-    files: [File]
-    getFile(id: Int!): File
+    files: [File] @isAuthenticated
+    getFile(id: Int!): File @isAuthenticated
   }
 
   extend type Mutation {

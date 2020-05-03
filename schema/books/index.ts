@@ -32,8 +32,8 @@ export const typeDef = gql`
   }
 
   extend type Query {
-    books: [Book]
-    getBook(id: Int!): Book
+    books: [Book] @isAuthenticated
+    getBook(id: Int!): Book @isAuthenticated
   }
 
   extend type Mutation {

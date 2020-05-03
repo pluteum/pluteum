@@ -1,6 +1,6 @@
 export const typeDef = `
     extend type Query {
-        getAuthor(id: Int!): Author
+        getAuthor(id: Int!): Author @isAuthenticated
     }
 
     type Author {
@@ -12,9 +12,11 @@ export const typeDef = `
 
 export const resolvers = {
   Query: {
-    getAuthor: (_: any, args: any, context: any) => context.dataSources.bookshelf.authors.getAuthorById(args.id),
+    getAuthor: (_: any, args: any, context: any) =>
+      context.dataSources.bookshelf.authors.getAuthorById(args.id),
   },
   Author: {
-    books: (parent: any, _: any, context: any) => context.dataSources.bookshelf.books.getBooksByAuthor(parent.id),
-  }
+    books: (parent: any, _: any, context: any) =>
+      context.dataSources.bookshelf.books.getBooksByAuthor(parent.id),
+  },
 };
