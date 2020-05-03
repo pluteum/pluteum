@@ -22,6 +22,14 @@ const Box = styled.div`
   margin: 0 auto;
   position: relative;
   top: 100px;
+
+  form {
+    margin: 50px 0;
+
+    > * {
+      margin: 25px 0;
+    }
+  }
 `;
 
 const MUTATION = gql`
@@ -54,11 +62,11 @@ export default function Login({ setJWT, history }) {
     <Layout>
       <Box>
         <Logo />
-        <Typography type="SectionTitle">Sign In</Typography>
         <form onSubmit={onSubmit}>
+          <Typography type="SectionTitle">Sign In</Typography>
           <Input name="email" label="Email" />
           <Input name="password" label="Password" type="password" />
-          <Button>Sign In</Button>
+          <Button>Login</Button>
         </form>
       </Box>
     </Layout>

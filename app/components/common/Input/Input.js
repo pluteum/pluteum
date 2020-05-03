@@ -23,15 +23,24 @@ const FormControl = styled.div`
 
   input,
   textarea {
-    font-family: 'IBM Plex Sans';
+    font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica,
+      Arial, sans-serif;
+
+    color: #494b4f;
 
     font-weight: 400;
     border: #bdc0c4 1px solid;
     border-radius: 4px;
 
     padding: 10px 13px;
+    line-height: 22px;
 
     outline: none;
+
+    &:active,
+    &:focus {
+      border-color: #0a4fcd;
+    }
   }
 
   textarea {
