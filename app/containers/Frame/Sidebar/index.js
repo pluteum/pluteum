@@ -2,28 +2,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlusCircle,
   faListUl,
   faQuestionCircle,
   faCogs,
-  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import Logo from 'components/common/Logo/Logo';
 import { Link } from 'react-router-dom';
 import SidebarButton from './SidebarButton';
-
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
 
 const Layout = styled.div`
   background: #ffffff;
@@ -32,12 +21,6 @@ const Layout = styled.div`
   flex-shrink: 0;
   flex-basis: 50px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-
-  .spinner {
-    color: #0a4fcd;
-    font-size: 16px;
-    animation: ${spin} 2s linear infinite;
-  }
 
   @media (min-width: 425px) {
     padding: 0;
@@ -74,9 +57,6 @@ export default function Sidebar({ onOpenUpload }) {
         </SidebarButton>
       </div>
       <div className="bottom">
-        <SidebarButton to="">
-          <FontAwesomeIcon className="spinner" icon={faSpinner} />
-        </SidebarButton>
         <SidebarButton to="/settings">
           <FontAwesomeIcon icon={faCogs} />
         </SidebarButton>
