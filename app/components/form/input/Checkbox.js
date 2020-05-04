@@ -21,6 +21,13 @@ const StyledCheckbox = styled.input`
   height: 18px;
   border: 1px solid ${props => props.theme.colors.grey};
   border-radius: 4px;
+  cursor: pointer;
+
+  outline: none;
+
+  &:disabled {
+    background: ${props => props.theme.colors.lightBlue};
+  }
 
   &:checked {
     background: ${props => props.theme.colors.primary};
@@ -32,6 +39,7 @@ const CheckboxLabel = styled.label`
   font-family: ${props => props.theme.type.sans_serif};
   color: ${props => props.theme.colors.darkGrey};
   margin-left: 10px;
+  cursor: pointer;
 
   input[type="checkbox"]:checked ~ &:before {
     content: '';
@@ -53,7 +61,7 @@ export default function Checkbox({ label, name, ...props }) {
     return (
       <InputGroup>
         <StyledCheckbox id={name} type="checkbox" name={name} {...props} />
-        <CheckboxLabel for={name}>{label}</CheckboxLabel>
+        <CheckboxLabel htmlFor={name}>{label}</CheckboxLabel>
       </InputGroup>
     );
   }

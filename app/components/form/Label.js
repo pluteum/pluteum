@@ -6,5 +6,5 @@ export default styled.label`
   font-size: 16px;
   color: ${props => props.theme.colors.darkGrey};
   line-height: 22px;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 `;

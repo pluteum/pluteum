@@ -16,6 +16,7 @@ export default styled.button`
   border: 0;
   padding: 10px 25px;
   cursor: pointer;
+  outline: none;
 
   &:hover {
     background: ${props => props.theme.colors.primary__hover};

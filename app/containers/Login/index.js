@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import Logo from 'components/common/Logo/Logo';
 import Typography from 'components/common/Type/Typography';
@@ -9,6 +8,19 @@ import Checkbox from 'components/form/input/Checkbox';
 import Button from 'components/form/Button';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import styled, { keyframes } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const Layout = styled.section`
   width: 100%;
@@ -18,17 +30,43 @@ const Layout = styled.section`
 
 const Box = styled.div`
   max-width: 560px;
-  padding: 70px 80px;
+  padding: 70px 80px 50px;
   background: #ffffff;
   margin: 0 auto;
   position: relative;
-  top: 100px;
+  top: 50px;
 
   form {
-    margin: 50px 0;
+    margin: 80px 0 50px;
 
-    > * {
+    > h1,
+    > div {
       margin: 25px 0;
+    }
+  }
+
+  > p {
+    margin-top: 70px;
+    padding: 25px 0 0;
+    font-family: ${props => props.theme.type.sans_serif};
+    color: ${props => props.theme.colors.darkGrey};
+    border-top: ${props => props.theme.colors.lightGrey} 1px solid;
+    font-size: 12px;
+  }
+
+  .spinner {
+    color: ${props => props.theme.colors.white};
+    font-size: 16px;
+    animation: ${spin} 2s linear infinite;
+  }
+
+  @media (max-width: 425px) {
+    height: 100%;
+    top: 0;
+    padding: 40px;
+
+    form {
+      margin: 40px 0;
     }
   }
 `;
@@ -46,12 +84,12 @@ const MUTATION = gql`
 `;
 
 export default function Login({ setJWT, history }) {
-  const [login] = useMutation(MUTATION);
+  const [login, { loading }] = useMutation(MUTATION);
 
   function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const input = Object.fromEntries(formData.entries());
+    const { rememberme, ...input } = Object.fromEntries(formData.entries());
 
     login({ variables: { input } }).then(({ data: { login: { token } } }) => {
       setJWT(token);
@@ -65,11 +103,23 @@ export default function Login({ setJWT, history }) {
         <Logo />
         <form onSubmit={onSubmit}>
           <Typography type="SectionTitle">Sign In</Typography>
-          <TextInput name="email" label="Email" />
-          <TextInput name="password" label="Password" type="password" />
-          <Checkbox name="rememberme" label="Remember Me" />
-          <Button>Login</Button>
+          <TextInput disabled={loading} name="email" label="Email Address" />
+          <TextInput
+            disabled={loading}
+            name="password"
+            label="Password"
+            type="password"
+          />
+          <Checkbox disabled={loading} name="rememberme" label="Remember Me" />
+          <Button>
+            {loading ? (
+              <FontAwesomeIcon className="spinner" icon={faSpinner} />
+            ) : (
+              'Login'
+            )}
+          </Button>
         </form>
+        <p>Developed by George Sumpster / Designed by Johnny Lee</p>
       </Box>
     </Layout>
   );

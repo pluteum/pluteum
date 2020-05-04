@@ -9,6 +9,7 @@ export default {
     black: '#131314', // primary text color
     darkGrey: '#494B4F', // labels, input text color
     grey: '#BDC0C4', // borders
+    lightGrey: '#DBDDE2',
     lightBlue: '#F7F8FA',
     white: '#FFFFFF',
   },

@@ -28,6 +28,10 @@ const StyledInput = styled.input`
 
   outline: none;
 
+  &:disabled {
+    background: ${props => props.theme.colors.lightBlue}
+  }
+
   &:active,
   &:focus {
     border-color: ${props => props.theme.colors.primary};
