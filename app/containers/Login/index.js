@@ -1,16 +1,34 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
+import { useMutation } from '@apollo/react-hooks';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from 'components/common/Logo/Logo';
 import Typography from 'components/common/Type/Typography';
-import TextInput from 'components/form/input/Text';
-import Checkbox from 'components/form/input/Checkbox';
 import Button from 'components/form/Button';
+import Checkbox from 'components/form/input/Checkbox';
+import TextInput from 'components/form/input/Text';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Schema from 'validate';
+
+// eslint-disable-next-line no-useless-escape
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+// TODO: DEFINE STANDARD ERROR MESSAGES FOR ALL MICROSERVICES AND STANDARD USER FACING ERROR MESSAGES
+const LoginInput = new Schema({
+  email: {
+    type: String,
+    required: true,
+    match: EMAIL_REGEX,
+    message: { match: 'Please enter a valid email' },
+  },
+  password: {
+    type: String,
+    required: true,
+    length: { min: 4 },
+  },
+});
 
 const spin = keyframes`
   from {
@@ -71,11 +89,25 @@ const Box = styled.div`
   }
 `;
 
+// does not belong in here
+const StyledError = styled.span`
+  display: inline-block;
+  float: right;
+  margin: 5px 0 0;
+  padding: 10px 25px;
+  line-height: 22px;
+  font-family: ${props => props.theme.type.sans_serif};
+  color: ${props => props.theme.colors.red};
+  font-size: 12px;
+  line-height: 14px;
+`;
+
 const MUTATION = gql`
   mutation login($input: LoginInput!) {
     login(input: $input) {
       token
       user {
+        id
         firstName
         lastName
       }
@@ -83,18 +115,56 @@ const MUTATION = gql`
   }
 `;
 
+const ERRORS = {
+  UNAUTHORIZED: 'The username or password you entered is incorrect',
+  ERROR: 'Unexpected Error',
+};
+
 export default function Login({ setJWT, history }) {
   const [login, { loading }] = useMutation(MUTATION);
+  const [errors, setErrors] = useState({});
+
+  function validate(form) {
+    const validationErrors = LoginInput.validate(form);
+
+    if (validationErrors.length) {
+      setErrors(
+        validationErrors.reduce((map, error) => {
+          // eslint-disable-next-line no-param-reassign
+          map[error.path] = error.message;
+          return map;
+        }, {}),
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
+  function loginToken({ data }) {
+    if (data && data.login.token) {
+      setJWT(data.login.token);
+      history.push('/');
+    } else {
+      setErrors({ form: ERRORS.ERROR });
+    }
+  }
+
+  function onLoginError(error) {
+    setErrors({ form: ERRORS[error.graphQLErrors[0].message] });
+  }
 
   function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const { rememberme, ...input } = Object.fromEntries(formData.entries());
+    const { rememberme, ...input } = Object.fromEntries(formData.entries()); // todo: fix, add rememberme to backend - extend refresh token length
 
-    login({ variables: { input } }).then(({ data: { login: { token } } }) => {
-      setJWT(token);
-      history.push('/');
-    });
+    if (validate(input)) {
+      login({ variables: { input } })
+        .then(loginToken)
+        .catch(onLoginError);
+    }
   }
 
   return (
@@ -103,12 +173,18 @@ export default function Login({ setJWT, history }) {
         <Logo />
         <form onSubmit={onSubmit}>
           <Typography type="SectionTitle">Sign In</Typography>
-          <TextInput disabled={loading} name="email" label="Email Address" />
+          <TextInput
+            disabled={loading}
+            name="email"
+            label="Email Address"
+            error={errors.email}
+          />
           <TextInput
             disabled={loading}
             name="password"
             label="Password"
             type="password"
+            error={errors.password}
           />
           <Checkbox disabled={loading} name="rememberme" label="Remember Me" />
           <Button>
@@ -118,6 +194,7 @@ export default function Login({ setJWT, history }) {
               'Login'
             )}
           </Button>
+          {errors.form && <StyledError>{errors.form}</StyledError>}
         </form>
         <p>Developed by George Sumpster / Designed by Johnny Lee</p>
       </Box>

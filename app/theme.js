@@ -11,6 +11,7 @@ export default {
     grey: '#BDC0C4', // borders
     lightGrey: '#DBDDE2',
     lightBlue: '#F7F8FA',
+    red: '#D52020',
     white: '#FFFFFF',
   },
   type: {

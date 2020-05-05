@@ -12,6 +12,7 @@ const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  position: relative;
 `;
 
 const StyledInput = styled.input`
@@ -38,12 +39,21 @@ const StyledInput = styled.input`
   }
 `;
 
-export default function Text({ label, name, ...props }) {
+const StyledError = styled.p`
+  margin: 5px 0 0;
+  font-family: ${props => props.theme.type.sans_serif};
+  color: ${props => props.theme.colors.red};
+  font-size: 12px;
+  line-height: 14px;
+`;
+
+export default function Text({ label, error, name, ...props }) {
   if (label) {
     return (
       <InputGroup>
         <StyledLabel htmlFor={name}>{label}</StyledLabel>
         <StyledInput name={name} {...props} />
+        {error && <StyledError>{error}</StyledError>}
       </InputGroup>
     );
   }
@@ -53,5 +63,6 @@ export default function Text({ label, name, ...props }) {
 
 Text.propTypes = {
   label: PropTypes.string,
+  error: PropTypes.string,
   name: PropTypes.string.isRequired,
 };
