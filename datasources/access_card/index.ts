@@ -25,7 +25,13 @@ export default class AccessCard extends DataSource<any> {
     return this.axios
       ?.post("/user/login", user)
       .then((response) => response.data)
-      .catch((e) => new Error(e.response.data.error));
+      .catch((e) => {
+        if (e.response.status === 401) {
+          return new Error("UNAUTHORIZED");
+        }
+
+        return new Error("ERROR");
+      });
   }
 
   public register(user: any) {
