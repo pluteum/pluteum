@@ -57,19 +57,19 @@ const CheckboxLabel = styled.label`
 `;
 
 export default function Checkbox({ label, name, ...props }) {
-  if (label) {
-    return (
-      <InputGroup>
-        <StyledCheckbox id={name} type="checkbox" name={name} {...props} />
-        <CheckboxLabel htmlFor={name}>{label}</CheckboxLabel>
-      </InputGroup>
-    );
-  }
-
-  return <StyledCheckbox type="checkbox" name={name} {...props} />;
+  return (
+    <InputGroup>
+      <StyledCheckbox id={name} type="checkbox" name={name} {...props} />
+      <CheckboxLabel htmlFor={name}>{label}</CheckboxLabel>
+    </InputGroup>
+  );
 }
 
 Checkbox.propTypes = {
   label: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
+};
+
+Checkbox.defaultProps = {
+  label: '',
 };

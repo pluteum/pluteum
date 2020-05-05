@@ -7,12 +7,11 @@ import Typography from 'components/common/Type/Typography';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { useTable } from 'react-table';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import { columnDef } from './table';
-import Table from '../../../components/Table';
+import Table from '../../../components/table';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -41,10 +40,8 @@ export function FileManagement() {
     fetchPolicy: 'cache-and-network',
   });
 
-  const columns = React.useMemo(columnDef, []);
-  const tableData = React.useMemo(() => files, [files]);
-
-  const tableProps = useTable({ columns, data: tableData });
+  const TableColumns = React.useMemo(columnDef, []);
+  const TableData = React.useMemo(() => files, [files]);
 
   return (
     <Layout>
@@ -53,7 +50,7 @@ export function FileManagement() {
         <meta name="description" content="Description of File Management" />
       </Helmet>
       <Typography type="SectionTitle">File Management</Typography>
-      <Table tableProps={tableProps} />
+      <Table columns={TableColumns} data={TableData} />
     </Layout>
   );
 }
