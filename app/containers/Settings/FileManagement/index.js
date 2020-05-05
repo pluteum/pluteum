@@ -22,11 +22,9 @@ const GET_FILES = gql`
   {
     files {
       id
-      uuid
-      image
       name
+      format
       url
-      size
       book {
         id
         title

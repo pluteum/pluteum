@@ -2,9 +2,6 @@ import styled from 'styled-components';
 
 export const StyledTable = styled.table`
   width: 100%;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
 `;
 
 export const StyledHeaderRow = styled.tr`
