@@ -39,9 +39,17 @@ export default async function loginHandler(req: Request, res: Response) {
     return res.status(400).send(errors);
   }
 
-  const { refresh, ...auth } = await loginUser(body);
+  try {
+    const { refresh, ...auth } = await loginUser(body);
 
-  res.status(200).cookie("accesscard-refresh", refresh).send(auth);
+    res.status(200).cookie("accesscard-refresh", refresh).send(auth);
+  } catch (error) {
+    if (error.message === "Unknown user or password") {
+      res.status(401).send({ error: error.message });
+    }
+
+    res.status(500).send({ error: error.message });
+  }
 }
 
 async function loginUser({ email, password, library }: any) {
