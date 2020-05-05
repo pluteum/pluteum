@@ -41,7 +41,13 @@ export const resolvers = {
   },
   Mutation: {
     login: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard.login(input);
+      return context.dataSources.accesscard
+        .login(input)
+        .then(({ data, refreshToken }: any) => {
+          context.setCookie("accesscard-refresh", refreshToken);
+
+          return data;
+        });
     },
     register: (_: any, { input }: any, context: any) => {
       return context.dataSources.accesscard.register(input);
