@@ -12,6 +12,7 @@ export default {
     lightGrey: '#DBDDE2',
     lightBlue: '#F7F8FA',
     red: '#D52020',
+    offWhite: '#F7F7F7', // 😎
     white: '#FFFFFF',
   },
   type: {

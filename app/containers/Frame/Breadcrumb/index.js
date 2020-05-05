@@ -6,11 +6,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BreadcrumbBar = styled.div`
-  background: #f1f1f1;
-  padding: 15px 25px;
+  width: 100%;
+  background: ${props => props.theme.colors.offWhite};
+  padding: 8px 25px;
+  line-height: 22px;
 
   font-size: 15px;
-  color: #555555;
+  color: ${props => props.theme.colors.darkGrey};
 
   ul {
     padding: 0;
@@ -18,11 +20,10 @@ const BreadcrumbBar = styled.div`
   }
 
   li {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: ${props => props.theme.type.sans_serif};
     font-size: 12px;
     display: inline-block;
     margin: 0 10px;
-    font-weight: lighter;
   }
 `;
 

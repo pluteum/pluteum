@@ -9,12 +9,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
-import Sidebar from 'containers/Frame/Sidebar';
 
+import Sidebar from 'containers/Frame/Sidebar';
+import Breadcrumb from 'containers/Frame/Breadcrumb';
+import UploadModal from 'containers/UploadModal';
 import Settings from 'containers/Settings';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
-import UploadModal from 'containers/UploadModal';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -26,15 +27,22 @@ const AppLayout = styled.div`
   }
 `;
 
+const ContentContainer = styled.div`
+  width: 100%;
+`;
+
 export default function Frame() {
   const [openUpload, setUploadModal] = useState();
 
   return (
     <AppLayout>
       <Sidebar onOpenUpload={() => setUploadModal(true)} />
-      <Switch>
-        <Route path="/settings" component={Settings} />
-      </Switch>
+      <ContentContainer>
+        <Breadcrumb />
+        <Switch>
+          <Route path="/settings" component={Settings} />
+        </Switch>
+      </ContentContainer>
       {openUpload && (
         <ModalPortal>
           <UploadModal onExit={() => setUploadModal(false)} />
