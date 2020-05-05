@@ -44,7 +44,9 @@ export const resolvers = {
       return context.dataSources.accesscard
         .login(input)
         .then(({ data, refreshToken }: any) => {
-          context.setCookie("accesscard-refresh", refreshToken);
+          context.setCookie("accesscard-refresh", refreshToken, {
+            httpOnly: true,
+          });
 
           return data;
         });
