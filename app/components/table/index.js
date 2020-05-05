@@ -1,44 +1,50 @@
 import React from 'react';
 import { useTable } from 'react-table';
 import PropTypes from 'prop-types';
+import { StyledTable, StyledHeaderRow, StyledRow } from './styles';
+import HeaderCell from './HeaderCell';
+import addRowSelection from './RowSelection';
 
-export default function Table({ columns, data }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data });
+export default function Table({ columns, data, rowSelection }) {
+  const plugins = [];
+
+  if (rowSelection) {
+    plugins.push(...addRowSelection());
+  }
+
+  const tableProps = useTable({ columns, data }, ...plugins);
 
   return (
-    <table {...getTableProps()}>
+    <StyledTable {...tableProps.getTableProps()}>
       <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+        {tableProps.headerGroups.map(headerGroup => (
+          <StyledHeaderRow {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              <HeaderCell {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </HeaderCell>
             ))}
-          </tr>
+          </StyledHeaderRow>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
+      <tbody {...tableProps.getTableBodyProps()}>
+        {tableProps.rows.map(row => {
+          tableProps.prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <StyledRow {...row.getRowProps()}>
               {row.cells.map(cell => (
                 <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
               ))}
-            </tr>
+            </StyledRow>
           );
         })}
       </tbody>
-    </table>
+    </StyledTable>
   );
 }
 
 Table.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
+  rowSelection: PropTypes.bool,
 };

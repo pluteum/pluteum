@@ -26,6 +26,7 @@ const GET_FILES = gql`
       image
       name
       url
+      size
       book {
         id
         title
@@ -50,7 +51,7 @@ export function FileManagement() {
         <meta name="description" content="Description of File Management" />
       </Helmet>
       <Typography type="SectionTitle">File Management</Typography>
-      <Table columns={TableColumns} data={TableData} />
+      <Table columns={TableColumns} data={TableData} rowSelection />
     </Layout>
   );
 }

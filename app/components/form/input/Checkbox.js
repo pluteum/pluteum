@@ -12,7 +12,7 @@ const InputGroup = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 10px;
+  ${props => props.hasText && 'margin-bottom: 10px;'}
 `;
 
 const StyledCheckbox = styled.input`
@@ -50,7 +50,7 @@ const CheckboxLabel = styled.label`
 
     position: absolute;
     left: 0;
-    top: 3px;
+    top: ${props => (props.hasText ? '3px' : '0')};
 
     pointer-events: none;
   }
@@ -58,9 +58,11 @@ const CheckboxLabel = styled.label`
 
 export default function Checkbox({ label, name, ...props }) {
   return (
-    <InputGroup>
+    <InputGroup hasText={label.length > 0}>
       <StyledCheckbox id={name} type="checkbox" name={name} {...props} />
-      <CheckboxLabel htmlFor={name}>{label}</CheckboxLabel>
+      <CheckboxLabel hasText={label.length > 0} htmlFor={name}>
+        {label}
+      </CheckboxLabel>
     </InputGroup>
   );
 }
