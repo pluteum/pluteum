@@ -15,7 +15,7 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, fromPromise } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { createBrowserHistory } from 'history';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -30,7 +30,6 @@ import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from 'apollo-link-context';
-
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import { customFetch } from 'utils/fetch';
@@ -40,10 +39,35 @@ const MOUNT_NODE = document.getElementById('app');
 const browserHistory = createBrowserHistory();
 let jwt;
 
-const errorLink = onError(({ graphQLErrors }) => {
+function tryRefreshToken() {
+  return fetch('/access/user/refresh').then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+
+    browserHistory.push('/login');
+    throw new Error(response.statusText);
+  });
+}
+
+// eslint-disable-next-line consistent-return
+const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {
     if (graphQLErrors.some(error => error.message === 'UNAUTHENTICATED')) {
-      browserHistory.push('/login');
+      return fromPromise(tryRefreshToken()).flatMap(({ token }) => {
+        setToken(token);
+
+        const operationHeaders = operation.getContext().headers;
+
+        operation.setContext({
+          headers: {
+            ...operationHeaders,
+            Authorization: `Bearer: ${token}`,
+          },
+        });
+
+        return forward(operation);
+      });
     }
   }
 });
