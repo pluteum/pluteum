@@ -29,6 +29,11 @@ const AppLayout = styled.div`
 
 const ContentContainer = styled.div`
   width: 100%;
+  height: 100%;
+
+  > div:nth-of-type(2) {
+    height: calc(100% - 39px);
+  }
 `;
 
 export default function Frame() {
