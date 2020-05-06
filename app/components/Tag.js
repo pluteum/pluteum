@@ -9,6 +9,7 @@ const StyledTag = styled.span`
   position: relative;
   display: inline-block;
   padding: 8px 16px;
+  margin: 0 5px;
   ${props => props.hasDeleteIcon && 'padding-right: 38px;'}
 
   border-radius: 16px;

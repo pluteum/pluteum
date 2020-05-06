@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Typography from 'components/common/Type/Typography';
+
 import {
   faExclamationCircle,
   faCheckCircle,
@@ -15,21 +17,19 @@ export function columnDef() {
     {
       Header: 'Book',
       accessor: 'book',
-      Cell: ({ value }) => value || 'Create Book',
+      Cell: ({ value }) =>
+        value || <Typography type="TextLink">Create Book</Typography>,
     },
     {
       Header: 'Status',
       accessor: 'processed',
       // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) => {
-        console.log(value);
-        return (
-          <FontAwesomeIcon
-            color={value ? '#494B4F' : '#D52020'}
-            icon={value ? faCheckCircle : faExclamationCircle}
-          />
-        );
-      },
+      Cell: ({ value }) => (
+        <FontAwesomeIcon
+          color={value ? '#494B4F' : '#D52020'}
+          icon={value ? faCheckCircle : faExclamationCircle}
+        />
+      ),
     },
     {
       Header: 'Filetype',

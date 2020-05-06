@@ -50,7 +50,10 @@ export function FileManagement() {
         <meta name="description" content="Description of File Management" />
       </Helmet>
       <Typography type="SectionTitle">Manage Files</Typography>
-      <Filter />
+      <Filter
+        defaultOptions={['Processing', 'Failed']}
+        options={['Finished', 'Processing', 'Failed']}
+      />
       <Table columns={TableColumns} data={TableData} rowSelection />
     </Layout>
   );
