@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Typography from 'components/common/Type/Typography';
 
 import {
   faExclamationCircle,
@@ -17,8 +16,7 @@ export function columnDef() {
     {
       Header: 'Book',
       accessor: 'book',
-      Cell: ({ value }) =>
-        value || <Typography type="TextLink">Create Book</Typography>,
+      Cell: ({ value }) => value || 'Create Book',
     },
     {
       Header: 'Status',
