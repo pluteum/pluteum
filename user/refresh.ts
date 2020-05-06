@@ -15,7 +15,7 @@ export default async function refreshHandler(req: Request, res: Response) {
   try {
     const token = jwt.verify(req.cookies["accesscard-refresh"], JWT_KEY);
 
-    if (typeof token === "object") {
+    if (token && typeof token === "object") {
       const { id, library, jti } = token as any;
 
       const query = select(
