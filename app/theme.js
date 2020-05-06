@@ -10,6 +10,7 @@ export default {
     darkGrey: '#494B4F', // labels, input text color
     grey: '#BDC0C4', // borders
     lightGrey: '#DBDDE2',
+    notAsLightBlue: '#EFF1F7',
     lightBlue: '#F7F8FA',
     red: '#D52020',
     offWhite: '#F7F7F7', // 😎

@@ -12,6 +12,7 @@ import gql from 'graphql-tag';
 
 import { columnDef } from './table';
 import Table from '../../../components/table';
+import Filter from '../../../components/Filter';
 
 const Layout = styled.div`
   padding: 30px 25px;
@@ -48,7 +49,8 @@ export function FileManagement() {
         <title>File Management</title>
         <meta name="description" content="Description of File Management" />
       </Helmet>
-      <Typography type="SectionTitle">File Management</Typography>
+      <Typography type="SectionTitle">Manage Files</Typography>
+      <Filter />
       <Table columns={TableColumns} data={TableData} rowSelection />
     </Layout>
   );
