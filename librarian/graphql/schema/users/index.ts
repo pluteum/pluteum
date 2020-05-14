@@ -29,12 +29,22 @@ export const typeDef = `
   }
 
   extend type Query {
-      me: User @isAuthenticated
+    refresh: String
+    me: User @isAuthenticated
   }
 `;
 
 export const resolvers = {
   Query: {
+    refresh: async (parent: any, args: any, context: any) => {
+      const { refresh, token } = await context.dataSources.accesscard.user.refresh(context.refreshToken);
+
+      context.setCookie("accesscard-refresh", refresh, {
+        httpOnly: true,
+      });
+
+      return token;
+    },
     me: (parent: any, args: any, context: any) => {
       return context.user;
     },

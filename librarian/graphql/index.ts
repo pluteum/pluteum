@@ -27,6 +27,7 @@ export default function getApolloServer(pool: PoolClient, channel: Channel) {
         context: ({ req, res }) => ({
             setCookie: res.cookie.bind(res),
             token: getToken(req.headers.authorization),
+            refreshToken: req.cookies["accesscard-refresh"],
             client: pool,
             ...getUser(getToken(req.headers.authorization)),
         }),
