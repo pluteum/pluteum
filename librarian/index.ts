@@ -5,7 +5,6 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 import getApolloServer from "./graphql";
-import AccessCard from './accesscard';
 
 const pool = new Pool();
 const channel = ampq
@@ -18,8 +17,6 @@ Promise.all([pool.connect(), channel])
 
     app.use(cookieParser())
     app.use(bodyParser.json())
-
-    app.use(AccessCard(client))
 
     const apollo = getApolloServer(client, channel);
 

@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Schema from "validate";
 import jwt from "jsonwebtoken";
 import { select } from "sql-bricks";
-import { getDb } from "../db";
+import { getDb } from "../../../../accesscard/db";
 import { generateRefreshToken, generateToken } from "./token";
 
 const refreshDebug = debug("pluteum:accesscard:refresh");

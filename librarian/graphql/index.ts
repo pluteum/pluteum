@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server-express";
-import schema from "./schema/schema";
+import schema from "./schema";
 import Bookshelf from "./datasources/bookshelf";
 import AccessCard from "./datasources/access_card";
 import { verify } from "jsonwebtoken";

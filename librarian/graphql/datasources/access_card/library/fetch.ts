@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { select } from "sql-bricks";
 import Schema from "validate";
 
-import { getDb } from "../db";
+import { getDb } from "../../../../accesscard/db";
 
 const createLibraryDebug = debug("pluteum:accesscard:library:create");
 

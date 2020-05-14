@@ -4,7 +4,7 @@ import { insert } from "sql-bricks";
 import { v4 as uuid } from "uuid";
 import Schema from "validate";
 
-import { getDb } from "../db";
+import { getDb } from "../../../../accesscard/db";
 
 const createLibraryDebug = debug("pluteum:accesscard:library:create");
 

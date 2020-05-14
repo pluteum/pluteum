@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { update } from "sql-bricks";
-import { getDb } from "../db";
+import { getDb } from "../../../../accesscard/db";
 
 const JWT_KEY = process.env.JWT_KEY || "default";
 

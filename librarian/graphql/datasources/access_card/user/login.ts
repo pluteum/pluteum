@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { select } from "sql-bricks";
 import Schema from "validate";
 
-import { getDb } from "../db";
+import { getDb } from "../../../../accesscard/db";
 import { generateToken, generateRefreshToken } from "./token";
 
 const loginDebug = debug("pluteum:accesscard:login");
