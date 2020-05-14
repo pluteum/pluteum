@@ -40,7 +40,11 @@ const browserHistory = createBrowserHistory();
 let jwt;
 
 function tryRefreshToken() {
-  return fetch('/access/user/refresh').then(response => {
+  return fetch('/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: '{refresh}' }),
+  }).then(response => {
     if (response.status === 200) {
       return response.json();
     }
@@ -54,15 +58,17 @@ function tryRefreshToken() {
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {
     if (graphQLErrors.some(error => error.message === 'UNAUTHENTICATED')) {
-      return fromPromise(tryRefreshToken()).flatMap(({ token }) => {
-        setToken(token);
+      return fromPromise(tryRefreshToken()).flatMap(({ data }) => {
+        const newToken = data.refresh;
+
+        setToken(newToken);
 
         const operationHeaders = operation.getContext().headers;
 
         operation.setContext({
           headers: {
             ...operationHeaders,
-            Authorization: `Bearer: ${token}`,
+            Authorization: `Bearer: ${newToken}`,
           },
         });
 
