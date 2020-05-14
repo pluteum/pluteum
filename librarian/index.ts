@@ -1,20 +1,26 @@
 import express from "express";
 import ampq from "amqplib";
 import { Pool } from "pg";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 import getApolloServer from "./graphql";
+import AccessCard from './accesscard';
 
 const pool = new Pool();
 const channel = ampq
   .connect(process.env.AMPQ_URL || "")
   .then((conn) => conn.createChannel());
 
-// todo: need better context authentication, better token validation and error handling
-// should the server handle refreshing itself, the token is there, right?
-
 Promise.all([pool.connect(), channel])
   .then(([client, channel]) => {
     const app = express();
+
+    app.use(cookieParser())
+    app.use(bodyParser.json())
+
+    app.use(AccessCard(client))
+
     const apollo = getApolloServer(client, channel);
 
     apollo.applyMiddleware({ app });

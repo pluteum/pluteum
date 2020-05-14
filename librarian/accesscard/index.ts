@@ -1,24 +1,18 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import { initDb } from "./db";
+import { Router } from "express";
+
+import { setDb } from "./db";
+
 import User from "./user";
 import Library from "./library";
+import { PoolClient } from "pg";
 
-initDb()
-  .then(() => {
-    const app = express();
+const AccessCard = Router();
 
-    app.use(bodyParser.json());
-    app.use(cookieParser());
+export default function (pool: PoolClient): Router {
+  setDb(pool);
 
-    app.use("/user", User);
-    app.use("/library", Library);
+  AccessCard.use("/user", User);
+  AccessCard.use("/library", Library);
 
-    app.listen({ port: 4000 }, () => {
-      console.log(`🚀 Server ready`);
-    });
-  })
-  .catch((e) => {
-    console.error(e);
-  });
+  return AccessCard;
+}
