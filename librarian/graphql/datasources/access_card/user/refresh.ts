@@ -1,6 +1,4 @@
 import debug from "debug";
-import { Request, Response } from "express";
-import Schema from "validate";
 import { verify } from "jsonwebtoken";
 import { select } from "sql-bricks";
 import { generateRefreshToken, generateToken } from "./token";
@@ -29,7 +27,7 @@ export default async function refresh(jwt: string, pool: PoolClient) {
       .toParams();
 
     const user = await pool.query(query).then((result) => result.rows[0]);
-    const refresh = await generateRefreshToken(user, library);
+    const refresh = await generateRefreshToken(user, pool, library);
 
     return { refresh, token: await generateToken(user, library) };
   }

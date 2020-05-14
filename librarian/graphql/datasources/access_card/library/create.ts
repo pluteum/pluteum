@@ -1,47 +1,16 @@
 import debug from "debug";
-import { Request, Response } from "express";
 import { insert } from "sql-bricks";
 import { v4 as uuid } from "uuid";
-import Schema from "validate";
+import { PoolClient } from "pg";
 
-import { getDb } from "../../../../accesscard/db";
 
 const createLibraryDebug = debug("pluteum:accesscard:library:create");
-
-const CreateLibraryInput = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  userId: {
-    type: Number,
-  },
-  defaultLibrary: {
-    type: Boolean,
-  },
-});
-
-export default async function createHandler(req: Request, res: Response) {
-  // Validate request
-  const { body } = req;
-
-  const errors = CreateLibraryInput.validate(body);
-
-  if (errors.length > 0) {
-    return res.status(400).send(errors);
-  }
-
-  const library = await createLibrary(body);
-
-  res.status(200).send(library);
-}
 
 export async function createLibrary({
   title,
   userId,
   defaultLibrary = false,
-}: any) {
-  const pool = getDb();
+}: any, pool: PoolClient) {
 
   createLibraryDebug(`Attempting to create library ${title}`);
 

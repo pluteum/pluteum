@@ -38,7 +38,7 @@ export default async function loginUser({ email, password, library }: any, pool:
       );
       return {
         token: await generateToken(user, result.library),
-        refresh: await generateRefreshToken(user, result.library),
+        refresh: await generateRefreshToken(user, pool, result.library),
         user,
         library: result.library,
       };
@@ -50,7 +50,7 @@ export default async function loginUser({ email, password, library }: any, pool:
 
     return {
       token: await generateToken(user),
-      refresh: await generateRefreshToken(user, undefined),
+      refresh: await generateRefreshToken(user, pool, undefined),
       user,
       library: null,
     };
@@ -68,7 +68,7 @@ export default async function loginUser({ email, password, library }: any, pool:
     if (result) {
       return {
         token: await generateToken(user, library),
-        refresh: await generateRefreshToken(user, library),
+        refresh: await generateRefreshToken(user, pool, library),
         user,
         library,
       };
