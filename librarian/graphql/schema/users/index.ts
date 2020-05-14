@@ -29,22 +29,32 @@ export const typeDef = `
   }
 
   extend type Query {
-      me: User @isAuthenticated
+    refresh: String
+    me: User @isAuthenticated
   }
 `;
 
 export const resolvers = {
   Query: {
+    refresh: async (parent: any, args: any, context: any) => {
+      const { refresh, token } = await context.dataSources.accesscard.user.refresh(context.refreshToken);
+
+      context.setCookie("accesscard-refresh", refresh, {
+        httpOnly: true,
+      });
+
+      return token;
+    },
     me: (parent: any, args: any, context: any) => {
       return context.user;
     },
   },
   Mutation: {
     login: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard
+      return context.dataSources.accesscard.user
         .login(input)
-        .then(({ data, refreshToken }: any) => {
-          context.setCookie("accesscard-refresh", refreshToken, {
+        .then(({ refresh, ...data }: any) => {
+          context.setCookie("accesscard-refresh", refresh, {
             httpOnly: true,
           });
 
@@ -52,7 +62,7 @@ export const resolvers = {
         });
     },
     register: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard.register(input);
+      return context.dataSources.accesscard.user.register(input);
     },
   },
 };

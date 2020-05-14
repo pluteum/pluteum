@@ -1,59 +1,12 @@
 import bcrypt from "bcrypt";
 import debug from "debug";
-import { Request, Response } from "express";
 import { select } from "sql-bricks";
-import Schema from "validate";
-
-import { getDb } from "../db";
 import { generateToken, generateRefreshToken } from "./token";
+import { PoolClient } from "pg";
 
 const loginDebug = debug("pluteum:accesscard:login");
 
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-const LoginInputSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    match: EMAIL_REGEX,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  library: {
-    type: Number,
-    required: false,
-  },
-});
-
-export default async function loginHandler(req: Request, res: Response) {
-  // Validate request
-  const { body } = req;
-
-  loginDebug(`Attempting to authenticate ${body.email}`);
-
-  const errors = LoginInputSchema.validate(body);
-
-  if (errors.length > 0) {
-    return res.status(400).send(errors);
-  }
-
-  try {
-    const { refresh, ...auth } = await loginUser(body);
-
-    res.status(200).cookie("accesscard-refresh", refresh).send(auth);
-  } catch (error) {
-    if (error.message === "Unknown user or password") {
-      res.status(401).send({ error: error.message });
-    }
-
-    res.status(500).send({ error: error.message });
-  }
-}
-
-async function loginUser({ email, password, library }: any) {
-  const pool = getDb();
+export default async function loginUser({ email, password, library }: any, pool: PoolClient) {
   const query = select().from("users").where({ email }).toParams();
   const user = await pool.query(query).then((result) => result.rows[0]);
 
@@ -64,6 +17,7 @@ async function loginUser({ email, password, library }: any) {
   loginDebug(`Found user with email ${user.email}`);
 
   const match = await bcrypt.compare(password, user.password);
+
   delete user.password;
   delete user.refreshToken;
 
@@ -85,7 +39,7 @@ async function loginUser({ email, password, library }: any) {
       );
       return {
         token: await generateToken(user, result.library),
-        refresh: await generateRefreshToken(user, result.library),
+        refresh: await generateRefreshToken(user, pool, result.library),
         user,
         library: result.library,
       };
@@ -97,7 +51,7 @@ async function loginUser({ email, password, library }: any) {
 
     return {
       token: await generateToken(user),
-      refresh: await generateRefreshToken(user, undefined),
+      refresh: await generateRefreshToken(user, pool, undefined),
       user,
       library: null,
     };
@@ -115,7 +69,7 @@ async function loginUser({ email, password, library }: any) {
     if (result) {
       return {
         token: await generateToken(user, library),
-        refresh: await generateRefreshToken(user, library),
+        refresh: await generateRefreshToken(user, pool, library),
         user,
         library,
       };
