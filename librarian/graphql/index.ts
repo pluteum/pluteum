@@ -3,6 +3,8 @@ import schema from "./schema";
 import Bookshelf from "./datasources/bookshelf";
 import AccessCard from "./datasources/access_card";
 import { verify } from "jsonwebtoken";
+import { PoolClient } from "pg";
+import { Channel } from "amqplib";
 
 function getToken(header: string = "") {
     return header.replace("Bearer: ", "") || "";
@@ -11,7 +13,7 @@ function getToken(header: string = "") {
 function getUser(token: string) {
     if (token) {
         const decodedToken = verify(token, process.env.JWT_KEY || "default");
-        if (decodedToken) {
+        if (decodedToken && typeof decodedToken === 'object') {
             return decodedToken;
         }
     }
@@ -19,7 +21,7 @@ function getUser(token: string) {
     return {};
 }
 
-export default function getApolloServer(pool, channel) {
+export default function getApolloServer(pool: PoolClient, channel: Channel) {
     return new ApolloServer({
         schema,
         context: ({ req, res }) => ({
@@ -29,8 +31,8 @@ export default function getApolloServer(pool, channel) {
             ...getUser(getToken(req.headers.authorization)),
         }),
         dataSources: () => ({
-            bookshelf: new Bookshelf(client, channel),
-            accesscard: new AccessCard(),
+            bookshelf: new Bookshelf(pool, channel),
+            accesscard: new AccessCard(pool),
         }),
         tracing: true,
     });
