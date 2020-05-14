@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { update } from "sql-bricks";
-import { getDb } from "../../../../accesscard/db";
+import { Pool, PoolClient } from "pg";
 
 const JWT_KEY = process.env.JWT_KEY || "default";
 
@@ -9,8 +9,7 @@ export function generateToken(user: any, library?: any) {
   return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "30m" });
 }
 
-export async function generateRefreshToken(user: any, library?: Number) {
-  const pool = getDb();
+export async function generateRefreshToken(user: any, library?: Number, pool: PoolClient) {
   const jwtid = uuid();
   const token = jwt.sign({ id: user.id, library }, JWT_KEY, {
     jwtid,
