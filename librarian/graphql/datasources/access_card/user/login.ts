@@ -17,6 +17,7 @@ export default async function loginUser({ email, password, library }: any, pool:
   loginDebug(`Found user with email ${user.email}`);
 
   const match = await bcrypt.compare(password, user.password);
+
   delete user.password;
   delete user.refreshToken;
 

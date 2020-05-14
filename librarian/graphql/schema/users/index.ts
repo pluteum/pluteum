@@ -41,10 +41,10 @@ export const resolvers = {
   },
   Mutation: {
     login: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard
+      return context.dataSources.accesscard.user
         .login(input)
-        .then(({ data, refreshToken }: any) => {
-          context.setCookie("accesscard-refresh", refreshToken, {
+        .then(({ refresh, ...data }: any) => {
+          context.setCookie("accesscard-refresh", refresh, {
             httpOnly: true,
           });
 
@@ -52,7 +52,7 @@ export const resolvers = {
         });
     },
     register: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard.register(input);
+      return context.dataSources.accesscard.user.register(input);
     },
   },
 };

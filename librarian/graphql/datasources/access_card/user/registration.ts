@@ -35,7 +35,7 @@ export default async function registerUser({ firstName, lastName, email, passwor
       userId: user.id,
       title: `${user.firstName}'s Library`,
       defaultLibrary: true,
-    });
+    }, pool);
   } catch (error) {
     console.error(error);
   }
