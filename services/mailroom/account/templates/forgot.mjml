@@ -1,0 +1,32 @@
+<mjml>
+  <mj-head>
+    <mj-all font-family="Arial" />
+  </mj-head>
+  <mj-body background-color="#F2F2F2">
+    <mj-wrapper>
+      <mj-section>
+        <mj-column padding="80px 20px" width="75%" background-color="#ffffff">
+          <mj-image align="left" width="152px" src="https://pluteum.io/assets/img/pluteum.png" />
+          <mj-spacer height="30px" />
+          <mj-text color="#131314" font-size="28px" line-height="32px" font-weight="bold">Forgot your password?</mj-text>
+          <mj-spacer height="5px" />
+
+          <mj-text color="#494B4F" font-size="18px" line-height="28px">You’re receiving this email because you requested a password reset for your Pluteum account.</mj-text>
+          <mj-text color="#494B4F" font-size="18px" line-height="28px">Please tap the button below to select a new password.</mj-text>
+          <mj-spacer height="20px" />
+
+
+          <mj-button href="{{link}}" font-size="16px" align="left" background-color="#0A4FCD" border-radius="20px">Reset your password</mj-button>
+          <mj-spacer height="40px" />
+
+
+          <mj-divider border-width="1px" border-color="#DBDDE2" />
+          <mj-spacer height="5px" />
+          <mj-text color="#494B4F" font-size="14px" line-height="20px">
+            This email was sent by <a style="color: #0A4FCD" href="pluteum.io">pluteum.io.</a><br /> View the source code for this project <a style="color: #0A4FCD" href="github.com/pluteum">here.</a>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>
