@@ -23,7 +23,7 @@
           <mj-divider border-width="1px" border-color="#DBDDE2" />
           <mj-spacer height="5px" />
           <mj-text color="#494B4F" font-size="14px" line-height="20px">
-            This email was sent by <a style="color: #0A4FCD" href="pluteum.io">pluteum.io.</a><br /> View the source code for this project <a style="color: #0A4FCD" href="github.com/pluteum">here.</a>
+            This email was sent by <a style="color: #0A4FCD" href="pluteum.io">pluteum.io</a>.<br /> View the source code for this project <a style="color: #0A4FCD" href="github.com/pluteum">here</a>.
           </mj-text>
         </mj-column>
       </mj-section>
