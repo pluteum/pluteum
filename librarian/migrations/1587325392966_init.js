@@ -11,6 +11,7 @@ exports.up = (pgm) => {
     email: { type: "string", notNull: true, unique: true },
     password: { type: "string", notNull: true, unique: true },
     refreshToken: "string",
+    resetToken: "string",
     createdAt: {
       type: "timestamp",
       notNull: true,
