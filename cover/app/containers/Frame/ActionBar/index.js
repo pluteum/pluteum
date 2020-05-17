@@ -17,6 +17,7 @@ import {
   Settings,
 } from 'react-feather';
 import NavIcon from '../../../components/NavIcon';
+import UploadIcon from '../../../components/UploadIcon';
 
 const Layout = styled.div`
   display: flex;
@@ -56,9 +57,7 @@ export default function ActionBar() {
         <NavIcon exact to="/">
           <BookOpen size={22} />
         </NavIcon>
-        <NavIcon to="/upload">
-          <PlusCircle size={22} />
-        </NavIcon>
+        <UploadIcon />
         <NavIcon to="/notifications">
           <Bell />
         </NavIcon>

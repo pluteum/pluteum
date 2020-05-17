@@ -10,12 +10,21 @@ const Component = styled(NavLink)`
   align-items: center;
   justify-content: center;
 
+  appearance: none;
+  cursor: pointer;
+  background: none;
+  border: 0;
+
   width: 40px;
   height: 100%;
 
   margin: 0 8px;
 
   color: ${props => props.theme.colors.darkGrey};
+
+  &:hover {
+    color: ${props => props.theme.colors.primary};
+  }
 
   &.active::after {
     content: '';
@@ -26,6 +35,10 @@ const Component = styled(NavLink)`
     position: absolute;
     bottom: -10px;
     left: 0;
+  }
+
+  > svg {
+    transition: transform 0.5s ease;
   }
 `;
 
