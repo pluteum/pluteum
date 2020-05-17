@@ -3,6 +3,7 @@ import { verify, decode } from "jsonwebtoken";
 import { select, update } from "sql-bricks";
 import { PoolClient } from "pg";
 import bcrypt from "bcrypt";
+import loginUser from "./login";
 
 const resetDebug = debug("pluteum:accesscard:reset");
 const JWT_KEY = process.env.JWT_KEY || "default";
@@ -17,7 +18,7 @@ export default async function reset(
   if (jti && uuid) {
     resetDebug(`Received password reset for ${uuid}`);
 
-    const query = select("uuid")
+    const query = select("email, uuid")
       .from("users")
       .where({ uuid, resetPassword: jti })
       .toParams();
@@ -33,9 +34,11 @@ export default async function reset(
         .where({ id: user.id })
         .toParams();
 
-      resetDebug(`Password reset for ${uuid}`);
+      await pool.query(updateQuery).then((result) => result.rows[0]);
 
-      return pool.query(updateQuery).then((result) => result.rows[0]);
+      resetDebug(`Sucessfully reset the password for ${uuid}`);
+
+      return loginUser({ email: user.email, password }, pool);
     }
   }
 

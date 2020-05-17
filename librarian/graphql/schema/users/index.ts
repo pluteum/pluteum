@@ -28,7 +28,8 @@ export const typeDef = `
   extend type Mutation {
     login(input: LoginInput!): LoginResponse
     register(input: RegisterInput!): User
-    forgot(email: string): Boolean
+    forgot(email: String!): Boolean
+    reset(token: String!): LoginResponse
   }
 
   extend type Query {
@@ -82,6 +83,9 @@ export const resolvers = {
       }
 
       return success;
+    },
+    reset: async (_: any, { token }: any, context: any) => {
+      return context.dataSources.accesscard.user.reset(token);
     },
   },
 };
