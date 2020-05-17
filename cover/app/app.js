@@ -39,6 +39,10 @@ const MOUNT_NODE = document.getElementById('app');
 const browserHistory = createBrowserHistory();
 let jwt;
 
+function redirectToLogin() {
+  browserHistory.push('/login');
+}
+
 function tryRefreshToken() {
   return fetch('/graphql', {
     method: 'POST',
@@ -46,10 +50,17 @@ function tryRefreshToken() {
     body: JSON.stringify({ query: '{refresh}' }),
   }).then(response => {
     if (response.status === 200) {
-      return response.json();
+      response.json().then(json => {
+        if (!json.data.token) {
+          redirectToLogin();
+          throw new Error(json.errors[0].message);
+        }
+
+        return json;
+      });
     }
 
-    browserHistory.push('/login');
+    redirectToLogin();
     throw new Error(response.statusText);
   });
 }
