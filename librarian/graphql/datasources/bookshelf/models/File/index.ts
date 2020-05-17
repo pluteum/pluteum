@@ -2,7 +2,7 @@ import { Channel } from "amqplib";
 import { createWriteStream, ReadStream, remove } from "fs-extra";
 import { resolve } from "path";
 import { PoolClient } from "pg";
-import { insert, select } from "sql-bricks";
+import { insert, select, delete as deleteQuery } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
 import digestStream from "digest-stream";
 
@@ -114,6 +114,31 @@ export default class Files {
     } else {
       await remove(filePath);
       return new Error("File already exists");
+    }
+  }
+
+  public async deleteFile(fileId: number) {
+    const selectQuery = select("filepath")
+      .from("files")
+      .where({ library: this.library, id: fileId })
+      .toParams();
+
+    const file = await this.pool
+      .query(selectQuery)
+      .then((result) => result.rows[0]);
+
+    if (file) {
+      await remove(file.filePath);
+
+      return this.pool
+        .query(
+          deleteQuery("files")
+            .where({ library: this.library, id: fileId })
+            .toParams()
+        )
+        .then(() => true);
+    } else {
+      return false;
     }
   }
 }

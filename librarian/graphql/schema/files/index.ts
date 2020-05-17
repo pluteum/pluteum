@@ -22,6 +22,7 @@ export const typeDef = gql`
 
   extend type Mutation {
     uploadFile(file: FileUpload): File
+    deleteFile(id: Int): Boolean
   }
 `;
 
@@ -34,8 +35,10 @@ export const resolvers = {
   },
   Mutation: {
     // TODO: add some basic input validation here
-    uploadFile: async (_: any, args: any, context: any) =>
-      context.dataSources.bookshelf.files.addFile(args.file),
+    uploadFile: async (_: any, { file }: any, context: any) =>
+      context.dataSources.bookshelf.files.addFile(file),
+    deleteFile: async (_: any, { id }: any, context: any) =>
+      context.dataSources.bookshelf.files.deleteFile(id),
   },
   File: {
     book: async (parent: any, _: any, context: any) =>
