@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
+import ActionBar from 'containers/Frame/ActionBar';
 import Breadcrumb from 'containers/Frame/Breadcrumb';
 import UploadModal from 'containers/UploadModal';
 import Settings from 'containers/Settings';
@@ -18,21 +19,6 @@ import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 
 const AppLayout = styled.div`
   height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 425px) {
-    flex-direction: row;
-  }
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
-  height: 100%;
-
-  > div:nth-of-type(2) {
-    height: calc(100% - 39px);
-  }
 `;
 
 export default function Frame() {
@@ -40,12 +26,12 @@ export default function Frame() {
 
   return (
     <AppLayout>
-      <ContentContainer>
-        <Breadcrumb />
-        <Switch>
-          <Route path="/settings" component={Settings} />
-        </Switch>
-      </ContentContainer>
+      <Breadcrumb />
+      <ActionBar />
+
+      <Switch>
+        <Route path="/settings" component={Settings} />
+      </Switch>
       {openUpload && (
         <ModalPortal>
           <UploadModal onExit={() => setUploadModal(false)} />

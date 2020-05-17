@@ -8,20 +8,21 @@ import styled from 'styled-components';
 
 const StyledSVG = styled.svg`
   width: 100%;
-  color: #000000;
+  color: ${props => props.theme.colors.primary};
 
   &:hover {
-    color: #485cc7;
+    color: ${props => props.theme.colors.primary__hover};
   }
 `;
 
-export default function Logo({ className, icon }) {
+export default function Logo({ className, icon, ...props }) {
   if (icon) {
     return (
       <StyledSVG
         className={className}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 28"
+        {...props}
       >
         <g fill="none" fillRule="evenodd">
           <path
@@ -34,7 +35,7 @@ export default function Logo({ className, icon }) {
   }
 
   return (
-    <StyledSVG className={className} width="113" height="24">
+    <StyledSVG className={className} width="113" height="24" {...props}>
       <g fill="none" fillRule="evenodd">
         <path
           d="M17.475 4.712c1.532.727 2.464 2.447 2.044 4.227l-1.725 7.317a5.256 5.256 0 01-5.124 4.038H5.848l-.693 2.94-2.168-1.674L0 23.234l1.25-5.3h9.42a5.256 5.256 0 005.125-4.039l1.725-7.318a3.68 3.68 0 00-.045-1.865zM12.048 0c2.423 0 4.213 2.244 3.66 4.59l-1.725 7.318a5.257 5.257 0 01-5.124 4.037H0L3.758.001h8.29z"

@@ -6,6 +6,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BreadcrumbBar = styled.div`
+  position: relative;
+
   width: 100%;
   background: ${props => props.theme.colors.offWhite};
   padding: 8px 25px;
@@ -13,6 +15,8 @@ const BreadcrumbBar = styled.div`
 
   font-size: 15px;
   color: ${props => props.theme.colors.darkGrey};
+
+  z-index: 10;
 
   ul {
     padding: 0;
