@@ -46,7 +46,7 @@ SvgCircle.propTypes = {
 
 export default function UploadIcon({ onClick, uploadProgress }) {
   return (
-    <NavIcon as="button">
+    <NavIcon onClick={onClick} as="button">
       {uploadProgress > 0 && <SvgCircle percent={uploadProgress} />}
       <PlusCircle size={22} />
     </NavIcon>

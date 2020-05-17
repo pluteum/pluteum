@@ -16,8 +16,6 @@ const BreadcrumbBar = styled.div`
   font-size: 15px;
   color: ${props => props.theme.colors.darkGrey};
 
-  z-index: 10;
-
   ul {
     padding: 0;
     margin: 0;

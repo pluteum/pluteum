@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Logo from 'components/common/Logo/Logo';
@@ -43,7 +44,7 @@ const Layout = styled.div`
   }
 `;
 
-export default function ActionBar() {
+export default function ActionBar({ setUploadModal }) {
   return (
     <Layout>
       <div>
@@ -57,7 +58,7 @@ export default function ActionBar() {
         <NavIcon exact to="/">
           <BookOpen size={22} />
         </NavIcon>
-        <UploadIcon />
+        <UploadIcon onClick={() => setUploadModal(true)} />
         <NavIcon to="/notifications">
           <Bell />
         </NavIcon>
@@ -71,3 +72,7 @@ export default function ActionBar() {
     </Layout>
   );
 }
+
+ActionBar.propTypes = {
+  setUploadModal: PropTypes.func,
+};

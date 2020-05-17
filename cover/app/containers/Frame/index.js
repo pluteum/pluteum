@@ -27,12 +27,12 @@ const ContentLayout = styled.div`
 `;
 
 export default function Frame() {
-  const [openUpload, setUploadModal] = useState();
+  const [openUpload, setUploadModal] = useState(false);
 
   return (
     <AppLayout>
       <Breadcrumb />
-      <ActionBar />
+      <ActionBar setUploadModal={setUploadModal} />
       <ContentLayout>
         <Switch>
           <Route path="/" component={Index} exact />
