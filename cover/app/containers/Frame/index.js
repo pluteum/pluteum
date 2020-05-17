@@ -16,9 +16,14 @@ import UploadModal from 'containers/UploadModal';
 import Settings from 'containers/Settings';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
+import Index from '../Index';
 
 const AppLayout = styled.div`
   height: 100%;
+`;
+
+const ContentLayout = styled.div`
+  height: calc(100% - 103px);
 `;
 
 export default function Frame() {
@@ -28,10 +33,12 @@ export default function Frame() {
     <AppLayout>
       <Breadcrumb />
       <ActionBar />
-
-      <Switch>
-        <Route path="/settings" component={Settings} />
-      </Switch>
+      <ContentLayout>
+        <Switch>
+          <Route path="/" component={Index} exact />
+          <Route path="/settings" component={Settings} />
+        </Switch>
+      </ContentLayout>
       {openUpload && (
         <ModalPortal>
           <UploadModal onExit={() => setUploadModal(false)} />
