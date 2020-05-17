@@ -44,7 +44,7 @@ const Layout = styled.div`
   }
 `;
 
-export default function ActionBar({ setUploadModal }) {
+export default function ActionBar({ uploadProgress, setUploadModal }) {
   return (
     <Layout>
       <div>
@@ -58,7 +58,10 @@ export default function ActionBar({ setUploadModal }) {
         <NavIcon exact to="/">
           <BookOpen size={22} />
         </NavIcon>
-        <UploadIcon onClick={() => setUploadModal(true)} />
+        <UploadIcon
+          uploadProgress={uploadProgress}
+          onClick={() => setUploadModal(true)}
+        />
         <NavIcon to="/notifications">
           <Bell />
         </NavIcon>
@@ -74,5 +77,6 @@ export default function ActionBar({ setUploadModal }) {
 }
 
 ActionBar.propTypes = {
+  uploadProgress: PropTypes.number,
   setUploadModal: PropTypes.func,
 };

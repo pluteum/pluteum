@@ -1,78 +1,15 @@
-import React, { useState } from 'react';
-import produce from 'immer';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from 'components/common/Type/Typography';
 import Modal from 'components/common/Modal/Modal';
 import UploadZone from 'components/common/UploadZone';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import ProgressBar from 'components/common/ProgressBar';
 
-const MUTATION = gql`
-  mutation($file: Upload!) {
-    uploadFile(file: $file) {
-      id
-      uuid
-      image
-      name
-      url
-      book {
-        id
-        title
-      }
-      processed
-    }
-  }
-`;
-
-const GET_FILES = gql`
-  {
-    files {
-      id
-      uuid
-      image
-      name
-      url
-      processed
-    }
-  }
-`;
-export default function UploadModal({ ...modalProps }) {
-  const [uploadProgress, setProgress] = useState({});
-
-  const [upload] = useMutation(MUTATION, {
-    update(cache, { data }) {
-      const { files } = cache.readQuery({ query: GET_FILES });
-      cache.writeQuery({
-        query: GET_FILES,
-        data: { files: files.concat([data.uploadFile]) },
-      });
-    },
-  });
-
-  function onUpload(files) {
-    files.forEach(file => {
-      upload({
-        variables: {
-          file,
-        },
-        context: {
-          fetchOptions: {
-            useUpload: true,
-            onProgress: ev => {
-              setProgress(prevState =>
-                produce(prevState, draftState => {
-                  // eslint-disable-next-line no-param-reassign
-                  draftState[file.name] = ev.loaded / ev.total;
-                }),
-              );
-            },
-            onAbortPossible: () => undefined,
-          },
-        },
-      });
-    });
-  }
-
+export default function UploadModal({
+  onUpload,
+  uploadProgress,
+  ...modalProps
+}) {
   return (
     <Modal {...modalProps}>
       <Typography type="SectionTitle">Upload files</Typography>
@@ -88,3 +25,8 @@ export default function UploadModal({ ...modalProps }) {
     </Modal>
   );
 }
+
+UploadModal.propTypes = {
+  onUpload: PropTypes.func,
+  uploadProgress: PropTypes.object,
+};

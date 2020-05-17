@@ -12,10 +12,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import ActionBar from 'containers/Frame/ActionBar';
 import Breadcrumb from 'containers/Frame/Breadcrumb';
-import UploadModal from 'containers/UploadModal';
+import UploadContainer from 'containers/UploadContainer';
 import Settings from 'containers/Settings';
-
-import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 import Index from '../Index';
 
 const AppLayout = styled.div`
@@ -28,22 +26,23 @@ const ContentLayout = styled.div`
 
 export default function Frame() {
   const [openUpload, setUploadModal] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   return (
     <AppLayout>
       <Breadcrumb />
-      <ActionBar setUploadModal={setUploadModal} />
+      <ActionBar uploadProgress={progress} setUploadModal={setUploadModal} />
       <ContentLayout>
         <Switch>
           <Route path="/" component={Index} exact />
           <Route path="/settings" component={Settings} />
         </Switch>
       </ContentLayout>
-      {openUpload && (
-        <ModalPortal>
-          <UploadModal onExit={() => setUploadModal(false)} />
-        </ModalPortal>
-      )}
+      <UploadContainer
+        openUpload={openUpload}
+        onProgress={setProgress}
+        onExit={() => setUploadModal(false)}
+      />
     </AppLayout>
   );
 }
