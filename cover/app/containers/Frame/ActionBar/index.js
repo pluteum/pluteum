@@ -24,6 +24,8 @@ const Layout = styled.div`
   height: 64px;
   padding: 10px 24px;
 
+  background: ${props => props.theme.colors.white};
+
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 
   justify-content: space-between;

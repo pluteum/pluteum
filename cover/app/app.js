@@ -89,6 +89,15 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   }
 });
 
+let darkMode = false;
+
+if (
+  window.matchMedia &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches
+) {
+  darkMode = true;
+}
+
 function setToken(token) {
   jwt = token;
 }
@@ -115,7 +124,7 @@ const render = () => {
   ReactDOM.render(
     <Router history={browserHistory}>
       <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme(darkMode)}>
           <App setJWT={setToken} />
         </ThemeProvider>
       </ApolloProvider>

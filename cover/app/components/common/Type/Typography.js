@@ -16,7 +16,7 @@ const SectionTitle = styled.h1`
   font-family: 'DM Serif Display', serif;
   font-weight: normal;
   font-size: 30px;
-  color: #000000;
+  color: ${props => props.theme.colors.black};
 `;
 
 const SettingsHeader = styled.h2`
@@ -32,7 +32,7 @@ const Paragraph = styled.p`
   font-weight: lighter;
   font-size: 20px;
   line-height: 30px;
-  color: #555555;
+  color: ${props => props.theme.colors.darkGrey};
 `;
 
 const BookCardTitle = styled.p`

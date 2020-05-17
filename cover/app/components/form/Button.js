@@ -10,7 +10,7 @@ export default styled.button`
   font-family: ${props => props.theme.type.sans_serif};
   font-weight: 500;
   font-size: 16px;
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.alwaysWhite};
   text-align: center;
   -webkit-appearance: none;
   border: 0;
