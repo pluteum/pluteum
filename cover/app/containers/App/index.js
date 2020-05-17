@@ -23,6 +23,7 @@ import Forgot from '../Forgot';
 
 const AppLayout = styled.div`
   height: 100%;
+  background: ${props => props.theme.colors.white};
 `;
 
 export default function App({ setJWT }) {
