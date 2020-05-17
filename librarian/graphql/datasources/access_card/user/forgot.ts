@@ -40,5 +40,5 @@ export default async function forgot(
     }
   }
 
-  return false;
+  return true;
 }

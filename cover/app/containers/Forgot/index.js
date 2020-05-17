@@ -7,9 +7,9 @@ import Typography from 'components/common/Type/Typography';
 import Button from 'components/form/Button';
 import TextInput from 'components/form/input/Text';
 import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import Schema from 'validate';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line no-useless-escape
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -49,7 +49,7 @@ const Box = styled.div`
   top: 50px;
 
   form {
-    margin: 80px 0 50px;
+    margin: 80px 0 30px;
 
     > h1,
     > div {
@@ -58,7 +58,7 @@ const Box = styled.div`
   }
 
   > p {
-    margin-top: 70px;
+    margin-top: 50px;
     padding: 25px 0 0;
     font-family: ${props => props.theme.type.sans_serif};
     color: ${props => props.theme.colors.darkGrey};
@@ -109,6 +109,7 @@ const ERRORS = {
 
 export default function Forgot() {
   const [forgetPassword, { loading }] = useMutation(MUTATION);
+  const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
 
   function validate(form) {
@@ -140,7 +141,13 @@ export default function Forgot() {
 
     if (validate(formValues)) {
       forgetPassword({ variables: { email: formValues.email } })
-        .then(result => result.data)
+        .then(result => {
+          if (result.data.forgot) {
+            setSuccess(true);
+          }
+
+          setErrors({ form: 'Something went wrong, please try again.' });
+        })
         .catch(onForgotError);
     }
   }
@@ -148,31 +155,40 @@ export default function Forgot() {
   return (
     <Layout>
       <Box>
-        <Logo />
+        <Link to="/login">
+          <Logo />
+        </Link>
         <form onSubmit={onSubmit}>
           <Typography type="SectionTitle">Forgot your password?</Typography>
-          <TextInput
-            disabled={loading}
-            name="email"
-            label="Email Address"
-            error={errors.email}
-          />
-          <Button>
-            {loading ? (
-              <FontAwesomeIcon className="spinner" icon={faSpinner} />
-            ) : (
-              'Submit'
-            )}
-          </Button>
-          {errors.form && <StyledError>{errors.form}</StyledError>}
+          {success && (
+            <React.Fragment>
+              <Typography type="Paragraph">
+                We&apos;ve sent an email with further instructions on how to
+                reset your password!
+              </Typography>
+            </React.Fragment>
+          )}
+          {!success && (
+            <React.Fragment>
+              <TextInput
+                disabled={loading}
+                name="email"
+                label="Email Address"
+                error={errors.email}
+              />
+              <Button>
+                {loading ? (
+                  <FontAwesomeIcon className="spinner" icon={faSpinner} />
+                ) : (
+                  'Submit'
+                )}
+              </Button>
+              {errors.form && <StyledError>{errors.form}</StyledError>}
+            </React.Fragment>
+          )}
         </form>
         <p>Developed by George Sumpster / Designed by Johnny Lee</p>
       </Box>
     </Layout>
   );
 }
-
-Forgot.propTypes = {
-  setJWT: PropTypes.func,
-  history: PropTypes.object,
-};

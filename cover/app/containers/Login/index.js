@@ -11,6 +11,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import Schema from 'validate';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line no-useless-escape
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -90,11 +91,8 @@ const Box = styled.div`
 `;
 
 // does not belong in here
-const StyledError = styled.span`
-  display: inline-block;
-  float: right;
-  margin: 5px 0 0;
-  padding: 10px 25px;
+const StyledError = styled.p`
+  display: block;
   line-height: 22px;
   font-family: ${props => props.theme.type.sans_serif};
   color: ${props => props.theme.colors.red};
@@ -152,7 +150,11 @@ export default function Login({ setJWT, history }) {
   }
 
   function onLoginError(error) {
-    setErrors({ form: ERRORS[error.graphQLErrors[0].message] });
+    setErrors({
+      form:
+        ERRORS[error.graphQLErrors[0].message] ||
+        error.graphQLErrors[0].message,
+    });
   }
 
   function onSubmit(e) {
@@ -170,7 +172,9 @@ export default function Login({ setJWT, history }) {
   return (
     <Layout>
       <Box>
-        <Logo />
+        <Link to="/login">
+          <Logo />
+        </Link>
         <form onSubmit={onSubmit}>
           <Typography type="SectionTitle">Sign In</Typography>
           <TextInput
