@@ -9,15 +9,15 @@ export function generateToken(user: any, library?: any) {
   return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "30m" });
 }
 
-export async function generateResetToken(uuid: any, pool: PoolClient) {
+export async function generateResetToken(user_uuid: any, pool: PoolClient) {
   const jwtid = uuid();
-  const token = jwt.sign({ uuid }, JWT_KEY, {
+  const token = jwt.sign({ uuid: user_uuid }, JWT_KEY, {
     jwtid,
     expiresIn: "30",
   });
 
   const updateQuery = update("users", { resetToken: jwtid })
-    .where({ uuid })
+    .where({ uuid: user_uuid })
     .toParams();
 
   await pool.query(updateQuery);

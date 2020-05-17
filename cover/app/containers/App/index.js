@@ -18,6 +18,7 @@ import GlobalStyle from '../../global-styles';
 import Frame from '../Frame';
 import Register from '../Register';
 import Login from '../Login';
+import Forgot from '../Forgot';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -31,6 +32,7 @@ export default function App({ setJWT }) {
           path="/login"
           render={props => <Login {...props} setJWT={setJWT} />}
         />
+        <Route path="/forgot" component={Forgot} />
         <Route path="/register" component={Register} />
         <Route path="/" component={Frame} />
         <Route component={NotFoundPage} />

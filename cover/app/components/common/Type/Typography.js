@@ -57,12 +57,8 @@ const BookCardAuthor = styled.p`
 
 const TextLink = styled(Link)`
   ${BASE_STYLE}
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #000000;
-  letter-spacing: 3px;
-  text-decoration: none;
+  font-size: 16px;
+  color: ${props => props.theme.colors.primary};
 `;
 
 const SidebarHeader = styled.h1`
