@@ -23,7 +23,7 @@ export default async function forgot(
         `Found user for ${email} with UUID ${user.uuid}, generating token.`
       );
 
-      const token = await generateResetToken(user, pool);
+      const token = await generateResetToken(user.uuid, pool);
 
       const mail = {
         type: "FORGOT_PASSWORD",

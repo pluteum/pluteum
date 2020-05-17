@@ -20,7 +20,7 @@ export default async function reset(
 
     const query = select("email, uuid")
       .from("users")
-      .where({ uuid, resetPassword: jti })
+      .where({ uuid, resetToken: jti })
       .toParams();
 
     const user = await pool.query(query).then((result) => result.rows[0]);
@@ -30,8 +30,11 @@ export default async function reset(
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const updateQuery = update("users", { password: hashedPassword })
-        .where({ id: user.id })
+      const updateQuery = update("users", {
+        password: hashedPassword,
+        resetToken: null,
+      })
+        .where({ uuid })
         .toParams();
 
       await pool.query(updateQuery).then((result) => result.rows[0]);

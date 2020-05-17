@@ -13,6 +13,11 @@ export const typeDef = `
     password: String!
   }
 
+  input ResetInput {
+    token: String!
+    password: String!
+  }
+
   type LoginResponse {
     token: String!
     user: User!
@@ -29,7 +34,7 @@ export const typeDef = `
     login(input: LoginInput!): LoginResponse
     register(input: RegisterInput!): User
     forgot(email: String!): Boolean
-    reset(token: String!): LoginResponse
+    reset(input: ResetInput!): LoginResponse
   }
 
   extend type Query {
@@ -84,8 +89,12 @@ export const resolvers = {
 
       return success;
     },
-    reset: async (_: any, { token }: any, context: any) => {
-      return context.dataSources.accesscard.user.reset(token);
+    reset: async (
+      _: any,
+      { input: { token, password } }: any,
+      context: any
+    ) => {
+      return context.dataSources.accesscard.user.reset(token, password);
     },
   },
 };

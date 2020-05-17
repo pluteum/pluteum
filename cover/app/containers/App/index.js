@@ -18,6 +18,7 @@ import GlobalStyle from '../../global-styles';
 import Frame from '../Frame';
 import Register from '../Register';
 import Login from '../Login';
+import Reset from '../ResetPassword';
 import Forgot from '../Forgot';
 
 const AppLayout = styled.div`
@@ -33,6 +34,10 @@ export default function App({ setJWT }) {
           render={props => <Login {...props} setJWT={setJWT} />}
         />
         <Route path="/forgot" component={Forgot} />
+        <Route
+          path="/reset-password"
+          render={props => <Reset {...props} setJWT={setJWT} />}
+        />
         <Route path="/register" component={Register} />
         <Route path="/" component={Frame} />
         <Route component={NotFoundPage} />

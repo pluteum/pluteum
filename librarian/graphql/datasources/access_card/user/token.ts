@@ -13,7 +13,7 @@ export async function generateResetToken(user_uuid: any, pool: PoolClient) {
   const jwtid = uuid();
   const token = jwt.sign({ uuid: user_uuid }, JWT_KEY, {
     jwtid,
-    expiresIn: "30",
+    expiresIn: "30m",
   });
 
   const updateQuery = update("users", { resetToken: jwtid })
