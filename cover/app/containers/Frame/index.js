@@ -26,12 +26,17 @@ const ContentLayout = styled.div`
 
 export default function Frame() {
   const [openUpload, setUploadModal] = useState(false);
+  const [uploadError, onError] = useState(false);
   const [progress, setProgress] = useState(0);
 
   return (
     <AppLayout>
       <Breadcrumb />
-      <ActionBar uploadProgress={progress} setUploadModal={setUploadModal} />
+      <ActionBar
+        uploadError={uploadError}
+        uploadProgress={progress}
+        setUploadModal={setUploadModal}
+      />
       <ContentLayout>
         <Switch>
           <Route path="/" component={Index} exact />
@@ -40,6 +45,7 @@ export default function Frame() {
       </ContentLayout>
       <UploadContainer
         openUpload={openUpload}
+        onError={onError}
         onProgress={setProgress}
         onExit={() => setUploadModal(false)}
       />

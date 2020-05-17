@@ -19,13 +19,18 @@ const StyledSVG = styled.svg`
   }
 
   circle#color {
-    stroke: ${props => props.theme.colors.primary};
+    stroke: ${props => (props.error ? '#D52020' : props.theme.colors.primary)};
   }
 `;
 
-function SvgCircle({ percent }) {
+function SvgCircle({ error, percent }) {
   return (
-    <StyledSVG width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+    <StyledSVG
+      error={error}
+      width="38"
+      height="38"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <circle cx="19" cy="19" r="18" fill="transparent" strokeDasharray="115" />
       <circle
         id="color"
@@ -44,10 +49,12 @@ SvgCircle.propTypes = {
   percent: PropTypes.number,
 };
 
-export default function UploadIcon({ onClick, uploadProgress }) {
+export default function UploadIcon({ onClick, uploadProgress, uploadError }) {
   return (
     <NavIcon onClick={onClick} as="button">
-      {uploadProgress > 0 && <SvgCircle percent={uploadProgress} />}
+      {uploadProgress > 0 && (
+        <SvgCircle error={uploadError} percent={uploadProgress} />
+      )}
       <PlusCircle size={22} />
     </NavIcon>
   );
@@ -56,4 +63,5 @@ export default function UploadIcon({ onClick, uploadProgress }) {
 UploadIcon.propTypes = {
   onClick: PropTypes.func,
   uploadProgress: PropTypes.number,
+  uploadError: PropTypes.bool,
 };

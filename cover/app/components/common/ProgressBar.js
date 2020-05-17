@@ -6,6 +6,7 @@ const Bar = styled.div`
   width: 100%;
   height: 8px;
   background: #dbdde2;
+
   border-radius: 4px;
   position: relative;
 
@@ -15,18 +16,20 @@ const Bar = styled.div`
     display: block;
     left: 0;
     top: 0;
-    background: #0a4fcd;
+    background: ${props =>
+      props.error ? '#D52020' : props.theme.colors.primary};
     height: 8px;
-    width: ${props => props.percent * 100}%;
     border-radius: 4px;
-    transition: width 0.5s ease-in;
+    transition: width 0.5s ease-in, background 0.5s ease-in;
+    width: ${props => props.percent * 100}%;
   }
 `;
 
-export default function ProgressBar({ percent }) {
-  return <Bar percent={percent} />;
+export default function ProgressBar({ error, percent }) {
+  return <Bar error={error} percent={percent} />;
 }
 
 ProgressBar.propTypes = {
+  error: PropType.bool,
   percent: PropType.number,
 };

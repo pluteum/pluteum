@@ -7,19 +7,23 @@ import ProgressBar from 'components/common/ProgressBar';
 
 export default function UploadModal({
   onUpload,
-  uploadProgress,
+  uploadingFiles,
   ...modalProps
 }) {
   return (
     <Modal {...modalProps}>
       <Typography type="SectionTitle">Upload files</Typography>
-      {Object.keys(uploadProgress).length === 0 && (
+      {Object.keys(uploadingFiles).length === 0 && (
         <UploadZone onUpload={onUpload} />
       )}
-      {Object.entries(uploadProgress).map(([key, value]) => (
+      {Object.values(uploadingFiles).map(value => (
         <React.Fragment>
-          <p key={key}>Uploading {key}</p>
-          <ProgressBar percent={value} />
+          <p key={value.name}>
+            {value.error
+              ? `Failed to upload ${value.name}: ${value.error.message}`
+              : `Uploading ${value.name}`}
+          </p>
+          <ProgressBar error={!!value.error} percent={value.progress} />
         </React.Fragment>
       ))}
     </Modal>
@@ -28,5 +32,5 @@ export default function UploadModal({
 
 UploadModal.propTypes = {
   onUpload: PropTypes.func,
-  uploadProgress: PropTypes.object,
+  uploadingFiles: PropTypes.object,
 };

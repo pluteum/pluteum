@@ -37,17 +37,13 @@ const GET_FILES = gql`
   }
 `;
 
-export default function UploadContainer({ openUpload, onExit, onProgress }) {
-  const [uploadProgress, setProgress] = useState({});
-  const [uploadCount, setUploadCount] = useState(0);
-
-  useEffect(() => {
-    const files = Object.values(uploadProgress);
-
-    if (files.length) {
-      onProgress(files.reduce((acc, v) => acc + v) / uploadCount);
-    }
-  }, [uploadProgress]);
+export default function UploadContainer({
+  openUpload,
+  onExit,
+  onProgress,
+  onError,
+}) {
+  const [uploadingFiles, updateUploadingFiles] = useState({});
 
   const [upload] = useMutation(MUTATION, {
     update(cache, { data }) {
@@ -59,9 +55,29 @@ export default function UploadContainer({ openUpload, onExit, onProgress }) {
     },
   });
 
+  useEffect(() => {
+    const files = Object.values(uploadingFiles);
+
+    onError(files.some(file => file.error));
+
+    if (files.length) {
+      onProgress(files.reduce((acc, v) => acc + v.progress, 0) / files.length);
+    }
+  }, [uploadingFiles]);
+
   function onUpload(files) {
-    setUploadCount(files.length);
     files.forEach(file => {
+      updateUploadingFiles(prevState =>
+        produce(prevState, draftState => {
+          // eslint-disable-next-line no-param-reassign
+          draftState[file.name] = {
+            name: file.name,
+            size: file.size,
+            progress: 0,
+          };
+        }),
+      );
+
       upload({
         variables: {
           file,
@@ -70,17 +86,26 @@ export default function UploadContainer({ openUpload, onExit, onProgress }) {
           fetchOptions: {
             useUpload: true,
             onProgress: ev => {
-              setProgress(prevState =>
+              updateUploadingFiles(prevState =>
                 produce(prevState, draftState => {
                   // eslint-disable-next-line no-param-reassign
-                  draftState[file.name] = ev.loaded / ev.total;
+                  draftState[file.name].progress = ev.loaded / ev.total;
                 }),
               );
             },
             onAbortPossible: () => undefined,
           },
         },
-      });
+      }).catch(e =>
+        updateUploadingFiles(prevState =>
+          produce(prevState, draftState => {
+            // eslint-disable-next-line no-param-reassign
+            draftState[file.name].error = e;
+            // eslint-disable-next-line no-param-reassign
+            draftState[file.name].progress = 1;
+          }),
+        ),
+      );
     });
   }
 
@@ -91,7 +116,7 @@ export default function UploadContainer({ openUpload, onExit, onProgress }) {
           <UploadModal
             onExit={onExit}
             onUpload={onUpload}
-            uploadProgress={uploadProgress}
+            uploadingFiles={uploadingFiles}
           />
         )}
       </ModalPortal>
