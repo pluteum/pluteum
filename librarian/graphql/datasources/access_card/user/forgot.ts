@@ -5,7 +5,6 @@ import { PoolClient } from "pg";
 import { Channel } from "amqplib";
 
 const forgotDebug = debug("pluteum:accesscard:forgot");
-const JWT_KEY = process.env.JWT_KEY || "default";
 
 export default async function forgot(
   email: string,

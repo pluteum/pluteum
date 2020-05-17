@@ -1,3 +1,5 @@
+import { GraphQLError } from "graphql";
+
 export const typeDef = `
   input RegisterInput {
     firstName: String!
@@ -26,6 +28,7 @@ export const typeDef = `
   extend type Mutation {
     login(input: LoginInput!): LoginResponse
     register(input: RegisterInput!): User
+    forgot(email: string): Boolean
   }
 
   extend type Query {
@@ -37,7 +40,12 @@ export const typeDef = `
 export const resolvers = {
   Query: {
     refresh: async (parent: any, args: any, context: any) => {
-      const { refresh, token } = await context.dataSources.accesscard.user.refresh(context.refreshToken);
+      const {
+        refresh,
+        token,
+      } = await context.dataSources.accesscard.user.refresh(
+        context.refreshToken
+      );
 
       context.setCookie("accesscard-refresh", refresh, {
         httpOnly: true,
@@ -63,6 +71,17 @@ export const resolvers = {
     },
     register: (_: any, { input }: any, context: any) => {
       return context.dataSources.accesscard.user.register(input);
+    },
+    forgot: async (_: any, { email }: any, context: any) => {
+      const success = await context.dataSources.accesscard.user.forgot(email);
+
+      if (!success) {
+        throw new GraphQLError(
+          "Something went wrong with sending a reset password email"
+        );
+      }
+
+      return success;
     },
   },
 };
