@@ -3,6 +3,10 @@ import { readFileSync } from "fs-extra";
 import mustache from "mustache";
 import sendMail from "../mailer";
 
+import debug from "debug";
+
+const accountDebug = debug("pluteum:mailroom:account");
+
 const FORGOT_TEMPLATE = readFileSync(
   "account/templates/forgot.template.html"
 ).toString();
@@ -31,11 +35,17 @@ export function onAccountMessage(msg: ConsumeMessage | null, channel: Channel) {
         html,
       };
 
+      accountDebug(`Attempting to send email of type ${type}, to ${to}.`);
+
       sendMail(message, (error) => {
         if (error) {
-          channel.nack(msg);
+          accountDebug(
+            `Sending email to ${to} of type ${type}failed with:\n${error.message}`
+          );
+          channel.nack(msg, false, true);
         }
 
+        accountDebug(`Successfully sent email of type ${type}, to ${to}`);
         channel.ack(msg);
       });
     } catch (e) {
