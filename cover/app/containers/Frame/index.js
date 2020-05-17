@@ -10,7 +10,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import Sidebar from 'containers/Frame/Sidebar';
 import Breadcrumb from 'containers/Frame/Breadcrumb';
 import UploadModal from 'containers/UploadModal';
 import Settings from 'containers/Settings';
@@ -41,7 +40,6 @@ export default function Frame() {
 
   return (
     <AppLayout>
-      <Sidebar onOpenUpload={() => setUploadModal(true)} />
       <ContentContainer>
         <Breadcrumb />
         <Switch>
