@@ -50,8 +50,8 @@ function tryRefreshToken() {
     body: JSON.stringify({ query: '{refresh}' }),
   }).then(response => {
     if (response.status === 200) {
-      response.json().then(json => {
-        if (!json.data.token) {
+      return response.json().then(json => {
+        if (!json.data.refresh) {
           redirectToLogin();
           throw new Error(json.errors[0].message);
         }
