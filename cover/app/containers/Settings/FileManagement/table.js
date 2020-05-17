@@ -1,11 +1,6 @@
 import React from 'react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import {
-  faExclamationCircle,
-  faCheckCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { MoreHorizontal, AlertCircle, CheckCircle } from 'react-feather';
 
 export function columnDef() {
   return [
@@ -22,17 +17,22 @@ export function columnDef() {
       Header: 'Status',
       accessor: 'processed',
       // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) => (
-        <FontAwesomeIcon
-          color={value ? '#494B4F' : '#D52020'}
-          icon={value ? faCheckCircle : faExclamationCircle}
-        />
-      ),
+      Cell: ({ value }) =>
+        value ? (
+          <CheckCircle color="#494B4F" />
+        ) : (
+          <AlertCircle color="#D52020" />
+        ),
     },
     {
       Header: 'Filetype',
       accessor: 'format',
       Cell: ({ value }) => String(value).toUpperCase(),
+    },
+    {
+      id: 'actions',
+      Cell: v => <MoreHorizontal {...v} />,
+      width: 50,
     },
   ];
 }
