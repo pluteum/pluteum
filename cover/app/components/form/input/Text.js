@@ -52,7 +52,7 @@ export default function Text({ label, error, name, ...props }) {
     return (
       <InputGroup>
         <StyledLabel htmlFor={name}>{label}</StyledLabel>
-        <StyledInput name={name} {...props} />
+        <StyledInput id={name} name={name} {...props} />
         {error && <StyledError>{error}</StyledError>}
       </InputGroup>
     );

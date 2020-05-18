@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginUI /> renders and matches the snapshot 1`] = `
+<section
+  class="styles__Layout-sc-7th9mc-0 eZhPFK"
+>
+  <div
+    class="styles__Box-sc-7th9mc-1 foZkbS"
+  >
+    <a
+      href="/login"
+    >
+      <svg
+        class="Logo__StyledSVG-x0yuwp-0 hZrsMy"
+        height="24"
+        width="113"
+      >
+        <g
+          fill="none"
+          fill-rule="evenodd"
+        >
+          <path
+            d="M17.475 4.712c1.532.727 2.464 2.447 2.044 4.227l-1.725 7.317a5.256 5.256 0 01-5.124 4.038H5.848l-.693 2.94-2.168-1.674L0 23.234l1.25-5.3h9.42a5.256 5.256 0 005.125-4.039l1.725-7.318a3.68 3.68 0 00-.045-1.865zM12.048 0c2.423 0 4.213 2.244 3.66 4.59l-1.725 7.318a5.257 5.257 0 01-5.124 4.037H0L3.758.001h8.29z"
+            fill="#0A4FCD"
+          />
+          <path
+            d="M108.182 7.712c2.789 0 4.626 1.983 4.626 5.042v7.54h-3.158v-7.32c0-1.444-.735-2.324-2.056-2.324-1.395 0-2.277.93-2.277 2.766v6.879h-3.157v-7.32c0-1.445-.736-2.325-2.057-2.325-1.347 0-2.301.93-2.301 2.766v6.879h-3.157v-1.372c-.734 1.102-2.008 1.714-3.648 1.714-2.594 0-4.627-1.811-4.627-5.068V8.055h3.159v7.123c0 1.664 1.003 2.52 2.423 2.52 1.542 0 2.693-.904 2.693-3.034v-6.61h3.157v1.299c.685-1.03 1.836-1.641 3.403-1.641 1.518 0 2.643.636 3.329 1.763.759-1.102 1.982-1.763 3.648-1.763zm-55.87.342v7.123c0 1.665 1.004 2.522 2.424 2.522 1.542 0 2.693-.906 2.693-3.036V8.054h3.158v12.24h-3.158v-1.37c-.735 1.1-2.008 1.712-3.648 1.712-2.594 0-4.627-1.81-4.627-5.067V8.054h3.159zm25.855-.342c3.622 0 6.193 2.864 6.193 6.462 0 .466-.049.882-.123 1.298H75.01c.44 1.615 1.787 2.3 3.451 2.3 1.224 0 2.204-.513 2.742-1.223l2.546 1.469c-1.15 1.664-2.986 2.619-5.337 2.619-4.11 0-6.707-2.815-6.707-6.463 0-3.647 2.62-6.462 6.463-6.462zM67.713 4.628v3.427h3.26l-.712 3.034h-2.548v5.092c0 1.322.955 1.346 2.767 1.25v2.863c-4.431.49-5.925-.809-5.925-4.113V11.09h-2.157l.028-3.034h2.129V5.582l3.158-.954zM46.46 2.425v17.87h-3.158V2.425h3.158zm-11.067.733c3.306 0 5.85 2.547 5.85 5.753 0 3.207-2.544 5.752-5.85 5.752h-3.011v5.631h-3.379v-5.631h-2.387l.744-3.157h1.643V3.158zm42.773 7.394c-1.689 0-2.84.906-3.207 2.472h6.242c-.392-1.762-1.714-2.472-3.035-2.472zM35.394 6.317h-3.011v5.189h3.01c1.444 0 2.498-1.126 2.498-2.595 0-1.493-1.053-2.594-2.497-2.594z"
+            fill="#131314"
+          />
+        </g>
+      </svg>
+    </a>
+    <form>
+      <h1
+        class="Typography__SectionTitle-d4lapr-0 hhslSo"
+      >
+        S
+        i
+        g
+        n
+         
+        I
+        n
+      </h1>
+      <div
+        class="Text__InputGroup-m2xi5c-0 euyOkC"
+      >
+        <label
+          class="Label-sc-1ns5smd-0 bbIRVs"
+          for="email"
+        >
+          Email Address
+        </label>
+        <input
+          class="Text__StyledInput-m2xi5c-1 fVxzXT"
+          id="email"
+          name="email"
+        />
+      </div>
+      <div
+        class="Text__InputGroup-m2xi5c-0 euyOkC"
+      >
+        <label
+          class="Label-sc-1ns5smd-0 bbIRVs"
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          class="Text__StyledInput-m2xi5c-1 fVxzXT"
+          id="password"
+          name="password"
+          type="password"
+        />
+      </div>
+      <div
+        class="Checkbox__InputGroup-sc-1iiw8ja-0 bCJHzs"
+      >
+        <input
+          class="Checkbox__StyledCheckbox-sc-1iiw8ja-1 eeBgWU"
+          id="rememberme"
+          name="rememberme"
+          type="checkbox"
+        />
+        <label
+          class="Checkbox__CheckboxLabel-sc-1iiw8ja-2 hWIUNX"
+          for="rememberme"
+        >
+          Remember Me
+        </label>
+      </div>
+      <button
+        class="Button-sc-6r13nm-0 dvTqTS"
+      >
+        Login
+      </button>
+      <a
+        class="Typography__TextLink-d4lapr-5 gxwqBn"
+        href="/forgot"
+        style="margin-left: 15px;"
+      >
+        F
+        o
+        r
+        g
+        o
+        t
+         
+        y
+        o
+        u
+        r
+         
+        p
+        a
+        s
+        s
+        w
+        o
+        r
+        d
+        ?
+      </a>
+    </form>
+    <p>
+      Developed by George Sumpster / Designed by Johnny Lee
+    </p>
+  </div>
+</section>
+`;
