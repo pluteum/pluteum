@@ -7,111 +7,12 @@ import Typography from 'components/common/Type/Typography';
 import Button from 'components/form/Button';
 import Checkbox from 'components/form/input/Checkbox';
 import TextInput from 'components/form/input/Text';
-import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
-import Schema from 'validate';
 import { Link } from 'react-router-dom';
 
-// eslint-disable-next-line no-useless-escape
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-// TODO: DEFINE STANDARD ERROR MESSAGES FOR ALL MICROSERVICES AND STANDARD USER FACING ERROR MESSAGES
-const LoginInput = new Schema({
-  email: {
-    type: String,
-    required: true,
-    match: EMAIL_REGEX,
-    message: { match: 'Please enter a valid email' },
-  },
-  password: {
-    type: String,
-    required: true,
-    length: { min: 4 },
-  },
-});
-
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const Layout = styled.section`
-  width: 100%;
-  height: 100%;
-  background: #f7f8fa;
-`;
-
-const Box = styled.div`
-  max-width: 560px;
-  padding: 70px 80px 50px;
-  background: #ffffff;
-  margin: 0 auto;
-  position: relative;
-  top: 50px;
-
-  form {
-    margin: 80px 0 50px;
-
-    > h1,
-    > div {
-      margin: 25px 0;
-    }
-  }
-
-  > p {
-    margin-top: 70px;
-    padding: 25px 0 0;
-    font-family: ${props => props.theme.type.sans_serif};
-    color: ${props => props.theme.colors.darkGrey};
-    border-top: ${props => props.theme.colors.lightGrey} 1px solid;
-    font-size: 12px;
-  }
-
-  .spinner {
-    color: ${props => props.theme.colors.white};
-    font-size: 16px;
-    animation: ${spin} 2s linear infinite;
-  }
-
-  @media (max-width: 425px) {
-    height: 100%;
-    top: 0;
-    padding: 40px;
-
-    form {
-      margin: 40px 0;
-    }
-  }
-`;
-
-// does not belong in here
-const StyledError = styled.p`
-  display: block;
-  line-height: 22px;
-  font-family: ${props => props.theme.type.sans_serif};
-  color: ${props => props.theme.colors.red};
-  font-size: 12px;
-  line-height: 14px;
-`;
-
-const MUTATION = gql`
-  mutation login($input: LoginInput!) {
-    login(input: $input) {
-      token
-      user {
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-`;
+import { LoginSchema } from './validation';
+import { Layout, Box, StyledError } from './styles';
+import { loginMutation } from './queries';
 
 const ERRORS = {
   UNAUTHORIZED: 'The username or password you entered is incorrect',
@@ -119,11 +20,11 @@ const ERRORS = {
 };
 
 export default function Login({ setJWT, history }) {
-  const [login, { loading }] = useMutation(MUTATION);
+  const [login, { loading }] = useMutation(loginMutation);
   const [errors, setErrors] = useState({});
 
   function validate(form) {
-    const validationErrors = LoginInput.validate(form);
+    const validationErrors = LoginSchema.validate(form);
 
     if (validationErrors.length) {
       setErrors(
@@ -149,14 +50,6 @@ export default function Login({ setJWT, history }) {
     }
   }
 
-  function onLoginError(error) {
-    setErrors({
-      form:
-        ERRORS[error.graphQLErrors[0].message] ||
-        error.graphQLErrors[0].message,
-    });
-  }
-
   function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -165,7 +58,13 @@ export default function Login({ setJWT, history }) {
     if (validate(input)) {
       login({ variables: { input } })
         .then(loginToken)
-        .catch(onLoginError);
+        .catch(error =>
+          setErrors({
+            form:
+              ERRORS[error.graphQLErrors[0].message] ||
+              error.graphQLErrors[0].message,
+          }),
+        );
     }
   }
 
