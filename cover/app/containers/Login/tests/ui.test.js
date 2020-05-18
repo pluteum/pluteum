@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render, screen, prettyDOM } from '@testing-library/react';
 
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -23,12 +23,12 @@ describe('<LoginUI />', () => {
   });
 
   it('disables inputs whilst loading', () => {
-    const { getByLabelText } = render(<LoginUI errors={{}} loading />, {
+    render(<LoginUI errors={{}} loading />, {
       wrapper: ProviderWrapper,
     });
 
-    expect(getByLabelText('Email Address').disabled).toBe(true);
-    expect(getByLabelText('Password').disabled).toBe(true);
+    expect(screen.getByLabelText('Email Address')).toBeDisabled();
+    expect(screen.getByLabelText('Password')).toBeDisabled();
   });
 
   it('renders errors when they exist in the errors object', () => {
@@ -38,12 +38,12 @@ describe('<LoginUI />', () => {
       password: 'Invalid Password',
     };
 
-    const { getByText } = render(<LoginUI errors={errors} loading={false} />, {
+    render(<LoginUI errors={errors} loading={false} />, {
       wrapper: ProviderWrapper,
     });
 
-    expect(getByText('Form Error')).toBeTruthy();
-    expect(getByText('Invalid Email')).toBeTruthy();
-    expect(getByText('Invalid Password')).toBeTruthy();
+    expect(screen.getByText('Form Error')).toBeTruthy();
+    expect(screen.getByText('Invalid Email')).toBeTruthy();
+    expect(screen.getByText('Invalid Password')).toBeTruthy();
   });
 });

@@ -19,7 +19,7 @@ export default function LoginUI({ onSubmit, loading, errors }) {
         <Link to="/login">
           <Logo />
         </Link>
-        <form onSubmit={onSubmit}>
+        <form aria-label="Login Form" onSubmit={onSubmit}>
           <Typography type="SectionTitle">Sign In</Typography>
           <TextInput
             disabled={loading}

@@ -30,7 +30,9 @@ exports[`<LoginUI /> renders and matches the snapshot 1`] = `
         </g>
       </svg>
     </a>
-    <form>
+    <form
+      aria-label="Login Form"
+    >
       <h1
         class="Typography__SectionTitle-d4lapr-0 hhslSo"
       >

@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import { LoginSchema } from './validation';
-import { loginMutation } from './queries';
+import { LOGIN_MUTATION } from './queries';
 import LoginUI from './ui';
 
 const ERRORS = {
@@ -13,7 +13,7 @@ const ERRORS = {
 };
 
 export default function Login({ setJWT, history }) {
-  const [login, { loading }] = useMutation(loginMutation);
+  const [login, { loading }] = useMutation(LOGIN_MUTATION);
   const [errors, setErrors] = useState({});
 
   function validate(form) {
