@@ -51,13 +51,17 @@ export default function Login({ setJWT, history }) {
     if (validate(input)) {
       login({ variables: { input } })
         .then(loginToken)
-        .catch(error =>
-          setErrors({
-            form:
-              ERRORS[error.graphQLErrors[0].message] ||
-              error.graphQLErrors[0].message,
-          }),
-        );
+        .catch(error => {
+          if (error && error.graphQLErrors) {
+            setErrors({
+              form:
+                ERRORS[error.graphQLErrors[0].message] ||
+                error.graphQLErrors[0].message,
+            });
+          } else {
+            setErrors({ form: ERRORS.ERROR });
+          }
+        });
     }
   }
 
