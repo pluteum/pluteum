@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter } from 'react-router-dom';
@@ -8,6 +14,7 @@ import theme from 'theme';
 
 import Login from '../index';
 import { LOGIN_MUTATION } from '../queries';
+import { GraphQLError } from 'graphql';
 
 const mocks = [
   {
@@ -33,6 +40,18 @@ const mocks = [
       },
     },
   },
+  {
+    request: {
+      query: LOGIN_MUTATION,
+      variables: {
+        input: {
+          email: 'test@email.com',
+          password: 'wrong_password',
+        },
+      },
+    },
+    error: new Error('Unknown username or password'),
+  },
 ];
 
 // eslint-disable-next-line react/prop-types
@@ -45,6 +64,8 @@ const ProviderWrapper = ({ children }) => (
 );
 
 describe('<Login />', () => {
+  afterEach(cleanup);
+
   it("will validate the form's email and password ", () => {
     render(<Login />, {
       wrapper: ProviderWrapper,
@@ -66,7 +87,25 @@ describe('<Login />', () => {
     ).toBeTruthy();
   });
 
-  it.todo('will handle incorrect credential errors');
+  it('will handle unexpected form errors', async () => {
+    render(<Login />, {
+      wrapper: ProviderWrapper,
+    });
+
+    fireEvent.change(screen.getByLabelText('Email Address'), {
+      target: { value: 'test@email.com' },
+    });
+
+    fireEvent.change(screen.getByLabelText('Password'), {
+      target: { value: 'wrong_password' },
+    });
+
+    fireEvent.submit(screen.getByRole('form'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Unexpected Error')).toBeInTheDocument();
+    });
+  });
 
   it('will set a jwt token with a valid form', async () => {
     const setJWT = jest.fn();

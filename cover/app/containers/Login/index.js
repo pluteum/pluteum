@@ -52,7 +52,7 @@ export default function Login({ setJWT, history }) {
       login({ variables: { input } })
         .then(loginToken)
         .catch(error => {
-          if (error && error.graphQLErrors) {
+          if (error && error.graphQLErrors.length) {
             setErrors({
               form:
                 ERRORS[error.graphQLErrors[0].message] ||
