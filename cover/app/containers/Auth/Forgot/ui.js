@@ -34,7 +34,7 @@ export default function ForgotUI({ onSubmit, loading, errors, success }) {
               label="Email Address"
               error={errors.email}
             />
-            <Button>
+            <Button primary>
               {loading ? (
                 <FontAwesomeIcon className="spinner" icon={faSpinner} />
               ) : (

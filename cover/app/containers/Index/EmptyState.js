@@ -23,7 +23,7 @@ export default function IndexEmptyState() {
       <Typography type="Paragraph">
         Start filling up your library by uploading your first file.
       </Typography>
-      <Button>Upload a book</Button>
+      <Button primary>Upload a book</Button>
     </Layout>
   );
 }

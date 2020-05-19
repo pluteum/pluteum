@@ -33,7 +33,7 @@ export default function ResetPasswordUI({ onSubmit, errors, loading }) {
           type="password"
           error={errors.confirmPassword}
         />
-        <Button disabled={loading}>
+        <Button primary disabled={loading}>
           {loading ? (
             <FontAwesomeIcon className="spinner" icon={faSpinner} />
           ) : (

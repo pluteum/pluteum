@@ -24,6 +24,9 @@ export default styled.button`
   outline: none;
 
   &:hover {
-    background: ${props => props.theme.colors.primary__hover};
+    background: ${props =>
+      props.primary
+        ? props.theme.colors.primary__hover
+        : props.theme.colors.notAsLightBlue};
   }
 `;

@@ -33,7 +33,7 @@ export default function LoginUI({ onSubmit, loading, errors }) {
           error={errors.password}
         />
         <Checkbox disabled={loading} name="rememberme" label="Remember Me" />
-        <Button>
+        <Button primary>
           {loading ? (
             <FontAwesomeIcon className="spinner" icon={faSpinner} />
           ) : (

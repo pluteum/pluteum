@@ -41,7 +41,7 @@ export default function Register() {
         <TextInput name="lastName" label="Last Name" />
         <TextInput name="email" label="Email" />
         <TextInput name="password" label="Password" type="password" />
-        <Button>Sign Up</Button>
+        <Button primary>Sign Up</Button>
       </form>
     </Layout>
   );
