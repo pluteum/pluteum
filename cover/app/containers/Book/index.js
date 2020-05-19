@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from 'components/form/Button';
 import PageHeader from 'components/common/PageHeader';
 import Typography from 'components/common/Type/Typography';
-
+import ReactFitText from 'react-fittext';
 import img from 'images/sample_book.png';
 
 const BookLayout = styled.div`
@@ -26,6 +26,15 @@ const BookCover = styled.div`
 `;
 const BookDetails = styled.div``;
 
+const BookTitle = styled.h1`
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 72px;
+  font-weight: normal;
+  font-family: ${props => props.theme.type.display_serif};
+  color: ${props => props.theme.colors.black};
+`;
+
 export default function Book() {
   const pageActions = [
     <Button>Download</Button>,
@@ -40,7 +49,9 @@ export default function Book() {
           <img src={img} alt="Book" />
         </BookCover>
         <BookDetails>
-          <Typography type="BookTitle">The Great Gatsby</Typography>
+          <ReactFitText maxFontSize={72}>
+            <BookTitle>The Great Gatsby</BookTitle>
+          </ReactFitText>
           <Typography type="Author">by F. Scott Fitzgerald</Typography>
           {/* ratings */}
           <Typography type="Paragraph">

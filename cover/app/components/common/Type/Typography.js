@@ -26,14 +26,6 @@ const SettingsHeader = styled.h2`
   font-weight: normal;
 `;
 
-const BookTitle = styled.h1`
-  ${BASE_STYLE}
-  font-size: 72px;
-  font-weight: normal;
-  font-family: ${props => props.theme.type.display_serif};
-  color: ${props => props.theme.colors.black};
-`;
-
 const Author = styled.p`
   ${BASE_STYLE}
   font-family: ${props => props.theme.type.mono}
@@ -95,7 +87,6 @@ const SidebarHeader = styled.h1`
 `;
 
 const styles = {
-  BookTitle,
   Author,
   BookCardTitle,
   BookCardAuthor,

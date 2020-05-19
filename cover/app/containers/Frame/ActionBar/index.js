@@ -10,15 +10,9 @@ import Logo from 'components/common/Logo/Logo';
 import TextInput from 'components/form/input/Text';
 import { Link } from 'react-router-dom';
 
-import {
-  BookOpen,
-  PlusCircle,
-  Bell,
-  HelpCircle,
-  Settings,
-} from 'react-feather';
-import NavIcon from '../../../components/NavIcon';
-import UploadIcon from '../../../components/UploadIcon';
+import { BookOpen, Bell, HelpCircle, Settings } from 'react-feather';
+import NavIcon from './NavIcon';
+import UploadIcon from './UploadIcon';
 
 const Layout = styled.div`
   display: flex;

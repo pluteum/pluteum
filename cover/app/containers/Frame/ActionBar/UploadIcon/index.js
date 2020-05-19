@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import NavIcon from 'components/NavIcon';
 import { PlusCircle } from 'react-feather';
+
+import NavIcon from '../NavIcon';
 
 const StyledSVG = styled.svg`
   position: absolute;
@@ -46,6 +47,7 @@ function SvgCircle({ error, percent }) {
 }
 
 SvgCircle.propTypes = {
+  error: PropTypes.bool,
   percent: PropTypes.number,
 };
 

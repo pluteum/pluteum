@@ -102,6 +102,7 @@
     "react-dom": "16.9.0",
     "react-dropzone": "^11.0.1",
     "react-feather": "^2.0.8",
+    "react-fittext": "^1.0.0",
     "react-helmet": "6.0.0-beta",
     "react-intl": "2.8.0",
     "react-popper": "^2.0.0",
