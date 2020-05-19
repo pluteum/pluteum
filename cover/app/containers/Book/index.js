@@ -6,12 +6,13 @@ import PageHeader from 'components/common/PageHeader';
 import Typography from 'components/common/Type/Typography';
 import ReactFitText from 'react-fittext';
 import img from 'images/sample_book.png';
+import { Star } from 'react-feather';
 
 const BookLayout = styled.div`
   display: grid;
   max-width: 1040px;
   margin: 40px auto;
-  grid-template-columns: 33% 66%;
+  grid-template-columns: 1fr 2fr;
   grid-column-gap: 64px;
 `;
 const BookCover = styled.div`
@@ -35,6 +36,32 @@ const BookTitle = styled.h1`
   color: ${props => props.theme.colors.black};
 `;
 
+const StyledRating = styled.div`
+  margin: 26px 0 32px;
+
+  svg {
+    margin-right: 1px;
+  }
+`;
+
+const BookDescription = styled.p`
+  font-family: ${props => props.theme.type.sans_serif};
+  font-size: 18px;
+  line-height: 32px;
+
+  color: ${props => props.theme.colors.darkGrey};
+`;
+
+const rating = (
+  <StyledRating>
+    <Star size={16} stroke="transparent" fill="#E54B4B" />
+    <Star size={16} stroke="transparent" fill="#E54B4B" />
+    <Star size={16} stroke="transparent" fill="#E54B4B" />
+    <Star size={16} stroke="transparent" fill="#E54B4B" />
+    <Star size={16} stroke="transparent" fill="#E54B4B" />
+  </StyledRating>
+);
+
 export default function Book() {
   const pageActions = [
     <Button>Download</Button>,
@@ -53,8 +80,8 @@ export default function Book() {
             <BookTitle>The Great Gatsby</BookTitle>
           </ReactFitText>
           <Typography type="Author">by F. Scott Fitzgerald</Typography>
-          {/* ratings */}
-          <Typography type="Paragraph">
+          {rating}
+          <BookDescription>
             The Great Gatsby is a 1925 novel written by American author F. Scott
             Fitzgerald that follows a cast of characters living in the fictional
             towns of West Egg and East Egg on prosperous Long Island in the
@@ -65,7 +92,7 @@ export default function Book() {
             themes of decadence, idealism, resistance to change, social upheaval
             and excess, creating a portrait of the Roaring Twenties that has
             been described as a cautionary tale regarding the American Dream.
-          </Typography>
+          </BookDescription>
           {/* tags */}
         </BookDetails>
       </BookLayout>
