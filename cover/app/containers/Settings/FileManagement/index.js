@@ -10,9 +10,10 @@ import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import Table from 'components/table';
+import Filter from 'components/table/Filter';
+
 import { columnDef } from './table';
-import Table from '../../../components/table';
-import Filter from '../../../components/Filter';
 
 const Layout = styled.div`
   padding: 30px 25px;

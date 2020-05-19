@@ -5,8 +5,8 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Checkbox from 'components/form/input/Checkbox';
 import { produce } from 'immer';
 
-import IconButton from './IconButton';
-import Tag from './Tag';
+import IconButton from '../common/IconButton';
+import Tag from '../common/Tag';
 
 const StyledContainer = styled.div`
   position: relative;
