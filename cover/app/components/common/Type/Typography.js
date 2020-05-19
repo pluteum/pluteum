@@ -26,6 +26,22 @@ const SettingsHeader = styled.h2`
   font-weight: normal;
 `;
 
+const BookTitle = styled.h1`
+  ${BASE_STYLE}
+  font-size: 72px;
+  font-weight: normal;
+  font-family: ${props => props.theme.type.display_serif};
+  color: ${props => props.theme.colors.black};
+`;
+
+const Author = styled.p`
+  ${BASE_STYLE}
+  font-family: ${props => props.theme.type.mono}
+  font-weight: 300;
+  font-size: 18px;
+  color: ${props => props.theme.colors.darkGrey};
+`;
+
 const Paragraph = styled.p`
   font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
@@ -79,6 +95,8 @@ const SidebarHeader = styled.h1`
 `;
 
 const styles = {
+  BookTitle,
+  Author,
   BookCardTitle,
   BookCardAuthor,
   TextLink,
