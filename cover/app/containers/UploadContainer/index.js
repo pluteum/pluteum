@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
-import UploadModal from '../UploadModal';
+import UploadModal from './UploadModal';
 
 const MUTATION = gql`
   mutation($file: Upload!) {
