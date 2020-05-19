@@ -9,8 +9,7 @@ import Button from 'components/form/Button';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-import { Layout, Box, StyledError } from './styles';
+import { Layout, Box } from './styles';
 
 export default function LoginUI({ onSubmit, loading, errors }) {
   return (
@@ -45,7 +44,9 @@ export default function LoginUI({ onSubmit, loading, errors }) {
           <Typography style={{ marginLeft: 15 }} type="TextLink" to="/forgot">
             Forgot your password?
           </Typography>
-          {errors.form && <StyledError>{errors.form}</StyledError>}
+          {errors.form && (
+            <Typography type="FormError">{errors.form}</Typography>
+          )}
         </form>
         <p>Developed by George Sumpster / Designed by Johnny Lee</p>
       </Box>

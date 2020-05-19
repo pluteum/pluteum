@@ -58,13 +58,3 @@ export const Box = styled.div`
     }
   }
 `;
-
-// does not belong in here
-export const StyledError = styled.p`
-  display: block;
-  line-height: 22px;
-  font-family: ${props => props.theme.type.sans_serif};
-  color: ${props => props.theme.colors.red};
-  font-size: 12px;
-  line-height: 14px;
-`;

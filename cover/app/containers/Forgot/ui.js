@@ -8,7 +8,7 @@ import Typography from 'components/common/Type/Typography';
 import Button from 'components/form/Button';
 import TextInput from 'components/form/input/Text';
 import { Link } from 'react-router-dom';
-import { Layout, Box, StyledError } from './styles';
+import { Layout, Box } from './styles';
 
 export default function ForgotUI({ onSubmit, loading, errors, success }) {
   return (
@@ -42,7 +42,9 @@ export default function ForgotUI({ onSubmit, loading, errors, success }) {
                   'Submit'
                 )}
               </Button>
-              {errors.form && <StyledError>{errors.form}</StyledError>}
+              {errors.form && (
+                <Typography type="FormError">{errors.form}</Typography>
+              )}
             </React.Fragment>
           )}
         </form>

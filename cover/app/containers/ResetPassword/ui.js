@@ -9,7 +9,7 @@ import Button from 'components/form/Button';
 import TextInput from 'components/form/input/Text';
 import { Link } from 'react-router-dom';
 
-import { Layout, Box, StyledError } from './styles';
+import { Layout, Box } from './styles';
 
 export default function ResetPasswordUI({ onSubmit, errors, loading }) {
   return (
@@ -41,7 +41,9 @@ export default function ResetPasswordUI({ onSubmit, errors, loading }) {
               'Submit'
             )}
           </Button>
-          {errors.form && <StyledError>{errors.form}</StyledError>}
+          {errors.form && (
+            <Typography type="FormError">{errors.form}</Typography>
+          )}
         </form>
         <p>Developed by George Sumpster / Designed by Johnny Lee</p>
       </Box>

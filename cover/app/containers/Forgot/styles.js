@@ -58,15 +58,3 @@ export const Box = styled.div`
     }
   }
 `;
-
-export const StyledError = styled.span`
-  display: inline-block;
-  float: right;
-  margin: 5px 0 0;
-  padding: 10px 25px;
-  line-height: 22px;
-  font-family: ${props => props.theme.type.sans_serif};
-  color: ${props => props.theme.colors.red};
-  font-size: 12px;
-  line-height: 14px;
-`;

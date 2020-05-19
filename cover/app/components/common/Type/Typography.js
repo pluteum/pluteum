@@ -35,6 +35,13 @@ const Paragraph = styled.p`
   color: ${props => props.theme.colors.darkGrey};
 `;
 
+const FormError = styled.p`
+  font-family: ${props => props.theme.type.sans_serif};
+  color: ${props => props.theme.colors.red};
+  font-size: 12px;
+  line-height: 14px;
+`;
+
 const BookCardTitle = styled.p`
   ${BASE_STYLE}
   font-family: 'DM Serif Text', serif;
@@ -79,6 +86,7 @@ const styles = {
   Paragraph,
   SidebarHeader,
   SettingsHeader,
+  FormError,
 };
 
 export default function Typography({ type = 'Paragraph', children, ...props }) {
