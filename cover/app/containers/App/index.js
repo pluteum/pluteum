@@ -16,10 +16,10 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import Frame from '../Frame';
-import Register from '../Register';
-import Login from '../Login';
-import Reset from '../ResetPassword';
-import Forgot from '../Forgot';
+import Register from '../Auth/Register';
+import Login from '../Auth/Login';
+import Reset from '../Auth/ResetPassword';
+import Forgot from '../Auth/Forgot';
 
 const AppLayout = styled.div`
   height: 100%;
