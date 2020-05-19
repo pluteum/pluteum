@@ -15,6 +15,7 @@ import Breadcrumb from 'containers/Frame/Breadcrumb';
 import UploadContainer from 'containers/UploadContainer';
 import Settings from 'containers/Settings';
 import Index from '../Index';
+import Book from '../Book';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -40,6 +41,7 @@ export default function Frame() {
       <ContentLayout>
         <Switch>
           <Route path="/" component={Index} exact />
+          <Route path="/book/:id" component={Book} exact />
           <Route path="/settings" component={Settings} />
         </Switch>
       </ContentLayout>

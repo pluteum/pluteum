@@ -15,7 +15,7 @@ const SectionTitle = styled.h1`
   ${BASE_STYLE}
   font-family: 'DM Serif Display', serif;
   font-weight: normal;
-  font-size: 30px;
+  font-size: 32px;
   color: ${props => props.theme.colors.black};
 `;
 
