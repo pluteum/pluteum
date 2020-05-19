@@ -1,22 +1,14 @@
-import styled, { keyframes } from 'styled-components';
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const spin = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-export const Layout = styled.section`
+const Layout = styled.section`
   width: 100%;
   height: 100%;
   background: #f7f8fa;
 `;
 
-export const Box = styled.div`
+const Box = styled.div`
   max-width: 560px;
   padding: 70px 80px 50px;
   background: #ffffff;
@@ -42,12 +34,6 @@ export const Box = styled.div`
     font-size: 12px;
   }
 
-  .spinner {
-    color: ${props => props.theme.colors.white};
-    font-size: 16px;
-    animation: ${spin} 2s linear infinite;
-  }
-
   @media (max-width: 425px) {
     height: 100%;
     top: 0;
@@ -58,3 +44,15 @@ export const Box = styled.div`
     }
   }
 `;
+
+export default function AuthLayout({ children }) {
+  return (
+    <Layout>
+      <Box>{children}</Box>
+    </Layout>
+  );
+}
+
+AuthLayout.propTypes = {
+  children: PropTypes.node,
+};

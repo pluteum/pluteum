@@ -10,21 +10,7 @@ import Button from 'components/form/Button';
 
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-
-const Layout = styled.section`
-  width: 100%;
-  height: 100%;
-  background: #f7f8fa;
-`;
-
-const Box = styled.div`
-  max-width: 560px;
-  padding: 70px 80px;
-  background: #ffffff;
-  margin: 0 auto;
-  position: relative;
-  top: 100px;
-`;
+import Layout from 'containers/Auth/components/Layout';
 
 const MUTATION = gql`
   mutation login($input: RegisterInput!) {
@@ -48,17 +34,15 @@ export default function Register() {
 
   return (
     <Layout>
-      <Box>
-        <Logo />
+      <Logo />
+      <form onSubmit={onSubmit}>
         <Typography type="SectionTitle">Sign Up</Typography>
-        <form onSubmit={onSubmit}>
-          <TextInput name="firstName" label="First Name" />
-          <TextInput name="lastName" label="Last Name" />
-          <TextInput name="email" label="Email" />
-          <TextInput name="password" label="Password" type="password" />
-          <Button>Sign Up</Button>
-        </form>
-      </Box>
+        <TextInput name="firstName" label="First Name" />
+        <TextInput name="lastName" label="Last Name" />
+        <TextInput name="email" label="Email" />
+        <TextInput name="password" label="Password" type="password" />
+        <Button>Sign Up</Button>
+      </form>
     </Layout>
   );
 }

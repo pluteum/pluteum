@@ -33,7 +33,7 @@ const darkColors = {
 };
 
 export default darkMode => ({
-  colors: darkMode ? darkColors : lightColors,
+  colors: lightColors,
   type: {
     display_serif: "'DM Serif Display', serif",
     text_serif: "'DM Serif Text', serif",

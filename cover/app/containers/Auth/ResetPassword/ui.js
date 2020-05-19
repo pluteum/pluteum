@@ -9,44 +9,40 @@ import Button from 'components/form/Button';
 import TextInput from 'components/form/input/Text';
 import { Link } from 'react-router-dom';
 
-import { Layout, Box } from './styles';
+import Layout from 'containers/Auth/components/Layout';
 
 export default function ResetPasswordUI({ onSubmit, errors, loading }) {
   return (
     <Layout>
-      <Box>
-        <Link to="/login">
-          <Logo />
-        </Link>
-        <form onSubmit={onSubmit}>
-          <Typography type="SectionTitle">Reset your password</Typography>
-          <TextInput
-            disabled={loading}
-            name="password"
-            label="Password"
-            type="password"
-            error={errors.password}
-          />
-          <TextInput
-            disabled={loading}
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            error={errors.confirmPassword}
-          />
-          <Button disabled={loading}>
-            {loading ? (
-              <FontAwesomeIcon className="spinner" icon={faSpinner} />
-            ) : (
-              'Submit'
-            )}
-          </Button>
-          {errors.form && (
-            <Typography type="FormError">{errors.form}</Typography>
+      <Link to="/login">
+        <Logo />
+      </Link>
+      <form onSubmit={onSubmit}>
+        <Typography type="SectionTitle">Reset your password</Typography>
+        <TextInput
+          disabled={loading}
+          name="password"
+          label="Password"
+          type="password"
+          error={errors.password}
+        />
+        <TextInput
+          disabled={loading}
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          error={errors.confirmPassword}
+        />
+        <Button disabled={loading}>
+          {loading ? (
+            <FontAwesomeIcon className="spinner" icon={faSpinner} />
+          ) : (
+            'Submit'
           )}
-        </form>
-        <p>Developed by George Sumpster / Designed by Johnny Lee</p>
-      </Box>
+        </Button>
+        {errors.form && <Typography type="FormError">{errors.form}</Typography>}
+      </form>
+      <p>Developed by George Sumpster / Designed by Johnny Lee</p>
     </Layout>
   );
 }
