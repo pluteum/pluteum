@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Button from 'components/form/Button';
 import PageHeader from 'components/common/PageHeader';
 import Typography from 'components/common/Type/Typography';
+import Label from 'components/form/Label';
 import ReactFitText from 'react-fittext';
 import img from 'images/sample_book.png';
 import { Star } from 'react-feather';
@@ -52,6 +53,25 @@ const BookDescription = styled.p`
   color: ${props => props.theme.colors.darkGrey};
 `;
 
+const Tag = styled.span`
+  display: inline-block;
+  margin: 0 4px;
+  padding: 8px 16px;
+
+  font-size: 14px;
+  font-family: ${props => props.theme.type.serif_text};
+  font-weight: 500;
+
+  background: ${props => props.theme.colors.white};
+  border: 1px solid #bdc0c4;
+  border-radius: 4px;
+  color: #65676c;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+`;
+
 const rating = (
   <StyledRating>
     <Star size={16} stroke="transparent" fill="#E54B4B" />
@@ -88,12 +108,17 @@ export default function Book() {
             summer of 1922. The story primarily concerns the young and
             mysterious millionaire Jay Gatsby and his quixotic passion and
             obsession with the beautiful former debutante Daisy Buchanan.
-            Considered to be Fitzgerald's magnum opus, The Great Gatsby explores
-            themes of decadence, idealism, resistance to change, social upheaval
-            and excess, creating a portrait of the Roaring Twenties that has
-            been described as a cautionary tale regarding the American Dream.
           </BookDescription>
-          {/* tags */}
+          <Label style={{ marginTop: 25 }} as="p">
+            Tags
+          </Label>
+          <div style={{ marginTop: 15 }}>
+            <Tag>fiction</Tag>
+            <Tag>american</Tag>
+            <Tag>classic</Tag>
+          </div>
+          <hr />
+          <Typography type="SectionTitle">Information</Typography>
         </BookDetails>
       </BookLayout>
     </section>

@@ -22,6 +22,8 @@ const AppLayout = styled.div`
 `;
 
 const ContentLayout = styled.div`
+  background: #f7f8fa;
+
   height: calc(100% - 103px);
 `;
 
