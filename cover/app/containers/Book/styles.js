@@ -5,7 +5,7 @@ export const BookTitle = styled.h1`
   font-weight: normal;
   font-size: 72px;
   line-height: 80px;
-  color: ${props => props.theme.colors.darkGrey};
+  color: ${props => props.theme.colors.black};
 `;
 
 export const Author = styled.p`

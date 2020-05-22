@@ -25,6 +25,7 @@ const ContentLayout = styled.div`
   background: #f7f8fa;
 
   height: calc(100% - 103px);
+  overflow: hidden;
 `;
 
 export default function Frame() {

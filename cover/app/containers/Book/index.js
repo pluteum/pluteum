@@ -3,11 +3,19 @@ import styled from 'styled-components';
 
 import Button from 'components/form/Button';
 import PageHeader from 'components/common/PageHeader';
-import Typography from 'components/common/Type/Typography';
-import Label from 'components/form/Label';
 import ReactFitText from 'react-fittext';
 import img from 'images/sample_book.png';
 import { Star } from 'react-feather';
+
+import {
+  BookTitle,
+  Author,
+  Description,
+  MetaHeader,
+  FieldHeader,
+  FieldContent,
+  Tag,
+} from './styles';
 
 const BookLayout = styled.div`
   display: grid;
@@ -26,31 +34,15 @@ const BookCover = styled.div`
     max-width: 100%;
   }
 `;
-const BookDetails = styled.div``;
-
-const BookTitle = styled.h1`
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 72px;
-  font-weight: normal;
-  font-family: ${props => props.theme.type.display_serif};
-  color: ${props => props.theme.colors.black};
+const BookDetails = styled.div`
+  overflow-y: scroll;
 `;
-
 const StyledRating = styled.div`
   margin: 26px 0 32px;
 
   svg {
     margin-right: 1px;
   }
-`;
-
-const BookDescription = styled.p`
-  font-family: ${props => props.theme.type.sans_serif};
-  font-size: 18px;
-  line-height: 32px;
-
-  color: ${props => props.theme.colors.darkGrey};
 `;
 
 const rating = (
@@ -80,26 +72,52 @@ export default function Book() {
           <ReactFitText maxFontSize={72}>
             <BookTitle>The Great Gatsby</BookTitle>
           </ReactFitText>
-          <Typography type="Author">by F. Scott Fitzgerald</Typography>
+          <Author>by F. Scott Fitzgerald</Author>
           {rating}
-          <BookDescription>
+          <Description>
             The Great Gatsby is a 1925 novel written by American author F. Scott
             Fitzgerald that follows a cast of characters living in the fictional
             towns of West Egg and East Egg on prosperous Long Island in the
             summer of 1922. The story primarily concerns the young and
             mysterious millionaire Jay Gatsby and his quixotic passion and
             obsession with the beautiful former debutante Daisy Buchanan.
-          </BookDescription>
-          <Label style={{ marginTop: 25 }} as="p">
+          </Description>
+          <FieldHeader style={{ marginTop: 25 }} as="p">
             Tags
-          </Label>
+          </FieldHeader>
           <div style={{ marginTop: 15 }}>
             <Tag>fiction</Tag>
             <Tag>american</Tag>
             <Tag>classic</Tag>
           </div>
           <hr />
-          <Typography type="SectionTitle">Information</Typography>
+          <MetaHeader>Information</MetaHeader>
+          <div>
+            <div>
+              <FieldHeader>Series</FieldHeader>
+              <FieldContent>N/A</FieldContent>
+            </div>
+            <div>
+              <FieldHeader>Genre</FieldHeader>
+              <FieldContent>Fiction, Fantasy</FieldContent>
+            </div>
+            <div>
+              <FieldHeader>Publisher</FieldHeader>
+              <FieldContent>Lorem Ipsum</FieldContent>
+            </div>
+            <div>
+              <FieldHeader>Publication Date</FieldHeader>
+              <FieldContent>05/20/4202</FieldContent>
+            </div>
+            <div>
+              <FieldHeader>Language</FieldHeader>
+              <FieldContent>English</FieldContent>
+            </div>
+            <div>
+              <FieldHeader>ISBN</FieldHeader>
+              <FieldContent>978-0-307-59331-3</FieldContent>
+            </div>
+          </div>
         </BookDetails>
       </BookLayout>
     </section>
