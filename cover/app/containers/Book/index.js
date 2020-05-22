@@ -93,7 +93,7 @@ export default function Book() {
             <Tag>american</Tag>
             <Tag>classic</Tag>
           </div>
-          <hr
+          {/* <hr
             style={{
               border: 0,
               borderBottom: '1px solid #DBDDE2',
@@ -125,7 +125,7 @@ export default function Book() {
               <FieldHeader>ISBN</FieldHeader>
               <FieldContent>978-0-307-59331-3</FieldContent>
             </div>
-          </div>
+          </div> */}
         </BookDetails>
       </BookLayout>
     </section>
