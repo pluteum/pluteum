@@ -53,25 +53,6 @@ const BookDescription = styled.p`
   color: ${props => props.theme.colors.darkGrey};
 `;
 
-const Tag = styled.span`
-  display: inline-block;
-  margin: 0 4px;
-  padding: 8px 16px;
-
-  font-size: 14px;
-  font-family: ${props => props.theme.type.serif_text};
-  font-weight: 500;
-
-  background: ${props => props.theme.colors.white};
-  border: 1px solid #bdc0c4;
-  border-radius: 4px;
-  color: #65676c;
-
-  &:first-of-type {
-    margin-left: 0;
-  }
-`;
-
 const rating = (
   <StyledRating>
     <Star size={16} stroke="transparent" fill="#E54B4B" />
