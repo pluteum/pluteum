@@ -6,6 +6,7 @@ export const BookTitle = styled.h1`
   font-size: 72px;
   line-height: 80px;
   color: ${props => props.theme.colors.black};
+  margin: 0;
 `;
 
 export const Author = styled.p`
@@ -14,6 +15,7 @@ export const Author = styled.p`
   font-size: 18px;
   line-height: 22px;
   color: ${props => props.theme.colors.darkGrey};
+  margin: 15px 0 25px;
 `;
 
 export const Description = styled.p`
@@ -22,6 +24,7 @@ export const Description = styled.p`
   font-size: 18px;
   line-height: 32px;
   color: ${props => props.theme.colors.darkGrey};
+  margin: 19px 0 25px;
 `;
 
 export const MetaHeader = styled.h2`

@@ -24,6 +24,7 @@ const BookLayout = styled.div`
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 64px;
 `;
+
 const BookCover = styled.div`
   display: block;
   min-width: 332px;
@@ -34,11 +35,13 @@ const BookCover = styled.div`
     max-width: 100%;
   }
 `;
+
 const BookDetails = styled.div`
   overflow-y: scroll;
 `;
+
 const StyledRating = styled.div`
-  margin: 26px 0 32px;
+  margin: 0 0 19px;
 
   svg {
     margin-right: 1px;
@@ -85,12 +88,17 @@ export default function Book() {
           <FieldHeader style={{ marginTop: 25 }} as="p">
             Tags
           </FieldHeader>
-          <div style={{ marginTop: 15 }}>
+          <div style={{ marginTop: 15, marginBottom: 50 }}>
             <Tag>fiction</Tag>
             <Tag>american</Tag>
             <Tag>classic</Tag>
           </div>
-          <hr />
+          <hr
+            style={{
+              border: 0,
+              borderBottom: '1px solid #DBDDE2',
+            }}
+          />
           <MetaHeader>Information</MetaHeader>
           <div>
             <div>
