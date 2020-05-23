@@ -82,7 +82,18 @@ exports.up = (pgm) => {
     format: "string",
     size: "decimal", // in kb
     image: "string",
-    processed: { type: "boolean", notNull: false, default: false },
+  });
+
+  pgm.createTable("scans", {
+    id: "id",
+    fileId: "int",
+    uuid: "uuid",
+    source: "string",
+    payload: "string",
+    error: "string",
+    seen: "boolean",
+    queuedAt: "timestamp",
+    finishedAt: "timestamp",
   });
 
   pgm.createTable("authors", {
@@ -132,4 +143,5 @@ exports.down = (pgm) => {
   pgm.dropTable("books");
   pgm.dropTable("files");
   pgm.dropTable("authors");
+  pgm.dropTable("scans");
 };
