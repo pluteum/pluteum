@@ -10,7 +10,7 @@ function getToken(header: string = "") {
   return header.replace("Bearer: ", "") || "";
 }
 
-function getUser(token: string) {
+function decodeToken(token: string) {
   if (token) {
     const decodedToken = verify(token, process.env.JWT_KEY || "default");
     if (decodedToken && typeof decodedToken === "object") {
@@ -29,7 +29,7 @@ export default function getApolloServer(pool: PoolClient, channel: Channel) {
       token: getToken(req.headers.authorization),
       refreshToken: req.cookies["accesscard-refresh"],
       client: pool,
-      ...getUser(getToken(req.headers.authorization)),
+      ...decodeToken(getToken(req.headers.authorization)),
     }),
     dataSources: () => ({
       bookshelf: new Bookshelf(pool, channel),

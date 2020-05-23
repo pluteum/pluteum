@@ -3,6 +3,7 @@ import { PoolClient } from "pg";
 import User from "./user";
 import Library from "./library";
 import { Channel } from "amqplib";
+import Service from "./services";
 
 export default class AccessCard extends DataSource<any> {
   private context: any;
@@ -11,6 +12,7 @@ export default class AccessCard extends DataSource<any> {
 
   public user: User;
   public library: Library;
+  public service: Service;
 
   constructor(pool: PoolClient, channel: Channel) {
     super();
@@ -19,6 +21,7 @@ export default class AccessCard extends DataSource<any> {
 
     this.user = new User(pool, channel);
     this.library = new Library(pool);
+    this.service = new Service();
   }
 
   public initialize(config: DataSourceConfig<any>) {

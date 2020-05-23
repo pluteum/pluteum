@@ -1,6 +1,8 @@
 import { request, GraphQLClient } from "graphql-request";
 
-const endpoint = "http://librarian:4000/graphql";
+const endpoint = "http://pluteum:4000/graphql";
+
+const client = new GraphQLClient(endpoint);
 
 const query = `mutation addBook($input: AddBookInput){
     addBook(input: $input) {
@@ -8,6 +10,7 @@ const query = `mutation addBook($input: AddBookInput){
     }
   }`;
 
-export default function createBookFromFile(book: any) {
-  return request(endpoint, query, { input: book });
+export default function createBookFromFile(token: string, book: any) {
+  client.setHeader("Authorization", `Bearer: ${token}`);
+  return client.request(query, { input: book });
 }

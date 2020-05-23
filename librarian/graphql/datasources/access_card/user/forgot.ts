@@ -1,6 +1,6 @@
 import debug from "debug";
 import { select } from "sql-bricks";
-import { generateResetToken } from "./token";
+import { generateResetToken } from "../token";
 import { PoolClient } from "pg";
 import { Channel } from "amqplib";
 

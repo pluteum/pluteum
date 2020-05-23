@@ -1,7 +1,7 @@
 import debug from "debug";
 import { verify } from "jsonwebtoken";
 import { select } from "sql-bricks";
-import { generateRefreshToken, generateToken } from "./token";
+import { generateRefreshToken, generateToken } from "../token";
 import { PoolClient } from "pg";
 
 const refreshDebug = debug("pluteum:accesscard:refresh");
@@ -31,5 +31,4 @@ export default async function refresh(jwt: string, pool: PoolClient) {
 
     return { refresh, token: await generateToken(user, library) };
   }
-
 }

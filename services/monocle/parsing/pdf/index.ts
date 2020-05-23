@@ -7,13 +7,9 @@ import isISBN from "../isbn";
 const pdfDebug = debug("pluteum:monocle:pdf");
 
 export default async function process(pdf: Buffer): Promise<ParseResult> {
-  const text = await pdfParser(pdf).then((data: any) => data.text);
-  const result: ParseResult = {
+  return pdfParser(pdf).then(({ text }: any) => ({
     isbn: getISBN(text),
-  };
-
-  pdfDebug(`Parse Complete: ${JSON.stringify(result)}`);
-  return result;
+  }));
 }
 
 function getISBN(text: string): string | undefined {

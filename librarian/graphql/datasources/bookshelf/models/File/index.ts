@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import digestStream from "digest-stream";
 
 import MIME_FORMAT_MAP from "../../constants/mimetypes";
+import AccessCard from "../../../access_card";
 
 type GraphQLUpload = {
   filename: string;
@@ -18,12 +19,19 @@ type GraphQLUpload = {
 export default class Files {
   private pool: PoolClient;
   private channel: Channel;
+  private accessCard: AccessCard;
   private library: string;
 
-  constructor(pool: PoolClient, channel: Channel, library: string) {
+  constructor(
+    pool: PoolClient,
+    channel: Channel,
+    accessCard: AccessCard,
+    library: string
+  ) {
     this.pool = pool;
     this.channel = channel;
     this.library = library;
+    this.accessCard = accessCard;
   }
 
   public getFiles() {
@@ -105,7 +113,12 @@ export default class Files {
           if (fileRow.format === "pdf") {
             this.channel.sendToQueue(
               "monocle_pdf_isbn",
-              Buffer.from(JSON.stringify(fileRow))
+              Buffer.from(
+                JSON.stringify({
+                  token: this.accessCard.service.generateToken(this.library),
+                  ...fileRow,
+                })
+              )
             );
           }
 

@@ -1,12 +1,15 @@
 import bcrypt from "bcrypt";
 import debug from "debug";
 import { select } from "sql-bricks";
-import { generateToken, generateRefreshToken } from "./token";
+import { generateToken, generateRefreshToken } from "../token";
 import { PoolClient } from "pg";
 
 const loginDebug = debug("pluteum:accesscard:login");
 
-export default async function loginUser({ email, password, library }: any, pool: PoolClient) {
+export default async function loginUser(
+  { email, password, library }: any,
+  pool: PoolClient
+) {
   const query = select().from("users").where({ email }).toParams();
   const user = await pool.query(query).then((result) => result.rows[0]);
 

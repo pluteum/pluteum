@@ -11,7 +11,6 @@ const MUTATION = gql`
   mutation($file: Upload!) {
     uploadFile(file: $file) {
       id
-      uuid
       image
       name
       url

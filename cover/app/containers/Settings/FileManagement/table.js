@@ -11,7 +11,7 @@ export function columnDef() {
     {
       Header: 'Book',
       accessor: 'book',
-      Cell: ({ value }) => value || 'Create Book',
+      Cell: ({ value }) => (value && value.title) || 'Create Book',
     },
     {
       Header: 'Status',
@@ -31,7 +31,7 @@ export function columnDef() {
     },
     {
       id: 'actions',
-      Cell: v => <MoreHorizontal {...v} />,
+      Cell: ({ value }) => <MoreHorizontal />,
       width: 50,
     },
   ];

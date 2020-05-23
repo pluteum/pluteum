@@ -9,6 +9,10 @@ export function generateToken(user: any, library?: any) {
   return jwt.sign({ user, library }, JWT_KEY, { expiresIn: "30m" });
 }
 
+export function generateMonocleToken(library: any) {
+  return jwt.sign({ library }, JWT_KEY, { expiresIn: "24h" });
+}
+
 export async function generateResetToken(user_uuid: any, pool: PoolClient) {
   const jwtid = uuid();
   const token = jwt.sign({ uuid: user_uuid }, JWT_KEY, {
