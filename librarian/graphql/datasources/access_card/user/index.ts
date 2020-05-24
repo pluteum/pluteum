@@ -6,6 +6,7 @@ import { AuthenticationError } from "apollo-server-express";
 const ERRORS = {
   INVALID_LOGIN: "Invalid username or password",
   NO_LIBRARY: "Unable to find default library for user",
+  DUPLICATE_USER: "A user with this email address already exists",
 };
 
 export default class User {
@@ -133,7 +134,16 @@ export default class User {
       });
   }
 
-  // public register = (input: any) => registerUser(input, this.pool);
+  public async register({ firstName, lastName, email, password }: any) {
+    return bcrypt.hash(password, 10).then((hashedPassword) => {
+      const query = sql`
+        INSERT INTO "users" ("firstName", "lastName", "email", "password")
+        VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
+        RETURNING "id", "firstName", "lastName", "email"
+      `;
+    });
+  }
+
   // public refresh = (token: string) => refresh(token, this.pool);
   // public forgot = (email: string) => forgot(email, this.pool, this.channel);
   // public reset = (token: string, password: string) =>
