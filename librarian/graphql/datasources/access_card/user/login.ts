@@ -3,15 +3,17 @@ import debug from "debug";
 import { select } from "sql-bricks";
 import { generateToken, generateRefreshToken } from "../token";
 import { PoolClient } from "pg";
+import { DatabasePoolType, sql } from "slonik";
 
 const loginDebug = debug("pluteum:accesscard:login");
 
 export default async function loginUser(
   { email, password, library }: any,
-  pool: PoolClient
+  pool: DatabasePoolType
 ) {
-  const query = select().from("users").where({ email }).toParams();
-  const user = await pool.query(query).then((result) => result.rows[0]);
+  const user: any = await pool.one(
+    sql`SELECT * FROM users WHERE email = ${email}`
+  );
 
   if (!user) {
     throw new Error("Unknown user or password");
@@ -25,16 +27,13 @@ export default async function loginUser(
   delete user.refreshToken;
 
   if (match && !library) {
-    const hasLibraryQuery = select()
-      .from("users")
-      .join("users_libraries_link")
-      .on("users.id", "users_libraries_link.user")
-      .where({ user: user.id, default: true })
-      .toParams();
+    const query = sql`
+      SELECT * 
+      FROM "users"
+      JOIN "users_libraries_link" ON "users.id" = "users_libraries_link.user"
+      WHERE "user" = ${user.id} AND "default" = true`;
 
-    const result = await pool
-      .query(hasLibraryQuery)
-      .then((result) => result.rows[0]);
+    const result = await pool.maybeOne(query);
 
     if (result) {
       loginDebug(
@@ -42,7 +41,7 @@ export default async function loginUser(
       );
       return {
         token: await generateToken(user, result.library),
-        refresh: await generateRefreshToken(user, pool, result.library),
+        refresh: await generateRefreshToken(user, result.library.toString()),
         user,
         library: result.library,
       };
@@ -59,15 +58,13 @@ export default async function loginUser(
       library: null,
     };
   } else if (match && library) {
-    const hasLibraryQuery = select()
-      .from("users")
-      .join("users_libraries_link")
-      .on("users.id", "users_libraries_link.user")
-      .where({ user: user.id, library })
-      .toParams();
-    const result = await pool
-      .query(hasLibraryQuery)
-      .then((result) => result.rows[0]);
+    const query = sql`
+      SELECT * 
+      FROM "users"
+      JOIN "users_libraries_link" ON "users.id" = "users_libraries_link.user"
+      WHERE "user" = ${user.id} AND "library" = ${library}`;
+
+    const result = await pool.maybeOne(query);
 
     if (result) {
       return {

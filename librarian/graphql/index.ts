@@ -3,8 +3,8 @@ import schema from "./schema";
 import Bookshelf from "./datasources/bookshelf";
 import AccessCard from "./datasources/access_card";
 import { verify } from "jsonwebtoken";
-import { PoolClient } from "pg";
 import { Channel } from "amqplib";
+import { DatabasePoolType } from "slonik";
 
 function getToken(header: string = "") {
   return header.replace("Bearer: ", "") || "";
@@ -21,7 +21,10 @@ function decodeToken(token: string) {
   return {};
 }
 
-export default function getApolloServer(pool: PoolClient, channel: Channel) {
+export default function getApolloServer(
+  pool: DatabasePoolType,
+  channel: Channel
+) {
   return new ApolloServer({
     schema,
     context: ({ req, res }) => ({
@@ -32,7 +35,7 @@ export default function getApolloServer(pool: PoolClient, channel: Channel) {
       ...decodeToken(getToken(req.headers.authorization)),
     }),
     dataSources: () => ({
-      bookshelf: new Bookshelf(pool, channel),
+      // bookshelf: new Bookshelf(pool, channel),
       accesscard: new AccessCard(pool, channel),
     }),
     tracing: true,

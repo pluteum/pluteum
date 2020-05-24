@@ -9,6 +9,7 @@ import { wrapError, UniqueViolationError } from "db-errors";
 import { createLibrary } from "../library/create";
 import { PoolClient } from "pg";
 import { ValidationError, UserInputError } from "apollo-server-express";
+import { DatabasePoolType } from "slonik";
 
 const registerDebug = debug("pluteum:accesscard:register");
 
@@ -37,7 +38,7 @@ const InputSchema = new Schema({
 
 export default async function registerUser(
   { firstName, lastName, email, password }: any,
-  pool: PoolClient
+  pool: DatabasePoolType
 ) {
   const validationErrors = InputSchema.validate({
     firstName,
