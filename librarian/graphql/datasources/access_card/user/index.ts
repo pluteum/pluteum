@@ -1,13 +1,7 @@
-import { PoolClient } from "pg";
-import loginUser from "./login";
-import registerUser from "./registration";
-import refresh from "./refresh";
-import forgot from "./forgot";
-import { Channel } from "amqplib";
-import reset from "./reset";
 import bcrypt from "bcrypt";
-import { DatabasePoolType, sql, QueryResultRowType } from "slonik";
+import { DatabasePoolType, sql } from "slonik";
 import { generateToken, generateRefreshToken } from "../token";
+import { AuthenticationError } from "apollo-server-express";
 
 const ERRORS = {
   INVALID_LOGIN: "Invalid username or password",
@@ -95,11 +89,17 @@ export default class User {
     return this.pool.maybeOneFirst(query);
   }
 
+  private createNewRefreshToken(user: any, library: any) {
+    const { jwtid, refreshToken } = generateRefreshToken(user, library);
+
+    return this.setRefreshTokenId(user.id, jwtid).then(() => refreshToken);
+  }
+
   public async login({ email, password }: any) {
     return this.getUserByEmail(email)
       .then((user: any) => {
         if (!user) {
-          throw new Error(ERRORS.INVALID_LOGIN);
+          throw new AuthenticationError(ERRORS.INVALID_LOGIN);
         }
 
         return user;
@@ -107,12 +107,12 @@ export default class User {
       .then((user) =>
         bcrypt.compare(password, user.password).then((passwordMatch) => {
           if (!passwordMatch) {
-            throw new Error(ERRORS.INVALID_LOGIN);
+            throw new AuthenticationError(ERRORS.INVALID_LOGIN);
           }
 
           return this.getDefaultLibrary(user.id).then((library: any) => {
             if (!library) {
-              throw new Error(ERRORS.NO_LIBRARY);
+              throw new AuthenticationError(ERRORS.NO_LIBRARY);
             }
 
             return { user, library };
@@ -121,14 +121,15 @@ export default class User {
       )
       .then(({ user, library }) => {
         const token = generateToken(user, library);
-        const { jwtid, refreshToken } = generateRefreshToken(user, library);
 
-        return this.setRefreshTokenId(user.id, jwtid).then(() => ({
-          token,
-          refreshToken,
-          user,
-          library,
-        }));
+        return this.createNewRefreshToken(user, library).then(
+          (refreshToken) => ({
+            token,
+            refreshToken,
+            user,
+            library,
+          })
+        );
       });
   }
 
