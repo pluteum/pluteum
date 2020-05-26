@@ -3,15 +3,16 @@ import { select, insert } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
 import { Channel } from "amqplib";
 import Debug from "debug";
+import { sql, DatabasePoolType } from "slonik";
 
 const bookModelDebug = Debug("pluteum:bookshelf:book");
 
 export default class Book {
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private channel: Channel;
   private library: string;
 
-  constructor(pool: PoolClient, channel: Channel, library: string) {
+  constructor(pool: DatabasePoolType, channel: Channel, library: string) {
     this.pool = pool;
     this.channel = channel;
     this.library = library;
@@ -27,14 +28,12 @@ export default class Book {
   }
 
   public getBookByFile(fileId: number) {
-    const query = select("books.*")
-      .from("books")
-      .join("books_files_link")
-      .on("books.id", "books_files_link.book")
-      .where({ "books_files_link.file": fileId })
-      .toParams();
+    const query = sql`
+      SELECT "books.*" 
+      FROM "books" JOIN "books_files_link" ON "books.id" = "books_files_link.book"
+      WHERE "books_files_link.file" = ${fileId}`;
 
-    return this.pool.query(query).then((result) => result.rows[0]);
+    return this.pool.maybeOne(query);
   }
 
   public getBooksByAuthor(authorId: number) {

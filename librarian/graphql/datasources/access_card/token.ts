@@ -1,8 +1,5 @@
 import jwt from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
-import { update } from "sql-bricks";
-import { Pool, PoolClient } from "pg";
-import { sql, DatabasePoolType } from "slonik";
 
 const JWT_KEY = process.env.JWT_KEY || "default";
 

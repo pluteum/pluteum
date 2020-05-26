@@ -1,5 +1,4 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { PoolClient } from "pg";
 import User from "./user";
 import Library from "./library";
 import { Channel } from "amqplib";
@@ -21,8 +20,8 @@ export default class AccessCard extends DataSource<any> {
     this.channel = channel;
 
     this.user = new User(pool, channel);
-    // this.library = new Library(pool);
-    // this.service = new Service();
+    this.library = new Library(pool);
+    this.service = new Service();
   }
 
   public initialize(config: DataSourceConfig<any>) {
