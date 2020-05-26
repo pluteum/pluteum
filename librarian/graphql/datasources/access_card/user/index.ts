@@ -1,13 +1,16 @@
 import bcrypt from "bcrypt";
-import { DatabasePoolType, sql } from "slonik";
+import { DatabasePoolType, sql, NotFoundError } from "slonik";
 import { generateToken, generateRefreshToken } from "../token";
 import { AuthenticationError } from "apollo-server-express";
+import { verify, TokenExpiredError } from "jsonwebtoken";
 
 const ERRORS = {
   INVALID_LOGIN: "Invalid username or password",
   NO_LIBRARY: "Unable to find default library for user",
   DUPLICATE_USER: "A user with this email address already exists",
 };
+
+const JWT_KEY: string = process.env.JWT_KEY || "";
 
 export default class User {
   private pool: DatabasePoolType;
@@ -135,16 +138,47 @@ export default class User {
   }
 
   public async register({ firstName, lastName, email, password }: any) {
-    return bcrypt.hash(password, 10).then((hashedPassword) => {
-      const query = sql`
+    return bcrypt
+      .hash(password, 10)
+      .then(
+        (hashedPassword) =>
+          sql`
         INSERT INTO "users" ("firstName", "lastName", "email", "password")
         VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
         RETURNING "id", "firstName", "lastName", "email"
-      `;
-    });
+      `
+      )
+      .then(this.pool.one);
   }
 
-  // public refresh = (token: string) => refresh(token, this.pool);
+  public async refresh(jwt: string) {
+    return new Promise((resolve, reject) => {
+      verify(jwt, JWT_KEY, (decoded) => {
+        if (decoded instanceof TokenExpiredError) {
+          reject(new AuthenticationError("Refresh token expired"));
+        }
+
+        resolve(decoded);
+      });
+    })
+      .then(async ({ id, library, jti }: any) => ({
+        library,
+        user: await this.pool.one(
+          sql`SELECT "id", "uuid", "firstName", "lastName", "email", "createdAt" FROM "users" WHERE "id" = ${id} AND "refreshToken" = ${jti}`
+        ),
+      }))
+      .then(({ library, user }) =>
+        Promise.all([
+          generateRefreshToken(user, library),
+          generateToken(user, library),
+        ])
+      )
+      .then(([refresh, token]) => ({ refresh, token }))
+      .catch(() => {
+        throw new AuthenticationError("Invalid Refresh Token");
+      });
+  }
+
   // public forgot = (email: string) => forgot(email, this.pool, this.channel);
   // public reset = (token: string, password: string) =>
   // reset(token, password, this.pool);
