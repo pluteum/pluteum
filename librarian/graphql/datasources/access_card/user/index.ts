@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { DatabasePoolType, sql, NotFoundError } from "slonik";
+import { DatabasePoolType, sql } from "slonik";
 import {
   generateToken,
   generateRefreshToken,
@@ -210,5 +210,31 @@ export default class User {
           ),
         ])
       );
+  }
+
+  public reset(token: string, password: string) {
+    return new Promise((resolve, reject) => {
+      verify(token, JWT_KEY, (decoded) => {
+        if (decoded instanceof TokenExpiredError) {
+          reject(new AuthenticationError("Reset token expired"));
+        }
+
+        resolve(decoded);
+      });
+    })
+      .then(({ jti, uuid }: any) =>
+        Promise.all([
+          bcrypt.hash(password, 10),
+          this.pool.oneFirst(
+            sql`SELECT "id" FROM "users" WHERE "uuid" = ${uuid} AND resetToken = ${jti}`
+          ),
+        ])
+      )
+      .then(([hashedPassword, userId]) =>
+        this.pool.oneFirst(
+          sql`UPDATE "users" SET "password" = ${hashedPassword} WHERE "id" = ${userId} RETURNING "email"`
+        )
+      )
+      .then((email) => this.login({ email, password }));
   }
 }
