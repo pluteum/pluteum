@@ -1,8 +1,13 @@
 import bcrypt from "bcrypt";
 import { DatabasePoolType, sql, NotFoundError } from "slonik";
-import { generateToken, generateRefreshToken } from "../token";
+import {
+  generateToken,
+  generateRefreshToken,
+  generateResetToken,
+} from "../token";
 import { AuthenticationError } from "apollo-server-express";
 import { verify, TokenExpiredError } from "jsonwebtoken";
+import { Channel } from "amqplib";
 
 const ERRORS = {
   INVALID_LOGIN: "Invalid username or password",
@@ -14,9 +19,11 @@ const JWT_KEY: string = process.env.JWT_KEY || "";
 
 export default class User {
   private pool: DatabasePoolType;
+  private channel: Channel;
 
-  constructor(pool: DatabasePoolType) {
+  constructor(pool: DatabasePoolType, channel: Channel) {
     this.pool = pool;
+    this.channel = channel;
   }
 
   public getUserById(userId: number) {
@@ -179,7 +186,29 @@ export default class User {
       });
   }
 
-  // public forgot = (email: string) => forgot(email, this.pool, this.channel);
-  // public reset = (token: string, password: string) =>
-  // reset(token, password, this.pool);
+  public forgot(email: string) {
+    const mail = (token: string) => ({
+      type: "FORGOT_PASSWORD",
+      to: email,
+      content: {
+        link: `${process.env.URL}/reset-password?token=${token}`,
+      },
+    });
+
+    return this.pool
+      .one(sql`SELECT "id", "uuid" FROM "users" WHERE "email" = ${email}`)
+      .then(async ({ id, uuid }) => ({
+        id,
+        reset: await generateResetToken(uuid),
+      }))
+      .then(({ id, reset: { jwtid, token } }) =>
+        Promise.all([
+          this.setResetTokenId(parseInt(id.toString()), jwtid),
+          this.channel.sendToQueue(
+            "mailroom_account",
+            Buffer.from(JSON.stringify(mail(token)))
+          ),
+        ])
+      );
+  }
 }
