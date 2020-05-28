@@ -1,13 +1,12 @@
 import { Channel } from "amqplib";
 import { createWriteStream, ReadStream, remove } from "fs-extra";
 import { resolve } from "path";
-import { PoolClient } from "pg";
-import { insert, select, delete as deleteQuery } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
 import digestStream from "digest-stream";
 
 import MIME_FORMAT_MAP from "../../constants/mimetypes";
 import AccessCard from "../../../access_card";
+import { sql, DatabasePoolType } from "slonik";
 
 type GraphQLUpload = {
   filename: string;
@@ -17,13 +16,13 @@ type GraphQLUpload = {
 };
 
 export default class Files {
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private channel: Channel;
   private accessCard: AccessCard;
   private library: string;
 
   constructor(
-    pool: PoolClient,
+    pool: DatabasePoolType,
     channel: Channel,
     accessCard: AccessCard,
     library: string
@@ -35,21 +34,15 @@ export default class Files {
   }
 
   public getFiles() {
-    const query = select()
-      .from("files")
-      .where({ library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "files" WHERE "library" = ${this.library}`;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getFileById(id: number) {
-    const query = select()
-      .from("files")
-      .where({ id, library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "files" WHERE "id" = ${id} AND "library" = ${this.library}`;
 
-    return this.pool.query(query).then((result) => result.rows[0]);
+    return this.pool.maybeOne(query);
   }
 
   public async addFile(newFile: Promise<GraphQLUpload>) {
@@ -65,7 +58,7 @@ export default class Files {
     const inputStream = input.createReadStream();
     const outputStream = createWriteStream(filePath);
 
-    let md5;
+    let md5 = "";
     let dataLength = 0;
 
     const digestFn = (resultDigest: string, length: number) => {
@@ -85,45 +78,34 @@ export default class Files {
 
     await upload;
 
-    const isUnique = await this.pool
-      .query(
-        select().from("files").where({ library: this.library, md5 }).toParams()
-      )
-      .then((result) => result.rowCount === 0);
+    const isUnique = await this.pool.maybeOne(
+      sql`SELECT "md5" FROM "files" WHERE "library" = ${this.library} AND "md5" = ${md5}`
+    );
 
     if (isUnique) {
-      let file = {
-        uuid,
-        md5,
-        format,
-        filePath,
-        url,
-        library: this.library,
-        name: input.filename,
-        size: dataLength / 1000,
-      };
+      const query = sql`
+        INSERT INTO "files" ("uuid", "md5", "format", "filePath", "url", "library", "name", "size")
+        VALUES (${uuid}, ${md5}, ${format}, ${filePath}, ${url}, ${
+        this.library
+      }, ${input.filename}, ${dataLength / 1000})
+        RETURNING *
+      `;
 
-      const query = insert("files", file).toParams();
-      query.text = `${query.text} RETURNING *`;
+      return this.pool.one(query).then((fileRow) => {
+        if (fileRow.format === "pdf") {
+          this.channel.sendToQueue(
+            "monocle_pdf_isbn",
+            Buffer.from(
+              JSON.stringify({
+                token: this.accessCard.service.generateToken(this.library),
+                ...fileRow,
+              })
+            )
+          );
+        }
 
-      return this.pool
-        .query(query)
-        .then((result) => result.rows[0])
-        .then((fileRow) => {
-          if (fileRow.format === "pdf") {
-            this.channel.sendToQueue(
-              "monocle_pdf_isbn",
-              Buffer.from(
-                JSON.stringify({
-                  token: this.accessCard.service.generateToken(this.library),
-                  ...fileRow,
-                })
-              )
-            );
-          }
-
-          return fileRow;
-        });
+        return fileRow;
+      });
     } else {
       await remove(filePath);
       return new Error("File already exists");
@@ -131,23 +113,16 @@ export default class Files {
   }
 
   public async deleteFile(fileId: number) {
-    const selectQuery = select("filepath")
-      .from("files")
-      .where({ library: this.library, id: fileId })
-      .toParams();
+    const selectQuery = sql`SELECT "filepath" FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`;
 
-    const file = await this.pool
-      .query(selectQuery)
-      .then((result) => result.rows[0]);
+    const file = await this.pool.maybeOne(selectQuery);
 
     if (file) {
       await remove(file.filePath);
 
       return this.pool
         .query(
-          deleteQuery("files")
-            .where({ library: this.library, id: fileId })
-            .toParams()
+          sql`DELETE FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`
         )
         .then(() => true);
     } else {
