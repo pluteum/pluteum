@@ -19,12 +19,9 @@ export default class Book {
   }
 
   public getBooks() {
-    const query = select()
-      .from("books")
-      .where({ library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "books" WHERE "library" = ${this.library}`;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getBookByFile(fileId: number) {
@@ -37,23 +34,19 @@ export default class Book {
   }
 
   public getBooksByAuthor(authorId: number) {
-    const query = select()
-      .from("books")
-      .join("books_authors_link")
-      .on("books.id", "books_authors_link.book")
-      .where({ "books_authors_link.author": authorId })
-      .toParams();
+    const query = sql`
+      SELECT *
+      FROM "books" JOIN "books_authors_link" ON "books"."id" = "books_authors_link"."author"
+      WHERE "books_authors_link"."author" = ${authorId}
+    `;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getBookById(id: number) {
-    const query = select()
-      .from("books")
-      .where({ id, library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "books" WHERE "library" = ${this.library} AND "id" = ${id}`;
 
-    return this.pool.query(query).then((result) => result.rows[0]);
+    return this.pool.maybeOne(query);
   }
 
   public async saveBook(input: any) {
