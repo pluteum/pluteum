@@ -1,14 +1,14 @@
 import { Channel } from "amqplib";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { PoolClient } from "pg";
 
 import Author from "./models/Authors";
 import Book from "./models/Book";
 import File from "./models/File";
 import AccessCard from "../access_card/index";
+import { DatabasePoolType } from "slonik";
 
 export default class Bookshelf extends DataSource<any> {
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private channel: Channel;
   private context: any;
 
@@ -19,7 +19,7 @@ export default class Bookshelf extends DataSource<any> {
 
   private library!: string;
 
-  constructor(pool: PoolClient, channel: Channel) {
+  constructor(pool: DatabasePoolType, channel: Channel) {
     super();
 
     this.pool = pool;

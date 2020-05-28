@@ -1,20 +1,20 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { PoolClient } from "pg";
 import User from "./user";
 import Library from "./library";
 import { Channel } from "amqplib";
 import Service from "./services";
+import { DatabasePoolType } from "slonik";
 
 export default class AccessCard extends DataSource<any> {
   private context: any;
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private channel: Channel;
 
   public user: User;
   public library: Library;
   public service: Service;
 
-  constructor(pool: PoolClient, channel: Channel) {
+  constructor(pool: DatabasePoolType, channel: Channel) {
     super();
     this.pool = pool;
     this.channel = channel;

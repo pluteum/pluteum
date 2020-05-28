@@ -1,74 +1,66 @@
-import { PoolClient } from "pg";
-import { select, insert } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
 import { Channel } from "amqplib";
 import Debug from "debug";
+import { sql, DatabasePoolType } from "slonik";
 
 const bookModelDebug = Debug("pluteum:bookshelf:book");
 
 export default class Book {
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private channel: Channel;
   private library: string;
 
-  constructor(pool: PoolClient, channel: Channel, library: string) {
+  constructor(pool: DatabasePoolType, channel: Channel, library: string) {
     this.pool = pool;
     this.channel = channel;
     this.library = library;
   }
 
   public getBooks() {
-    const query = select()
-      .from("books")
-      .where({ library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "books" WHERE "library" = ${this.library}`;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getBookByFile(fileId: number) {
-    const query = select("books.*")
-      .from("books")
-      .join("books_files_link")
-      .on("books.id", "books_files_link.book")
-      .where({ "books_files_link.file": fileId })
-      .toParams();
+    const query = sql`
+      SELECT "books.*" 
+      FROM "books" JOIN "books_files_link" ON "books.id" = "books_files_link.book"
+      WHERE "books_files_link.file" = ${fileId}`;
 
-    return this.pool.query(query).then((result) => result.rows[0]);
+    return this.pool.maybeOne(query);
   }
 
   public getBooksByAuthor(authorId: number) {
-    const query = select()
-      .from("books")
-      .join("books_authors_link")
-      .on("books.id", "books_authors_link.book")
-      .where({ "books_authors_link.author": authorId })
-      .toParams();
+    const query = sql`
+      SELECT *
+      FROM "books" JOIN "books_authors_link" ON "books"."id" = "books_authors_link"."author"
+      WHERE "books_authors_link"."author" = ${authorId}
+    `;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getBookById(id: number) {
-    const query = select()
-      .from("books")
-      .where({ id, library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "books" WHERE "library" = ${this.library} AND "id" = ${id}`;
 
-    return this.pool.query(query).then((result) => result.rows[0]);
+    return this.pool.maybeOne(query);
   }
 
   public async saveBook(input: any) {
     let { authors, file, ...book } = input;
 
     book.library = this.library;
-    book.uuid = uuidv4();
 
-    const query = insert("books", book).toParams();
-    query.text = `${query.text} RETURNING *`; // return new book
+    const query = sql`
+      INSERT INTO "books" ("uuid", "title", "isbn", "seriesIndex", "library")
+      VALUES (${uuidv4()}, ${book.title}, ${book.isbn}, ${book.seriesIndex}, ${
+      this.library
+    })
+      RETURNING *
+    `;
 
-    const newBook = await this.pool
-      .query(query)
-      .then((result) => result.rows[0]);
+    const newBook = await this.pool.one(query);
 
     if (authors) {
       authors.forEach(async (author: any) => {
@@ -78,14 +70,9 @@ export default class Book {
           bookModelDebug(
             `No Author ID found for ${book.uuid}, attempting to look up name ${author.name}`
           );
-          const authorID = await this.pool
-            .query(
-              select("id")
-                .from("authors")
-                .where({ name: author.name })
-                .toParams()
-            )
-            .then((result) => (result.rows[0] ? result.rows[0].id : undefined));
+          const authorID = await this.pool.maybeOneFirst(
+            sql`SELECT "id" FROM "authors" WHERE "name" = ${author.name} LIMIT 1`
+          );
 
           if (authorID) {
             // author exists, this is the ID
@@ -97,23 +84,21 @@ export default class Book {
             bookModelDebug(
               `Unable to find an existing author with name ${author.name}, adding to Author table`
             );
-            let newAuthorQuery = insert("authors", {
-              name: author.name,
-              library: this.library,
-            }).toParams();
-            newAuthorQuery.text = `${newAuthorQuery.text} RETURNING "id"`; // return id
+            const newAuthorQuery = sql`
+              INSERT INTO "authors" ("name", "library")
+              VALUES (${author.name}, ${this.library})
+              RETURNING "id"
+            `;
 
-            id = await this.pool
-              .query(newAuthorQuery)
-              .then((result) => result.rows[0].id);
+            id = await this.pool.oneFirst(newAuthorQuery);
           }
         }
 
         bookModelDebug(`Linking author ${id} and book ${newBook.id} together`);
-        const linkingQuery = insert("books_authors_link", {
-          book: newBook.id,
-          author: id,
-        }).toParams();
+        const linkingQuery = sql`
+          INSERT INTO "books_authors_link" ("book", "author")
+          VALUES (${newBook.id}, ${id})
+        `;
 
         await this.pool.query(linkingQuery);
       });
@@ -121,10 +106,10 @@ export default class Book {
 
     if (file) {
       bookModelDebug(`Linking file ${file.id} and book ${newBook.id} together`);
-      const linkingQuery = insert("books_files_link", {
-        book: newBook.id,
-        file: file.id,
-      }).toParams();
+      const linkingQuery = sql`
+        INSERT INTO "books_files_link" ("book", "file")
+        VALUES (${newBook.id}, ${file.id})
+      `;
 
       await this.pool.query(linkingQuery);
     }

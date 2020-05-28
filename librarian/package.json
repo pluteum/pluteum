@@ -27,8 +27,7 @@
     "graphql": "^15.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-pg-migrate": "^4.6.1",
-    "pg": "^8.0.2",
-    "sql-bricks": "^2.0.4",
+    "slonik": "^22.4.9",
     "typescript": "^3.8.3",
     "uuid": "^7.0.3",
     "validate": "^5.1.0"
@@ -41,7 +40,7 @@
     "@types/jest": "^25.2.3",
     "@types/jsonwebtoken": "^8.3.9",
     "@types/pg": "^7.14.3",
-    "@types/sql-bricks": "^2.0.1",
+    "@types/slonik": "^22.1.2",
     "@types/uuid": "^7.0.3",
     "jest": "^26.0.1",
     "ts-jest": "^26.0.0",
