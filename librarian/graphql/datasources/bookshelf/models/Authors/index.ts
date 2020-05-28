@@ -1,23 +1,19 @@
-import { PoolClient } from "pg";
-import { select } from "sql-bricks";
 import { Channel } from "amqplib";
+import { sql, DatabasePoolType } from "slonik";
 
 export default class Author {
-  private pool: PoolClient;
+  private pool: DatabasePoolType;
   private library: string;
 
-  constructor(pool: PoolClient, channel: Channel, library: string) {
+  constructor(pool: DatabasePoolType, channel: Channel, library: string) {
     this.pool = pool;
     this.library = library;
   }
 
   public getAllAuthors() {
-    const query = select()
-      .from("authors")
-      .where({ library: this.library })
-      .toParams();
+    const query = sql`SELECT * FROM "authors" WHERE "library" = ${this.library}`;
 
-    return this.pool.query(query).then((result) => result.rows);
+    return this.pool.any(query);
   }
 
   public getAuthorById(id: number) {
