@@ -1,5 +1,3 @@
-import { PoolClient } from "pg";
-import { select, insert } from "sql-bricks";
 import { v4 as uuidv4 } from "uuid";
 import { Channel } from "amqplib";
 import Debug from "debug";
