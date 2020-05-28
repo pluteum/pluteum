@@ -27,7 +27,7 @@
     "graphql": "^15.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-pg-migrate": "^4.6.1",
-    "slonik": "^22.4.9",
+    "slonik": "^22.4.10",
     "typescript": "^3.8.3",
     "uuid": "^7.0.3",
     "validate": "^5.1.0"
