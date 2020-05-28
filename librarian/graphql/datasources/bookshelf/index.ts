@@ -6,6 +6,7 @@ import Book from "./models/Book";
 import File from "./models/File";
 import AccessCard from "../access_card/index";
 import { DatabasePoolType } from "slonik";
+import Scan from "./models/Scan";
 
 export default class Bookshelf extends DataSource<any> {
   private pool: DatabasePoolType;
@@ -15,6 +16,7 @@ export default class Bookshelf extends DataSource<any> {
   public books!: Book;
   public authors!: Author;
   public files!: File;
+  public scans!: Scan;
   private accessCard!: AccessCard;
 
   private library!: string;
@@ -41,5 +43,6 @@ export default class Bookshelf extends DataSource<any> {
       this.accessCard,
       this.library
     );
+    this.scans = new Scan(this.pool, this.library);
   }
 }
