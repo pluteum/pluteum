@@ -126,14 +126,18 @@ export default class User {
               throw new AuthenticationError(ERRORS.NO_LIBRARY);
             }
 
+            delete user.password;
+            delete user.refreshToken;
+            delete user.resetToken;
+
             return { user, library };
           });
         })
       )
       .then(({ user, library }) => {
-        const token = generateToken(user, library);
+        const token = generateToken(user, library.id);
 
-        return this.createNewRefreshToken(user, library).then(
+        return this.createNewRefreshToken(user, library.id).then(
           (refreshToken) => ({
             token,
             refreshToken,

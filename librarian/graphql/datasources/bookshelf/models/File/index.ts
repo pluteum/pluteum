@@ -78,16 +78,16 @@ export default class Files {
 
     await upload;
 
-    const isUnique = await this.pool.maybeOne(
+    const isNotUnique = await this.pool.maybeOneFirst(
       sql`SELECT "md5" FROM "files" WHERE "library" = ${this.library} AND "md5" = ${md5}`
     );
 
-    if (isUnique) {
+    if (!isNotUnique) {
       const query = sql`
         INSERT INTO "files" ("uuid", "md5", "format", "filePath", "url", "library", "name", "size")
         VALUES (${uuid}, ${md5}, ${format}, ${filePath}, ${url}, ${
         this.library
-      }, ${input.filename}, ${dataLength / 1000})
+        }, ${input.filename}, ${dataLength / 1000})
         RETURNING *
       `;
 

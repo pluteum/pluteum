@@ -24,9 +24,9 @@ export default class Book {
 
   public getBookByFile(fileId: number) {
     const query = sql`
-      SELECT "books.*" 
-      FROM "books" JOIN "books_files_link" ON "books.id" = "books_files_link.book"
-      WHERE "books_files_link.file" = ${fileId}`;
+      SELECT "books".* 
+      FROM "books" JOIN "books_files_link" ON "books"."id" = "books_files_link"."book"
+      WHERE "books_files_link"."file" = ${fileId}`;
 
     return this.pool.maybeOne(query);
   }
@@ -56,7 +56,7 @@ export default class Book {
       INSERT INTO "books" ("uuid", "title", "isbn", "seriesIndex", "library")
       VALUES (${uuidv4()}, ${book.title}, ${book.isbn}, ${book.seriesIndex}, ${
       this.library
-    })
+      })
       RETURNING *
     `;
 
