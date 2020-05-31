@@ -35,7 +35,7 @@ export default function getApolloServer(
       ...decodeToken(getToken(req.headers.authorization)),
     }),
     dataSources: () => ({
-      // bookshelf: new Bookshelf(pool, channel),
+      bookshelf: new Bookshelf(pool, channel),
       accesscard: new AccessCard(pool, channel),
     }),
     tracing: true,

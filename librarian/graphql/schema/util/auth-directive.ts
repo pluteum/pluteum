@@ -9,12 +9,11 @@ export class isAuthenticatedDirective extends SchemaDirectiveVisitor {
   public visitFieldDefinition(field: GraphQLField<any, any, any>) {
     const { resolve = defaultFieldResolver } = field;
     field.resolve = async function (source, args, context, info) {
-      const result = await resolve.call(this, source, args, context, info);
 
       if (!context || !context.user) {
         throw new Error("UNAUTHENTICATED");
       } else {
-        return result;
+        return resolve.call(this, source, args, context, info);
       }
     };
   }
