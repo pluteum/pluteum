@@ -5,6 +5,9 @@ import { AlertCircle, CheckCircle } from 'react-feather';
 
 import ActionButton from 'components/table/ActionButton';
 
+import { GET_FILES } from './queries';
+import produce from 'immer';
+
 const ActionItem = styled.button`
   appearance: none;
   background: none;
@@ -61,9 +64,22 @@ export function columnDef(reprocessFile, deleteFile, client) {
           </ActionItem>,
           <ActionItem
             onClick={() =>
-              deleteFile({ variables: { id: parseInt(original.id, 10) } }).then(
-                client.cache.evict(`File:${original.id}`),
-              )
+              deleteFile({
+                variables: { id: parseInt(original.id, 10) },
+                update: cache => {
+                  const { files } = cache.readQuery({ query: GET_FILES });
+
+                  const newFiles = produce(files, draft => {
+                    draft.splice(draft.findIndex(v => v.id === original.id), 1);
+                    return draft;
+                  });
+
+                  cache.writeQuery({
+                    query: GET_FILES,
+                    data: { files: newFiles },
+                  });
+                },
+              })
             }
             type="button"
             danger
