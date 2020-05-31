@@ -11,6 +11,11 @@ export const GET_FILES = gql`
         id
         title
       }
+      scans {
+        id
+        queuedAt
+        finishedAt
+      }
       processed
     }
   }
