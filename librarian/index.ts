@@ -3,10 +3,18 @@ import ampq from "amqplib";
 import { createPool } from "slonik";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+// @ts-ignore
+import { createQueryLoggingInterceptor } from 'slonik-interceptor-query-logging';
 
 import getApolloServer from "./graphql";
 
-const pool = createPool(`postgres://${process.env.PGHOST}`);
+const interceptors = [
+  createQueryLoggingInterceptor()
+];
+
+const pool = createPool(`postgres://${process.env.PGHOST}`, {
+  interceptors
+});
 
 const channel = ampq
   .connect(process.env.AMPQ_URL || "")

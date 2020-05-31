@@ -159,15 +159,15 @@ export default class User {
   }
 
   public async refresh(jwt: string) {
-    return new Promise((resolve, reject) => {
-      verify(jwt, JWT_KEY, (decoded) => {
-        if (decoded instanceof TokenExpiredError) {
+    return new Promise((resolve, reject) =>
+      verify(jwt, JWT_KEY, (err, decoded) => {
+        if (err instanceof TokenExpiredError) {
           reject(new AuthenticationError("Refresh token expired"));
         }
 
         resolve(decoded);
-      });
-    })
+      })
+    )
       .then(async ({ id, library, jti }: any) => ({
         library,
         user: await this.pool.one(
@@ -176,12 +176,12 @@ export default class User {
       }))
       .then(({ library, user }) =>
         Promise.all([
-          generateRefreshToken(user, library),
-          generateToken(user, library),
+          generateRefreshToken(user, library.id),
+          generateToken(user, library.id),
         ])
       )
       .then(([refresh, token]) => ({ refresh, token }))
-      .catch(() => {
+      .catch((e) => {
         throw new AuthenticationError("Invalid Refresh Token");
       });
   }

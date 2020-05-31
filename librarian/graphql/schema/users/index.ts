@@ -46,6 +46,7 @@ export const typeDef = `
 export const resolvers = {
   Query: {
     refresh: async (parent: any, args: any, context: any) => {
+      console.log('refresh token', context.refreshToken)
       const {
         refresh,
         token,
@@ -67,8 +68,8 @@ export const resolvers = {
     login: (_: any, { input }: any, context: any) => {
       return context.dataSources.accesscard.user
         .login(input)
-        .then(({ refresh, ...data }: any) => {
-          context.setCookie("accesscard-refresh", refresh, {
+        .then(({ refreshToken, ...data }: any) => {
+          context.setCookie("accesscard-refresh", refreshToken, {
             httpOnly: true,
           });
 
@@ -76,7 +77,11 @@ export const resolvers = {
         });
     },
     register: (_: any, { input }: any, context: any) => {
-      return context.dataSources.accesscard.user.register(input);
+      return context.dataSources.accesscard.user.register(input).then(
+        async (user: any) => {
+          await context.dataSources.accesscard.library.create({ title: `${user.firstName}'s Library`, userId: user.id })
+          return user;
+        });
     },
     forgot: async (_: any, { email }: any, context: any) => {
       const success = await context.dataSources.accesscard.user.forgot(email);

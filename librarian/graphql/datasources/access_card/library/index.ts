@@ -11,12 +11,12 @@ export default class Library {
   public create = ({ title, userId }: any) =>
     this.pool
       .one(
-        sql`INSERT INTO "libraries" (title, uuid) VALUES (${title}, ${uuid()})`
+        sql`INSERT INTO "libraries" (title, uuid) VALUES (${title}, ${uuid()}) RETURNING *`
       )
       .then(async (library) => ({
         library,
         link: await this.pool.one(
-          sql`INSERT INTO "users_libraries_link" (user, library, default) VALUES (${userId}, ${library.id}, true)`
+          sql`INSERT INTO "users_libraries_link" ("user", "library", "default") VALUES (${userId}, ${library.id}, true) RETURNING *`
         ),
       }))
       .then(({ library }) => library);
