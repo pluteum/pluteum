@@ -46,7 +46,6 @@ export const typeDef = `
 export const resolvers = {
   Query: {
     refresh: async (parent: any, args: any, context: any) => {
-      console.log('refresh token', context.refreshToken)
       const {
         refresh,
         token,

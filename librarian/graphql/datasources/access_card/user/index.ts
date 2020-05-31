@@ -176,11 +176,11 @@ export default class User {
       }))
       .then(({ library, user }) =>
         Promise.all([
-          generateRefreshToken(user, library.id),
-          generateToken(user, library.id),
+          this.createNewRefreshToken(user, library),
+          generateToken(user, library),
         ])
       )
-      .then(([refresh, token]) => ({ refresh, token }))
+      .then(([refresh, token]) => ({ refresh: refresh, token }))
       .catch((e) => {
         throw new AuthenticationError("Invalid Refresh Token");
       });
