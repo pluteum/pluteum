@@ -94,7 +94,7 @@ export default class Files {
       return this.pool.one(query).then((fileRow) => {
         if (fileRow.format === "pdf") {
           this.channel.sendToQueue(
-            "monocle_pdf_isbn",
+            "monocle_isbn",
             Buffer.from(
               JSON.stringify({
                 token: this.accessCard.service.generateToken(this.library),
@@ -110,6 +110,22 @@ export default class Files {
       await remove(filePath);
       return new Error("File already exists");
     }
+  }
+
+  public async reprocessFile(fileId: number) {
+    const query = sql`SELECT * FROM "files" WHERE "id" = ${fileId}`;
+
+    return this.pool.one(query).then((file) => {
+      this.channel.sendToQueue(
+        "monocle_isbn",
+        Buffer.from(
+          JSON.stringify({
+            token: this.accessCard.service.generateToken(this.library),
+            ...file,
+          })
+        )
+      );
+    });
   }
 
   public async deleteFile(fileId: number) {

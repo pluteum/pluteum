@@ -13,6 +13,7 @@ export const typeDef = gql`
     image: String
     processed: Boolean
     book: Book
+    scans: [Scan]
   }
 
   extend type Query {
@@ -23,6 +24,7 @@ export const typeDef = gql`
   extend type Mutation {
     uploadFile(file: FileUpload): File
     deleteFile(id: Int): Boolean
+    reprocessFile(id: Int): Boolean
   }
 `;
 
@@ -39,9 +41,13 @@ export const resolvers = {
       context.dataSources.bookshelf.files.addFile(file),
     deleteFile: async (_: any, { id }: any, context: any) =>
       context.dataSources.bookshelf.files.deleteFile(id),
+    reprocessFile: async (_: any, { id }: any, context: any) =>
+      context.dataSources.bookshelf.files.reprocessFile(id),
   },
   File: {
     book: async (parent: any, _: any, context: any) =>
       context.dataSources.bookshelf.books.getBookByFile(parent.id),
+    scans: async (parent: any, _: any, context: any) =>
+      context.dataSources.bookshelf.scans.getScansByFile(parent.id),
   },
 };

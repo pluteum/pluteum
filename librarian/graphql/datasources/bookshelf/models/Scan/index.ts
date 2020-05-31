@@ -32,6 +32,15 @@ export default class Scan {
     return this.pool.one(query);
   }
 
+  public getScansByFile(id: number) {
+    const query = sql`
+        SELECT "scans".* 
+        FROM "scans" JOIN "files" ON "scans"."fileId" = "files"."id"
+        WHERE "files"."id" = ${id}`;
+
+    return this.pool.any(query);
+  }
+
   public getFileByScan(id: number) {
     const query = sql`
         SELECT "files".* 
