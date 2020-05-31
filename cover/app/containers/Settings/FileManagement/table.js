@@ -19,7 +19,7 @@ const ActionItem = styled.button`
   }
 `;
 
-export function columnDef(reprocessFile, deleteFile) {
+export function columnDef(reprocessFile, deleteFile, client) {
   return [
     {
       Header: 'Filename',
@@ -61,7 +61,9 @@ export function columnDef(reprocessFile, deleteFile) {
           </ActionItem>,
           <ActionItem
             onClick={() =>
-              deleteFile({ variables: { id: parseInt(original.id, 10) } })
+              deleteFile({ variables: { id: parseInt(original.id, 10) } }).then(
+                client.cache.evict(`File:${original.id}`),
+              )
             }
             type="button"
             danger

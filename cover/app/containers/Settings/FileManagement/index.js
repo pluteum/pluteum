@@ -7,7 +7,7 @@ import Typography from 'components/common/Type/Typography';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from 'react-apollo';
 
 import Table from 'components/table';
 
@@ -25,10 +25,10 @@ export function FileManagement() {
   });
 
   const [reprocessFile] = useMutation(REPROCESS_FILE);
-  const [deleteFile] = useMutation(DELETE_FILE);
+  const [deleteFile, { client }] = useMutation(DELETE_FILE);
 
   const TableColumns = React.useMemo(
-    () => columnDef(reprocessFile, deleteFile),
+    () => columnDef(reprocessFile, deleteFile, client),
     [],
   );
   const TableData = React.useMemo(() => files, [files]);

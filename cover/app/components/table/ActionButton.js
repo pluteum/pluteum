@@ -64,7 +64,7 @@ export default function ActionButton({ options }) {
       <MenuButton onClick={() => toggleOpen(!open)} type="button">
         <MoreHorizontal color={open ? '#0A4FCD' : '#494B4F'} />
       </MenuButton>
-      {open && <MenuList>{options}</MenuList>}
+      {open && <MenuList onClick={() => toggleOpen(false)}>{options}</MenuList>}
     </MenuLayout>
   );
 }

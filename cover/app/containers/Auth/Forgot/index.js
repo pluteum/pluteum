@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from 'react-apollo';
 
 import { FORGOT_MUTATION } from './queries';
 import { ForgotSchema } from './validation';

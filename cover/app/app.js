@@ -13,12 +13,15 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, fromPromise } from 'apollo-link';
-import { onError } from 'apollo-link-error';
+import {
+  ApolloClient,
+  ApolloLink,
+  fromPromise,
+  InMemoryCache,
+} from '@apollo/client';
+import { onError } from '@apollo/link-error';
 import { createBrowserHistory } from 'history';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from 'react-apollo';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -28,7 +31,7 @@ import App from 'containers/App';
 /* eslint-disable import/no-unresolved, import/extensions */
 import 'file-loader?name=.htaccess!./.htaccess';
 import { createUploadLink } from 'apollo-upload-client';
-import { setContext } from 'apollo-link-context';
+import { setContext } from '@apollo/link-context';
 
 import { customFetch } from 'utils/fetch';
 import theme from './theme';

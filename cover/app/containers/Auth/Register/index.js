@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import Logo from 'components/common/Logo/Logo';
 import Typography from 'components/common/Type/Typography';
 
@@ -9,7 +7,7 @@ import TextInput from 'components/form/input/Text';
 import Button from 'components/form/Button';
 
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from 'react-apollo';
 import Layout from 'containers/Auth/components/Layout';
 
 const MUTATION = gql`
