@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { AlertCircle, CheckCircle } from 'react-feather';
+import { AlertCircle, CheckCircle, Loader, PauseCircle } from 'react-feather';
 
 import ActionButton from 'components/table/ActionButton';
 
@@ -35,14 +35,37 @@ export function columnDef(reprocessFile, deleteFile, client) {
     },
     {
       Header: 'Status',
-      accessor: 'processed',
+      accessor: 'scans',
       // eslint-disable-next-line react/prop-types
-      Cell: ({ value }) =>
-        value ? (
-          <CheckCircle color="#494B4F" />
-        ) : (
-          <AlertCircle color="#D52020" />
-        ),
+      Cell: ({ value = [] }) => {
+        let done;
+        let error;
+        let processing;
+
+        value.forEach(scan => {
+          if (scan.queuedAt && !scan.finishedAt) {
+            processing = true;
+          } else if (scan.error) {
+            error = true;
+          } else if (scan.finishedAt) {
+            done = true;
+          }
+        });
+
+        if (processing) {
+          return <Loader />;
+        }
+
+        if (error) {
+          return <AlertCircle color="#D52020" />;
+        }
+
+        if (done) {
+          return <CheckCircle color="#494B4F" />;
+        }
+
+        return <PauseCircle />;
+      },
     },
     {
       Header: 'Filetype',
