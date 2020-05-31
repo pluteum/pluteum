@@ -91,41 +91,11 @@ export default class Files {
         RETURNING *
       `;
 
-      return this.pool.one(query).then((fileRow) => {
-        if (fileRow.format === "pdf") {
-          this.channel.sendToQueue(
-            "monocle_isbn",
-            Buffer.from(
-              JSON.stringify({
-                token: this.accessCard.service.generateToken(this.library),
-                ...fileRow,
-              })
-            )
-          );
-        }
-
-        return fileRow;
-      });
+      return this.pool.one(query);
     } else {
       await remove(filePath);
-      return new Error("File already exists");
+      throw new Error("File already exists");
     }
-  }
-
-  public async reprocessFile(fileId: number) {
-    const query = sql`SELECT * FROM "files" WHERE "id" = ${fileId}`;
-
-    return this.pool.one(query).then((file) => {
-      this.channel.sendToQueue(
-        "monocle_isbn",
-        Buffer.from(
-          JSON.stringify({
-            token: this.accessCard.service.generateToken(this.library),
-            ...file,
-          })
-        )
-      );
-    });
   }
 
   public async deleteFile(fileId: number) {

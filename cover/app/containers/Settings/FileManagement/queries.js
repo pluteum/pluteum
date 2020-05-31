@@ -19,7 +19,12 @@ export const GET_FILES = gql`
 export const REPROCESS_FILE = gql`
   mutation reprocessFile($id: Int!) {
     reprocessFile(id: $id) {
+      id
+      file {
+        id
+      }
       uuid
+      queuedAt
     }
   }
 `;

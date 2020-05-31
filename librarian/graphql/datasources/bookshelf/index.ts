@@ -43,6 +43,11 @@ export default class Bookshelf extends DataSource<any> {
       this.accessCard,
       this.library
     );
-    this.scans = new Scan(this.pool, this.library);
+    this.scans = new Scan(
+      this.pool,
+      this.channel,
+      this.accessCard,
+      this.library
+    );
   }
 }

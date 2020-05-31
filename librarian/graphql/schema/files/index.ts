@@ -24,7 +24,7 @@ export const typeDef = gql`
   extend type Mutation {
     uploadFile(file: FileUpload): File
     deleteFile(id: Int): Boolean
-    reprocessFile(id: Int): Boolean
+    reprocessFile(id: Int): Scan
   }
 `;
 
@@ -38,11 +38,20 @@ export const resolvers = {
   Mutation: {
     // TODO: add some basic input validation here
     uploadFile: async (_: any, { file }: any, context: any) =>
-      context.dataSources.bookshelf.files.addFile(file),
+      context.dataSources.bookshelf.files
+        .addFile(file)
+        .then(async (file: any) => {
+          await context.dataSources.bookshelf.scans.startScan(file);
+          return file;
+        }),
     deleteFile: async (_: any, { id }: any, context: any) =>
       context.dataSources.bookshelf.files.deleteFile(id),
     reprocessFile: async (_: any, { id }: any, context: any) =>
-      context.dataSources.bookshelf.files.reprocessFile(id),
+      context.dataSources.bookshelf.files
+        .getFileById(id)
+        .then((file: any) =>
+          context.dataSources.bookshelf.scans.startScan(file)
+        ),
   },
   File: {
     book: async (parent: any, _: any, context: any) =>
