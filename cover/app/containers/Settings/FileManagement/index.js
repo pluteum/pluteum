@@ -7,12 +7,11 @@ import Typography from 'components/common/Type/Typography';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import Table from 'components/table';
-import Filter from 'components/table/Filter';
 
+import { GET_FILES, REPROCESS_FILE, DELETE_FILE } from './queries';
 import { columnDef } from './table';
 
 const Layout = styled.div`
@@ -20,28 +19,18 @@ const Layout = styled.div`
   width: 100%;
 `;
 
-const GET_FILES = gql`
-  {
-    files {
-      id
-      name
-      format
-      url
-      book {
-        id
-        title
-      }
-      processed
-    }
-  }
-`;
-
 export function FileManagement() {
   const { data: { files = [] } = {} } = useQuery(GET_FILES, {
     fetchPolicy: 'cache-and-network',
   });
 
-  const TableColumns = React.useMemo(columnDef, []);
+  const [reprocessFile] = useMutation(REPROCESS_FILE);
+  const [deleteFile] = useMutation(DELETE_FILE);
+
+  const TableColumns = React.useMemo(
+    () => columnDef(reprocessFile, deleteFile),
+    [],
+  );
   const TableData = React.useMemo(() => files, [files]);
 
   return (
@@ -51,15 +40,9 @@ export function FileManagement() {
         <meta name="description" content="Description of File Management" />
       </Helmet>
       <Typography type="SectionTitle">Manage Files</Typography>
-      <Filter
-        defaultOptions={['Processing', 'Failed']}
-        options={['Finished', 'Processing', 'Failed']}
-      />
       <Table columns={TableColumns} data={TableData} rowSelection />
     </Layout>
   );
 }
-
-FileManagement.propTypes = {};
 
 export default FileManagement;

@@ -87,7 +87,7 @@ export default class Files {
         INSERT INTO "files" ("uuid", "md5", "format", "filePath", "url", "library", "name", "size")
         VALUES (${uuid}, ${md5}, ${format}, ${filePath}, ${url}, ${
         this.library
-        }, ${input.filename}, ${dataLength / 1000})
+      }, ${input.filename}, ${dataLength / 1000})
         RETURNING *
       `;
 
@@ -113,12 +113,12 @@ export default class Files {
   }
 
   public async deleteFile(fileId: number) {
-    const selectQuery = sql`SELECT "filepath" FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`;
+    const selectQuery = sql`SELECT "filePath" FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`;
 
-    const file = await this.pool.maybeOne(selectQuery);
+    const filePath = await this.pool.maybeOneFirst(selectQuery);
 
-    if (file) {
-      await remove(file.filePath);
+    if (filePath) {
+      await remove(filePath);
 
       return this.pool
         .query(

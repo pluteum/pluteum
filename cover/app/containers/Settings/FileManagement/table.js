@@ -1,8 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import { MoreHorizontal, AlertCircle, CheckCircle } from 'react-feather';
+import { AlertCircle, CheckCircle } from 'react-feather';
 
-export function columnDef() {
+import ActionButton from 'components/table/ActionButton';
+
+const ActionItem = styled.button`
+  appearance: none;
+  background: none;
+  border: 0;
+  color: ${props => props.theme.colors.darkGrey};
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    color: ${props =>
+      props.danger ? props.theme.colors.red : props.theme.colors.primary};
+  }
+`;
+
+export function columnDef(reprocessFile, deleteFile) {
   return [
     {
       Header: 'Filename',
@@ -31,7 +48,29 @@ export function columnDef() {
     },
     {
       id: 'actions',
-      Cell: ({ value }) => <MoreHorizontal />,
+      // eslint-disable-next-line react/prop-types
+      Cell: ({ row: { original } }) => {
+        const options = [
+          <ActionItem
+            onClick={() =>
+              reprocessFile({ variables: { id: parseInt(original.id, 10) } })
+            }
+            type="button"
+          >
+            Reprocess File
+          </ActionItem>,
+          <ActionItem
+            onClick={() =>
+              deleteFile({ variables: { id: parseInt(original.id, 10) } })
+            }
+            type="button"
+            danger
+          >
+            Delete File
+          </ActionItem>,
+        ];
+        return <ActionButton options={options} />;
+      },
       width: 50,
     },
   ];

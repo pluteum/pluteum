@@ -1,0 +1,31 @@
+import gql from 'graphql-tag';
+
+export const GET_FILES = gql`
+  {
+    files {
+      id
+      name
+      format
+      url
+      book {
+        id
+        title
+      }
+      processed
+    }
+  }
+`;
+
+export const REPROCESS_FILE = gql`
+  mutation reprocessFile($id: Int!) {
+    reprocessFile(id: $id) {
+      uuid
+    }
+  }
+`;
+
+export const DELETE_FILE = gql`
+  mutation deleteFile($id: Int!) {
+    deleteFile(id: $id)
+  }
+`;
