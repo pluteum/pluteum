@@ -43,6 +43,20 @@ export default class Scan {
     });
   }
 
+  public finishScan(scan: any) {
+    const query = sql`
+      UPDATE "scans"
+      SET 
+        "finishedAt" = ${scan.finishedAt}, 
+        "error" = ${scan.error || ""}, 
+        "payload" = ${scan.payload || ""}, 
+        "source" = ${scan.source || ""}
+      WHERE "uuid" = ${scan.uuid}
+      RETURNING *`;
+
+    return this.pool.one(query);
+  }
+
   public getScans() {
     const query = sql`SELECT * FROM "scans" WHERE "library" = ${this.library}`;
 

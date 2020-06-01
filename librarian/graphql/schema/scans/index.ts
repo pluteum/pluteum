@@ -22,6 +22,14 @@ export const typeDef = gql`
     finishedAt: String
   }
 
+  input FinishScanInput {
+    uuid: String
+    source: String
+    payload: String
+    error: String
+    finishedAt: String
+  }
+
   extend type Query {
     scans: [Scan] @isAuthenticated
     getScan(id: Int!): File @isAuthenticated
@@ -29,6 +37,7 @@ export const typeDef = gql`
 
   extend type Mutation {
     uploadScan(scan: ScanInput): Scan
+    finishScan(scan: FinishScanInput): Scan
   }
 `;
 
@@ -42,6 +51,8 @@ export const resolvers = {
   Mutation: {
     uploadScan: async (_: any, { scan }: any, context: any) =>
       context.dataSources.bookshelf.scans.addScan(scan),
+    finishScan: async (_: any, { scan }: any, context: any) =>
+      context.dataSources.bookshelf.scans.finishScan(scan),
   },
   Scan: {
     file: async (parent: any, _: any, context: any) =>
