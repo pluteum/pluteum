@@ -1,0 +1,3 @@
+[submodule "services/monocle/ebook-tools"]
+	path = services/monocle/ebook-tools
+	url = git@github.com:na--/ebook-tools.git
