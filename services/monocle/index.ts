@@ -15,22 +15,9 @@ ampq
 
         const filePath = await downloadFile(file.url);
 
-        processFile(filePath);
-
-        // if (file.format === "pdf") {
-        //   try {
-        //     const result = await processPDF(fileBuffer);
-        //     if (result.isbn) {
-        //       const book = await getBookByISBN(result.isbn);
-        //       await createBookFromFile(token, {
-        //         file: { id: file.id },
-        //         ...book,
-        //       });
-        //     }
-        //   } catch (e) {
-        //     console.error(e);
-        //   }
-        // }
+        processFile(filePath)
+          .then(getBookByISBN)
+          .then((book) => createBookFromFile(token, scan, book));
 
         channel.ack(msg);
       }
