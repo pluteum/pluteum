@@ -22,7 +22,7 @@ const ActionItem = styled.button`
   }
 `;
 
-export function columnDef(reprocessFile, deleteFile, client) {
+export function columnDef(reprocessFile, deleteFile) {
   return [
     {
       Header: 'Filename',

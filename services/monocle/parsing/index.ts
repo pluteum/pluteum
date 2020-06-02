@@ -1,6 +1,7 @@
 import { exec } from "child_process";
+import { remove } from "fs-extra";
 
-export default function processFile(filePath: String) {
+export default function processFile(filePath: string) {
   return new Promise((resolve, reject) => {
     const findISBNProcess = exec(`./ebook-tools/find-isbns.sh ./${filePath}`);
     let isbn: string;
@@ -10,8 +11,18 @@ export default function processFile(filePath: String) {
     });
 
     findISBNProcess.on("close", (code) => {
-      resolve(isbn);
       console.log(`child process exited with code ${code}`);
+      remove(filePath).then(() => {
+        if (code === 0) {
+          if (isbn) {
+            resolve(isbn);
+          } else {
+            reject(new Error("ISBN_PARSE_FAILED"));
+          }
+        }
+
+        reject(new Error("ISBN_PARSE_ERROR"));
+      });
     });
   });
 }

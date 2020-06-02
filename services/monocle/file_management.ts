@@ -31,7 +31,7 @@ export default async function downloadFile(url: string): Promise<String> {
     });
     stream.on("error", (e: Error) => {
       fileDebug(`File downloaded failed with ${e.message}`);
-      reject();
+      reject(new Error("FAILED_DOWNLOAD"));
     });
   });
 }

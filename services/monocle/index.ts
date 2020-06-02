@@ -2,7 +2,10 @@ import ampq from "amqplib";
 
 import { getBookByISBN } from "./fetch/openlibrary";
 import downloadFile from "./file_management";
-import createBookFromFile from "./entry";
+import createBookFromFile, {
+  addSuccessfulScan,
+  addUnsuccessfulScan,
+} from "./entry";
 import processFile from "./parsing";
 
 ampq
@@ -13,11 +16,11 @@ ampq
       if (msg) {
         const { token, scan, file } = JSON.parse(msg.content.toString() || "");
 
-        const filePath = await downloadFile(file.url);
-
-        processFile(filePath)
+        downloadFile(file.url)
+          .then(processFile)
           .then(getBookByISBN)
-          .then((book) => createBookFromFile(token, scan, book));
+          .then((book) => addSuccessfulScan(token, scan, book))
+          .catch((e) => addUnsuccessfulScan(token, scan, e));
 
         channel.ack(msg);
       }

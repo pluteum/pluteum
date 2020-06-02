@@ -13,6 +13,7 @@ export const GET_FILES = gql`
       }
       scans {
         id
+        error
         queuedAt
         finishedAt
       }

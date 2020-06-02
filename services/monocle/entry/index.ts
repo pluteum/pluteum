@@ -10,11 +10,7 @@ const query = `mutation finishScan($scan: FinishScanInput){
     }
   }`;
 
-export default function createBookFromFile(
-  token: string,
-  scan: any,
-  book: any
-) {
+export function addSuccessfulScan(token: string, scan: any, book: any) {
   client.setHeader("Authorization", `Bearer: ${token}`);
   return client.request(query, {
     scan: {
@@ -22,6 +18,22 @@ export default function createBookFromFile(
       source: "Open Library",
       payload: JSON.stringify(book),
       error: null,
+      finishedAt: new Date(Date.now())
+        .toISOString()
+        .replace("T", " ")
+        .replace("Z", ""),
+    },
+  });
+}
+
+export function addUnsuccessfulScan(token: string, scan: any, error: Error) {
+  client.setHeader("Authorization", `Bearer: ${token}`);
+  return client.request(query, {
+    scan: {
+      uuid: scan.uuid,
+      source: null,
+      payload: null,
+      error: error.message,
       finishedAt: new Date(Date.now())
         .toISOString()
         .replace("T", " ")
