@@ -24,7 +24,7 @@ export default class Author {
   public getAuthorsOfBook(bookId: number) {
     const query = sql`
     SELECT "authors".*
-    FROM "authors" JOIN "books_authors_link" ON "authors"."id" = "book_authors_link"."author"
+    FROM "authors" JOIN "books_authors_link" ON "authors"."id" = "books_authors_link"."author"
     WHERE "books_authors_link"."book" = ${bookId} AND "authors"."library" = ${this.library}`;
 
     return this.pool.any(query);
