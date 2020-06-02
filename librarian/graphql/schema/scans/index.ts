@@ -52,7 +52,21 @@ export const resolvers = {
     uploadScan: async (_: any, { scan }: any, context: any) =>
       context.dataSources.bookshelf.scans.addScan(scan),
     finishScan: async (_: any, { scan }: any, context: any) =>
-      context.dataSources.bookshelf.scans.finishScan(scan),
+      context.dataSources.bookshelf.scans
+        .finishScan(scan)
+        .then(async (scan: any) => {
+          if (scan.payload) {
+            const book = JSON.parse(scan.payload);
+            const file = { id: scan.fileId };
+
+            await context.dataSources.bookshelf.books.saveBookFromScan({
+              file,
+              ...book,
+            });
+          }
+
+          return scan;
+        }),
   },
   Scan: {
     file: async (parent: any, _: any, context: any) =>

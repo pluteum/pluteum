@@ -54,9 +54,9 @@ export default class Book {
 
     const query = sql`
       INSERT INTO "books" ("uuid", "title", "isbn", "seriesIndex", "library")
-      VALUES (${uuidv4()}, ${book.title}, ${book.isbn}, ${book.seriesIndex}, ${
-      this.library
-      })
+      VALUES (${uuidv4()}, ${book.title}, ${book.isbn || null}, ${
+      book.seriesIndex || null
+    }, ${this.library})
       RETURNING *
     `;
 
@@ -115,5 +115,19 @@ export default class Book {
     }
 
     return newBook;
+  }
+
+  public saveBookFromScan(input: any) {
+    return this.pool
+      .maybeOne(
+        sql`SELECT * FROM "books_files_link" WHERE "file" = ${input.file.id}`
+      )
+      .then((result) => {
+        if (!result) {
+          return this.saveBook(input);
+        }
+
+        return;
+      });
   }
 }
