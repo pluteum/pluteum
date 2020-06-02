@@ -17,23 +17,27 @@ export async function getBookByISBN(isbn: any) {
     .then(({ data }) => {
       const isbnKey = Object.keys(data)[0];
 
-      const results: any = { isbn };
+      if (data[isbnKey]) {
+        const results: any = { isbn };
 
-      if (data[isbnKey].title) {
-        results.title = data[isbnKey].title;
+        if (data[isbnKey].title) {
+          results.title = data[isbnKey].title;
+        }
+
+        if (data[isbnKey].authors) {
+          results.authors = data[isbnKey].authors.map((author: any) => ({
+            name: author.name,
+          }));
+        }
+
+        return results;
+      } else {
+        throw new Error();
       }
-
-      if (data[isbnKey].authors) {
-        results.authors = data[isbnKey].authors.map((author: any) => ({
-          name: author.name,
-        }));
-      }
-
-      return results;
     })
     .catch((e: AxiosError) => {
       openLibraryDebug(
-        `Failed to retrieve data from OpenLibrary, request errored with code ${e.code}`
+        `Failed to retrieve data from OpenLibrary, request errored with the following: \n ${e.message}`
       );
       throw new Error("FAILED_LOOKUP");
     });
