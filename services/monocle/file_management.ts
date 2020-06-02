@@ -5,7 +5,7 @@ import { performance } from "perf_hooks";
 
 const fileDebug = debug("pluteum:monocle:files");
 
-export default async function downloadFile(url: string): Promise<String> {
+export default async function downloadFile(url: string): Promise<string> {
   var t0 = performance.now();
   fileDebug(`Starting file download from: ${url}`);
   const response = await axios({

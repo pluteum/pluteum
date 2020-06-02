@@ -2,10 +2,7 @@ import ampq from "amqplib";
 
 import { getBookByISBN } from "./fetch/openlibrary";
 import downloadFile from "./file_management";
-import createBookFromFile, {
-  addSuccessfulScan,
-  addUnsuccessfulScan,
-} from "./entry";
+import { addSuccessfulScan, addUnsuccessfulScan } from "./entry";
 import processFile from "./parsing";
 
 ampq
