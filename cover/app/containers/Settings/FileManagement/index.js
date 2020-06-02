@@ -17,6 +17,7 @@ import { columnDef } from './table';
 const Layout = styled.div`
   padding: 30px 25px;
   width: 100%;
+  overflow-y: auto;
 `;
 
 export function FileManagement() {
