@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import theme from '../../../theme';
+import theme from '../../../../theme';
 import LoginUI from '../ui';
 
 // eslint-disable-next-line react/prop-types

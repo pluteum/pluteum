@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropType from 'prop-types';
 
-const Bar = styled.div`
+const Bar: any = styled.div`
   width: 100%;
   height: 8px;
   background: #dbdde2;
@@ -16,12 +16,12 @@ const Bar = styled.div`
     display: block;
     left: 0;
     top: 0;
-    background: ${props =>
+    background: ${(props: any) =>
       props.error ? '#D52020' : props.theme.colors.primary};
     height: 8px;
     border-radius: 4px;
     transition: width 0.5s ease-in, background 0.5s ease-in;
-    width: ${props => props.percent * 100}%;
+    width: ${(props: any) => props.percent * 100}%;
   }
 `;
 

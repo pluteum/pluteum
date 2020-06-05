@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledSVG = styled.svg`
+const StyledSVG: any = styled.svg`
   width: 100%;
   color: ${props => props.theme.colors.primary};
 
@@ -15,7 +15,11 @@ const StyledSVG = styled.svg`
   }
 `;
 
-export default function Logo({ className, icon, ...props }) {
+export default function Logo({
+  className = undefined,
+  icon = false,
+  ...props
+}): any {
   if (icon) {
     return (
       <StyledSVG

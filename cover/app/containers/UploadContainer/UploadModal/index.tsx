@@ -16,7 +16,7 @@ export default function UploadModal({
       {Object.keys(uploadingFiles).length === 0 && (
         <UploadZone onUpload={onUpload} />
       )}
-      {Object.values(uploadingFiles).map(value => (
+      {Object.values(uploadingFiles).map((value: any) => (
         <React.Fragment>
           <p key={value.name}>
             {value.error

@@ -19,7 +19,7 @@ export const uploadFetch = (url, options) =>
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
-      const opts = {
+      const opts: any = {
         status: xhr.status,
         statusText: xhr.statusText,
         headers: parseHeaders(xhr.getAllResponseHeaders() || ''),
@@ -28,7 +28,7 @@ export const uploadFetch = (url, options) =>
         'responseURL' in xhr
           ? xhr.responseURL
           : opts.headers.get('X-Request-URL');
-      const body = 'response' in xhr ? xhr.response : xhr.responseText;
+      const body = xhr.response;
       resolve(new Response(body, opts));
     };
     xhr.onerror = () => {

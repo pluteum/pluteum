@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Button from 'components/form/Button';
 import PageHeader from 'components/common/PageHeader';
 import ReactFitText from 'react-fittext';
-import img from 'images/sample_book.png';
 import { Star } from 'react-feather';
 
 import {

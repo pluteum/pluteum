@@ -29,7 +29,7 @@ export function FileManagement() {
   const [deleteFile, { client }] = useMutation(DELETE_FILE);
 
   const TableColumns = React.useMemo(
-    () => columnDef(reprocessFile, deleteFile, client),
+    () => columnDef(reprocessFile, deleteFile),
     [],
   );
   const TableData = React.useMemo(() => files, [files]);

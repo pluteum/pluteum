@@ -15,7 +15,7 @@ const InputGroup = styled.div`
   position: relative;
 `;
 
-const StyledInput = styled.input`
+const StyledInput: any = styled.input`
   font-family: ${props => props.theme.type.sans_serif}
 
   color: ${props => props.theme.colors.darkGrey};
@@ -47,7 +47,7 @@ const StyledError = styled.p`
   line-height: 14px;
 `;
 
-export default function Text({ label, error, name, ...props }) {
+export default function Text({ label, error, name, ...props }: any): any {
   if (label) {
     return (
       <InputGroup>
@@ -65,4 +65,7 @@ Text.propTypes = {
   label: PropTypes.string,
   error: PropTypes.string,
   name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
 };

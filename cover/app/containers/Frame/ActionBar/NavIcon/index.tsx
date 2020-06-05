@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { NavLink } from 'react-router-dom';
 
-const Component = styled(NavLink)`
+const Component: any = styled(NavLink)`
   position: relative;
   display: inline-flex;
   align-items: center;

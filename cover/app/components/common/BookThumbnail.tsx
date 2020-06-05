@@ -5,14 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Typography from './Type/Typography';
 
-const Wrapper = styled.div`
+const Wrapper: any = styled.div`
   cursor: pointer;
   position: relative;
   width: 180px;
   height: 275px;
 
   > button {
-    ${props => props.dropdownOpen && 'display: block;'}
+    ${(props: any) => props.dropdownOpen && 'display: block;'}
   }
 
   &:hover > button {
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const DownloadButton = styled.button`
+const DownloadButton: any = styled.button`
   cursor: pointer;
   display: none;
   position: absolute;
@@ -32,8 +32,8 @@ const DownloadButton = styled.button`
   border-radius: 4px;
   border: 0;
   padding: 0;
-  text-align: ${props => (props.multipleFormats ? 'left' : 'center')};
-  padding-left: ${props => (props.multipleFormats ? '16px' : '0')};
+  text-align: ${(props: any) => (props.multipleFormats ? 'left' : 'center')};
+  padding-left: ${(props: any) => (props.multipleFormats ? '16px' : '0')};
 
   span {
     width: 100%;
@@ -44,7 +44,7 @@ const DownloadButton = styled.button`
   }
 `;
 
-const DropdownArrowButton = styled.button`
+const DropdownArrowButton: any = styled.button`
   width: 36px;
   height: 100%;
   position: absolute;
@@ -58,7 +58,7 @@ const DropdownArrowButton = styled.button`
   border-bottom-right-radius: 4px;
 `;
 
-const DropdownContent = styled.ul`
+const DropdownContent: any = styled.ul`
   position: absolute;
   width: 170px;
   left: 0;
@@ -95,7 +95,7 @@ const DropdownContent = styled.ul`
   }
 `;
 
-const BookImage = styled.img`
+const BookImage: any = styled.img`
   width: 180px;
   height: 275px;
   object-fit: cover;

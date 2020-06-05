@@ -27,6 +27,7 @@ export default function ResetPassword({ setJWT, history, location }) {
       setErrors(
         validationErrors.reduce((map, error) => {
           // eslint-disable-next-line no-param-reassign
+          // @ts-ignore
           map[error.path] = error.message;
           return map;
         }, {}),
@@ -63,12 +64,14 @@ export default function ResetPassword({ setJWT, history, location }) {
 
   function onSubmit(e) {
     e.preventDefault();
+    // @ts-ignore
     const formData = new FormData(e.target);
-    const formValues = Object.fromEntries(formData.entries());
+    // @ts-ignore
+    const password = formData.get('password').toString();
 
-    if (validate(formValues)) {
+    if (validate({ password })) {
       resetPassword({
-        variables: { input: { password: formValues.password, token } },
+        variables: { input: { password: password, token } },
       })
         .then(loginToken)
         .catch(onResetError);

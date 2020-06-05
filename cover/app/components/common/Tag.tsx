@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-const StyledTag = styled.span`
+const StyledTag: any = styled.span`
   position: relative;
   display: inline-block;
   padding: 8px 16px;
   margin: 0 5px;
-  ${props => props.hasDeleteIcon && 'padding-right: 38px;'}
+  ${(props: any) => props.hasDeleteIcon && 'padding-right: 38px;'}
 
   border-radius: 16px;
 
@@ -19,7 +19,7 @@ const StyledTag = styled.span`
   background: ${props => props.theme.colors.notAsLightBlue};
 `;
 
-const StyledDeleteButton = styled.button`
+const StyledDeleteButton: any = styled.button`
   position: absolute;
   top: 50%;
   right: 4px;

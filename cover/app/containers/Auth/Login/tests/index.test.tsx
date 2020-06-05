@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 
-import { MockedProvider } from '@apollo/react-testing';
+// import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import theme from 'theme';
@@ -56,11 +56,11 @@ const mocks = [
 
 // eslint-disable-next-line react/prop-types
 const ProviderWrapper = ({ children }) => (
-  <MockedProvider mocks={mocks} addTypename={false}>
-    <MemoryRouter>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </MemoryRouter>
-  </MockedProvider>
+  // <MockedProvider mocks={mocks} addTypename={false}>
+  <MemoryRouter>
+    <ThemeProvider theme={theme}>{children}</ThemeProvider>
+  </MemoryRouter>
+  // </MockedProvider>
 );
 
 describe('<Login />', () => {

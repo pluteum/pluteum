@@ -1,11 +1,9 @@
 import React from 'react';
-import img from 'images/sample_book.png';
 
 import BookUI from './ui';
 
 export default function Book() {
   const book = {
-    image: img,
     title: 'The Great Gatsby',
     author: 'F. Scott Fitzgerald',
     description:

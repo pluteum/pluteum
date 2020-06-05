@@ -17,8 +17,7 @@ const ActionItem = styled.button`
   outline: none;
 
   &:hover {
-    color: ${props =>
-      props.danger ? props.theme.colors.red : props.theme.colors.primary};
+    color: ${props => props.theme.colors.primary};
   }
 `;
 
@@ -105,7 +104,6 @@ export function columnDef(reprocessFile, deleteFile) {
               })
             }
             type="button"
-            danger
           >
             Delete File
           </ActionItem>,

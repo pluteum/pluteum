@@ -6,8 +6,9 @@ import React, { useState } from 'react';
 import { Manager, Reference, Popper } from 'react-popper';
 
 import propTypes from 'prop-types';
-import InfoIcon from '../../../images/icons/info.svg';
 import { Arrow, TooltipButton, TooltipContent } from './styles';
+
+const InfoIcon = require('../../../images/icons/info.svg');
 
 export default function Tooltip({ icon, text, children }) {
   let iconEl = <img className="icon" src={InfoIcon} alt="Info" />;

@@ -54,12 +54,14 @@ export default function UploadContainer({
   });
 
   useEffect(() => {
-    const files = Object.values(uploadingFiles);
+    const files: any[] = Object.values(uploadingFiles);
 
     onError(files.some(file => file.error));
 
     if (files.length) {
-      onProgress(files.reduce((acc, v) => acc + v.progress, 0) / files.length);
+      onProgress(
+        files.reduce((acc: any, v: any) => acc + v.progress, 0) / files.length,
+      );
     }
   }, [uploadingFiles]);
 

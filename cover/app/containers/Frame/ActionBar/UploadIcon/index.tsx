@@ -6,13 +6,13 @@ import { PlusCircle } from 'react-feather';
 
 import NavIcon from '../NavIcon';
 
-const StyledSVG = styled.svg`
+const StyledSVG: any = styled.svg`
   position: absolute;
 
   circle {
     transition: stroke-dashoffset 1s linear;
 
-    stroke: ${props => props.theme.colors.notAsLightBlue};
+    stroke: ${(props: any) => props.theme.colors.notAsLightBlue};
     stroke-width: 2px;
 
     transform: rotate(-90deg);
@@ -20,7 +20,8 @@ const StyledSVG = styled.svg`
   }
 
   circle#color {
-    stroke: ${props => (props.error ? '#D52020' : props.theme.colors.primary)};
+    stroke: ${(props: any) =>
+      props.error ? '#D52020' : props.theme.colors.primary};
   }
 `;
 

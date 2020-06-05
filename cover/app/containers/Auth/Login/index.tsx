@@ -23,6 +23,7 @@ export default function Login({ setJWT, history }) {
       setErrors(
         validationErrors.reduce((map, error) => {
           // eslint-disable-next-line no-param-reassign
+          // @ts-ignore
           map[error.path] = error.message;
           return map;
         }, {}),
@@ -45,7 +46,9 @@ export default function Login({ setJWT, history }) {
 
   function onSubmit(e) {
     e.preventDefault();
+    // @ts-ignore
     const formData = new FormData(e.target);
+    // @ts-ignore
     const { rememberme, ...input } = Object.fromEntries(formData.entries()); // todo: fix, add rememberme to backend - extend refresh token length
 
     if (validate(input)) {

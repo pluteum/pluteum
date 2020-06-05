@@ -6,36 +6,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import checkmark from '../../../images/icons/checkmark.svg';
+const checkmark = require('../../../images/icons/checkmark.svg');
 
-const InputGroup = styled.div`
+const InputGroup: any = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  ${props => props.hasText && 'margin-bottom: 10px;'}
+  ${(props: any) => props.hasText && 'margin-bottom: 10px;'}
 `;
 
-const StyledCheckbox = styled.input`
+const StyledCheckbox: any = styled.input`
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 1px solid ${props => props.theme.colors.grey};
+  border: 1px solid ${(props: any) => props.theme.colors.grey};
   border-radius: 4px;
   cursor: pointer;
 
   outline: none;
 
   &:disabled {
-    background: ${props => props.theme.colors.lightBlue};
+    background: ${(props: any) => props.theme.colors.lightBlue};
   }
 
   &:checked {
-    background: ${props => props.theme.colors.primary};
-    border-color: ${props => props.theme.colors.primary};
+    background: ${(props: any) => props.theme.colors.primary};
+    border-color: ${(props: any) => props.theme.colors.primary};
   }
 `;
 
-const CheckboxLabel = styled.label`
+const CheckboxLabel: any = styled.label`
   font-family: ${props => props.theme.type.sans_serif};
   color: ${props => props.theme.colors.darkGrey};
   margin-left: 10px;
@@ -50,7 +50,7 @@ const CheckboxLabel = styled.label`
 
     position: absolute;
     left: 0;
-    top: ${props => (props.hasText ? '3px' : '0')};
+    top: ${(props: any) => (props.hasText ? '3px' : '0')};
 
     pointer-events: none;
   }

@@ -25,6 +25,7 @@ export default function Register() {
   function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
+    // @ts-ignore
     const input = Object.fromEntries(formData.entries());
 
     register({ variables: { input } }).then(result => console.log(result));
