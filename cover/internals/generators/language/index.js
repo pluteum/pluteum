@@ -48,7 +48,7 @@ module.exports = {
       actions.push({
         type: 'backup',
         path: '../../app',
-        file: 'app.js',
+        file: 'app.tsx',
       });
     }
 
@@ -90,7 +90,7 @@ module.exports = {
     });
     actions.push({
       type: 'modify',
-      path: '../../app/app.js',
+      path: '../../app/app.tsx',
       pattern: /(import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),\n)(?!.*import\('intl\/locale-data\/jsonp\/[a-z]+\.js'\),)/g,
       templateFile: './language/polyfill-intl-locale.hbs',
     });

@@ -20,7 +20,7 @@ module.exports = options => ({
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.ts|\.tsx$/,
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader',
@@ -29,18 +29,18 @@ module.exports = options => ({
       // addition - add source-map support
       {
         enforce: 'pre',
-        test: /\.js$/,
+        test: /\.ts|\.tsx$/,
         exclude: /node_modules/,
         loader: 'source-map-loader',
       },
-      {
-        test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: options.babelQuery,
-        },
-      },
+      // {
+      //   test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: options.babelQuery,
+      //   },
+      // },
       {
         // Preprocess our own .css files
         // This is the place to add your own loaders (e.g. sass/less etc.)
