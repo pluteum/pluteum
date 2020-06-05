@@ -20,6 +20,7 @@ const StyledInput: any = styled.input`
 
   color: ${props => props.theme.colors.darkGrey};
 
+  font-size: 16px;
   font-weight: 400;
   border: ${props => props.theme.colors.grey} 1px solid;
   border-radius: 4px;

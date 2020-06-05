@@ -11,11 +11,19 @@ export default {
 
 export const StorybookText = () => (
   <Text
-    label={text('Label', 'Email Address')}
+    value={text('Value', 'Text')}
+    label={text('Label', '')}
     error={text('Error', undefined)}
   />
 );
 
 StorybookText.story = {
   name: 'Text',
+  parameters: {
+    design: {
+      type: 'figma',
+      url:
+        'https://www.figma.com/file/xO9UiLE8YtxCCzN7K5NPtr/Pluteum?node-id=0%3A4444',
+    },
+  },
 };
