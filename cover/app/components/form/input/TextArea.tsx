@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import StyledLabel from 'components/form/Label';
+import StyledLabel from '../Label';
 
 const InputGroup = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const InputGroup = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-  font-family: ${props => props.theme.type.sans_serif}
+  font-family: ${props => props.theme.type.sans_serif};
 
   color: ${props => props.theme.colors.darkGrey};
 
@@ -38,7 +38,7 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-export default function TextArea({ label, name, ...props }) {
+export default function TextArea({ label, name = label, ...props }) {
   if (label) {
     return (
       <InputGroup>

@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  stories: ['../stories/**/*.stories.tsx'],
+  stories: ['../app/components/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-actions',
     '@storybook/addon-links',
+    '@storybook/addon-knobs',
     {
       name: '@storybook/preset-typescript',
       options: {

@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import StyledLabel from 'components/form/Label';
+import StyledLabel from '../Label';
 
 const InputGroup = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const InputGroup = styled.div`
 `;
 
 const StyledInput: any = styled.input`
-  font-family: ${props => props.theme.type.sans_serif}
+  font-family: ${props => props.theme.type.sans_serif};
 
   color: ${props => props.theme.colors.darkGrey};
 
@@ -30,7 +30,7 @@ const StyledInput: any = styled.input`
   outline: none;
 
   &:disabled {
-    background: ${props => props.theme.colors.lightBlue}
+    background: ${props => props.theme.colors.lightBlue};
   }
 
   &:active,

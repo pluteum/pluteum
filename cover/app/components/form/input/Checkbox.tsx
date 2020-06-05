@@ -56,7 +56,7 @@ const CheckboxLabel: any = styled.label`
   }
 `;
 
-export default function Checkbox({ label, name, ...props }) {
+export default function Checkbox({ label, name = label, ...props }) {
   return (
     <InputGroup hasText={label.length > 0}>
       <StyledCheckbox id={name} type="checkbox" name={name} {...props} />

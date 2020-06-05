@@ -1,5 +1,8 @@
 // Global Styling Variables
 
+import { ThemeProvider } from 'styled-components';
+import React from 'react';
+
 // Includes font family definitions, colors and more.
 
 const lightColors = {
@@ -32,14 +35,21 @@ const darkColors = {
   alwaysWhite: '#FFFFFF',
 };
 
-export default darkMode => ({
-  colors: lightColors,
-  type: {
-    display_serif: "'DM Serif Display', serif",
-    text_serif: "'DM Serif Text', serif",
-    sans_serif:
-      "'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,sans-serif",
-    mono:
-      "'IBM Plex Mono', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;",
-  },
-});
+function theme(darkMode) {
+  return {
+    colors: lightColors,
+    type: {
+      display_serif: "'DM Serif Display', serif",
+      text_serif: "'DM Serif Text', serif",
+      sans_serif:
+        "'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica, Arial,sans-serif",
+      mono:
+        "'IBM Plex Mono', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;",
+    },
+  };
+}
+
+export const ThemeDecorator = storyFn => (
+  <ThemeProvider theme={theme(false)}>{storyFn()}</ThemeProvider>
+);
+export default theme;

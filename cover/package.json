@@ -126,6 +126,7 @@
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.4.0",
     "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-knobs": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
