@@ -52,7 +52,7 @@ const PlaceHolderCover = styled.div`
   }
 
   h1 {
-    font-family: ${props => props.theme.type.display_serif};
+    font-family: ${props => props.theme.type.text_serif};
     font-weight: normal;
     font-size: 22px;
     line-height: 25px;
