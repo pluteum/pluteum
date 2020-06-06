@@ -1,0 +1,10 @@
+kind: pipeline
+name: cover_default
+
+steps:
+  - name: build
+    image: node
+    commands:
+      - cd cover
+      - npm install
+      - npm run build

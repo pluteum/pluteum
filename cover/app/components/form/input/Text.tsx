@@ -69,4 +69,5 @@ Text.propTypes = {
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  value: PropTypes.string,
 };
