@@ -7,6 +7,7 @@ import {
 } from "../token";
 import { AuthenticationError } from "apollo-server-express";
 import { verify, TokenExpiredError } from "jsonwebtoken";
+import { v4 as uuid } from "uuid";
 import { Channel } from "amqplib";
 
 const ERRORS = {
@@ -154,8 +155,8 @@ export default class User {
       .then(
         (hashedPassword) =>
           sql`
-        INSERT INTO "users" ("firstName", "lastName", "email", "password")
-        VALUES (${firstName}, ${lastName}, ${email}, ${hashedPassword})
+        INSERT INTO "users" ("uuid", "firstName", "lastName", "email", "password")
+        VALUES (${uuid()}, ${firstName}, ${lastName}, ${email}, ${hashedPassword})
         RETURNING "id", "firstName", "lastName", "email"
       `
       )
@@ -213,15 +214,20 @@ export default class User {
             Buffer.from(JSON.stringify(mail(token)))
           ),
         ])
-      );
+      )
+      .then(() => true);
   }
 
   public reset(token: string, password: string) {
     return new Promise((resolve, reject) => {
-      verify(token, JWT_KEY, (decoded) => {
-        if (decoded instanceof TokenExpiredError) {
+      verify(token, JWT_KEY, (err, decoded) => {
+        if (err instanceof TokenExpiredError) {
           reject(new AuthenticationError("Reset token expired"));
+        } else if (err) {
+          reject(err);
         }
+
+        console.log(decoded);
 
         resolve(decoded);
       });
@@ -230,7 +236,7 @@ export default class User {
         Promise.all([
           bcrypt.hash(password, 10),
           this.pool.oneFirst(
-            sql`SELECT "id" FROM "users" WHERE "uuid" = ${uuid} AND resetToken = ${jti}`
+            sql`SELECT "id" FROM "users" WHERE "uuid" = ${uuid} AND "resetToken" = ${jti}`
           ),
         ])
       )

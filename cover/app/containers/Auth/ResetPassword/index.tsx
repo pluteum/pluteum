@@ -68,8 +68,10 @@ export default function ResetPassword({ setJWT, history, location }) {
     const formData = new FormData(e.target);
     // @ts-ignore
     const password = formData.get('password').toString();
+    // @ts-ignore
+    const confirmPassword = formData.get('confirmPassword').toString();
 
-    if (validate({ password })) {
+    if (validate({ password, confirmPassword })) {
       resetPassword({
         variables: { input: { password: password, token } },
       })
