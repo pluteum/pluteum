@@ -2,27 +2,26 @@
 kind: pipeline
 name: cover_default
 
-workspace:
-  path: /drone/src/cover
-
 steps:
   - name: install_dependencies
     image: node
     commands:
+      - cd cover
       - npm install
   - name: scan
     image: aosapps/drone-sonar-plugin
     settings:
-      usingProperties: true
       sonar_host: https://sonarcloud.io
       sonar_token:
         from_secret: SONAR_TOKEN
+      sources: ./cover
   - name: build
     image: node
     commands:
+      - cd cover
       - npm run build
 ---
 kind: signature
-hmac: f3787a11c1729ec9ff8428771f576b748a319c6805cbfe335448b2d3afc538eb
+hmac: f6652ef02184480a34629c244d4e973291fe9dbee09f02085ac60b3315343c61
 
 ...
