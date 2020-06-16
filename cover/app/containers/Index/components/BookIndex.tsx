@@ -39,8 +39,12 @@ export default function BookIndex({ books = [] }) {
   const viewOptions = [{ label: 'Sort by latest upload', value: 'recent' }];
 
   const Actions = [
-    <Dropdown defaultValue={displayOptions[0]} options={displayOptions} />,
-    <Dropdown defaultValue={viewOptions[0]} options={viewOptions} />,
+    <Dropdown
+      defaultValue={displayOptions[0]}
+      options={displayOptions}
+      isDisabled
+    />,
+    <Dropdown defaultValue={viewOptions[0]} options={viewOptions} isDisabled />,
   ];
 
   return (
