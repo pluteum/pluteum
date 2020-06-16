@@ -4,12 +4,11 @@ name: cover_default
 
 steps:
   - name: scan
-    image: committed/drone-sonarqube-node
+    image: aosapps/drone-sonar-plugin
     settings:
-      level: DEBUG
-      host:
-        from_secret: SONAR_HOST
-      token:
+      usingProperties: true
+      sonar_host: https://sonarcloud.io
+      sonar_token:
         from_secret: SONAR_TOKEN
   - name: build
     image: node
@@ -19,6 +18,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: de9b0056afd92406a336ade6b8b8e2478448f19fc4dc7a280705dbba5e29a45f
+hmac: 7fcecef713892132d0c2f51aa6eacdd409cda517f397cfc4912d3ec2b3bbce0b
 
 ...
