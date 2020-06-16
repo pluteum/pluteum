@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Button from 'components/form/Button';
+import BookCover from 'components/BookCover';
 import PageHeader from 'components/common/PageHeader';
 import ReactFitText from 'react-fittext';
 import { Star } from 'react-feather';
@@ -12,9 +13,9 @@ import {
   Author,
   Description,
   // MetaHeader,
-  FieldHeader,
+  // FieldHeader,
   // FieldContent,
-  Tag,
+  // Tag,
 } from './styles';
 
 const BookLayout = styled.div`
@@ -23,17 +24,6 @@ const BookLayout = styled.div`
   margin: 40px auto;
   grid-template-columns: 1fr 2fr;
   grid-column-gap: 64px;
-`;
-
-const BookCover = styled.div`
-  display: block;
-  min-width: 332px;
-  height: 512px;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
-
-  img {
-    max-width: 100%;
-  }
 `;
 
 const BookDetails = styled.div`
@@ -48,15 +38,15 @@ const StyledRating = styled.div`
   }
 `;
 
-const rating = (
-  <StyledRating>
-    <Star size={16} stroke="transparent" fill="#E54B4B" />
-    <Star size={16} stroke="transparent" fill="#E54B4B" />
-    <Star size={16} stroke="transparent" fill="#E54B4B" />
-    <Star size={16} stroke="transparent" fill="#E54B4B" />
-    <Star size={16} stroke="transparent" fill="#E54B4B" />
-  </StyledRating>
-);
+// const rating = (
+//   <StyledRating>
+//     <Star size={16} stroke="transparent" fill="#E54B4B" />
+//     <Star size={16} stroke="transparent" fill="#E54B4B" />
+//     <Star size={16} stroke="transparent" fill="#E54B4B" />
+//     <Star size={16} stroke="transparent" fill="#E54B4B" />
+//     <Star size={16} stroke="transparent" fill="#E54B4B" />
+//   </StyledRating>
+// );
 
 export default function BookUI({ book }) {
   const pageActions = [
@@ -64,28 +54,28 @@ export default function BookUI({ book }) {
     <Button primary>Edit Book</Button>,
   ];
 
+  const authors = book.author && book.author.map(a => a.name).join(', ');
+
   return (
     <section>
       <PageHeader title="Book" actions={pageActions} />
       <BookLayout>
-        <BookCover>
-          <img src={book.image} alt="Book" />
-        </BookCover>
+        <BookCover title={book.title} author={authors} />
         <BookDetails>
           <ReactFitText maxFontSize={72}>
             <BookTitle>{book.title}</BookTitle>
           </ReactFitText>
-          <Author>by {book.author}</Author>
-          {rating}
-          <Description>{book.description}</Description>
-          <FieldHeader style={{ marginTop: 25 }} as="p">
+          <Author>by {authors}</Author>
+          {/* {rating} */}
+          {/* <Description>{book.description}</Description> */}
+          {/* <FieldHeader style={{ marginTop: 25 }} as="p">
             Tags
-          </FieldHeader>
-          <div style={{ marginTop: 15, marginBottom: 50 }}>
+          </FieldHeader> */}
+          {/* <div style={{ marginTop: 15, marginBottom: 50 }}>
             {book.tags.map(tag => (
               <Tag>{tag}</Tag>
             ))}
-          </div>
+          </div> */}
           {/* <hr
             style={{
               border: 0,

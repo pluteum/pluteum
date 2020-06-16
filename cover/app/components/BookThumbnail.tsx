@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import BookCover from './BookCover';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled.div`
   width: 164px;
+  text-decoration: none;
 `;
 
 const StyledTitle = styled.p`
@@ -21,6 +23,7 @@ const StyledTitle = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-decoration: none;
 `;
 
 const StyledAuthor = styled.p`
@@ -36,11 +39,12 @@ const StyledAuthor = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-decoration: none;
 `;
 
-export default function BookThumbnail({ title, author, image }) {
+export default function BookThumbnail({ id, title, author, image }) {
   return (
-    <StyledContainer>
+    <StyledContainer as={Link} to={`/book/${id}`}>
       <BookCover title={title} author={author} image={image} />
       <StyledTitle title={title}>{title}</StyledTitle>
       <StyledAuthor title={author}>{author}</StyledAuthor>
@@ -49,6 +53,7 @@ export default function BookThumbnail({ title, author, image }) {
 }
 
 BookThumbnail.propTypes = {
+  id: PropTypes.string,
   image: PropTypes.string,
   title: PropTypes.string,
   author: PropTypes.string,

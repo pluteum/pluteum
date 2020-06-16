@@ -26,6 +26,7 @@ const ThumbnailGrid = styled.div`
 export default function BookIndex({ books = [] }) {
   const BookCovers = books.map(book => (
     <BookThumbnail
+      id={book.id}
       title={book.title}
       author={book.author.map(a => a.name).join(', ')}
     />

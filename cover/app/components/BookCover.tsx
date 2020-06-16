@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledOuterContainer = styled.div`
-  width: 164px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
   position: relative;
 

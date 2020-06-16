@@ -11,6 +11,7 @@ export default {
 
 export const StorybookBookThumbnail = () => (
   <BookThumbnail
+    id="0"
     image={text('Image URL', '')}
     title={text('Book Title', 'Title')}
     author={text('Book Author', 'Author')}
