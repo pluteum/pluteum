@@ -4,9 +4,7 @@ name: cover_default
 
 steps:
   - name: scan
-    image: aosapps/drone-sonar-plugin
-    commands:
-      - npm install -g typescript
+    image: committed/drone-sonarqube-node
     settings:
       usingProperties: true
       sonar_host: https://sonarcloud.io
@@ -20,6 +18,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: 955fa1b66c7fe6afe3073e453a701084884f8616f9c16853f7723b9e35151c59
+hmac: 2576d6bfd361b9b0393967637e806c8e48e0bbb0f912e1d7c751998a8be4d5ec
 
 ...
