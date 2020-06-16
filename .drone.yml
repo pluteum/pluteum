@@ -3,6 +3,10 @@ kind: pipeline
 name: cover_default
 
 steps:
+  - name: install_dependencies
+    image: node
+    commands:
+      - (cd cover && npm install); (cd librarian && npm install); (cd services/monocle && npm install); (cd services/mailroom && npm install)
   - name: scan
     image: aosapps/drone-sonar-plugin
     settings:
@@ -14,10 +18,9 @@ steps:
     image: node
     commands:
       - cd cover
-      - npm install
       - npm run build
 ---
 kind: signature
-hmac: 7fcecef713892132d0c2f51aa6eacdd409cda517f397cfc4912d3ec2b3bbce0b
+hmac: 79aaada727f07f79df35c9b9f75e6a4b6a3529c0a13e27933fe133380bee115d
 
 ...
