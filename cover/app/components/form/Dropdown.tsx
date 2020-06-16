@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { withTheme } from 'styled-components';
 import PropTypes from 'prop-types';
 
-function Dropdown({ theme, ...props }) {
+function Dropdown({ useAutoWidth = true, theme, ...props }) {
+  const [autoWidth, setAutoWidth] = useState(125);
+
+  useEffect(() => {
+    if (props.defaultValue) {
+      setAutoWidth(10 * props.defaultValue.label.length + 20);
+    }
+  }, []);
+
+  const onChange = e => {
+    setAutoWidth(10 * e.label.length + 20);
+
+    return props.onChange ? props.onChange(e) : null;
+  };
+
   const customStyles = {
     container: provided => ({
+      minWidth: useAutoWidth ? autoWidth : 125,
       ...provided,
-      minWidth: 125,
     }),
     control: () => ({
       width: '100%',
@@ -39,11 +53,19 @@ function Dropdown({ theme, ...props }) {
     ...props.styles,
   };
 
-  return <Select styles={customStyles} {...props} />;
+  return (
+    <Select
+      styles={customStyles}
+      isSearchable={false}
+      {...props}
+      onChange={onChange}
+    />
+  );
 }
 
 Dropdown.propTypes = {
   theme: PropTypes.object,
+  useAutoWidth: PropTypes.bool,
 };
 
 export default withTheme(Dropdown);

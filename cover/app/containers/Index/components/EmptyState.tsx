@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Typography from 'components/common/Type/Typography';
-import Button from 'components/form/Button';
+import Typography from '../../../components/common/Type/Typography';
+import Button from '../../../components/form/Button';
 
 const Layout = styled.section`
   display: flex;
@@ -12,8 +12,6 @@ const Layout = styled.section`
 
   justify-content: center;
   align-items: center;
-
-  background: ${props => props.theme.colors.offWhite};
 `;
 
 export default function IndexEmptyState() {

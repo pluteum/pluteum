@@ -67,15 +67,14 @@ const PlaceHolderCover = styled.div`
 `;
 
 export default function BookCover({ image, title, author }) {
-  const bookImage =
-    image !== '' ? (
-      <img src={image} alt={`Cover of ${title} by ${author}`} />
-    ) : (
-      <PlaceHolderCover>
-        <h1>{title}</h1>
-        <h2>{author}</h2>
-      </PlaceHolderCover>
-    );
+  const bookImage = !!image ? (
+    <img src={image} alt={`Cover of ${title} by ${author}`} />
+  ) : (
+    <PlaceHolderCover>
+      <h1>{title}</h1>
+      <h2>{author}</h2>
+    </PlaceHolderCover>
+  );
 
   return (
     <StyledOuterContainer>

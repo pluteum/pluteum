@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import Typography from 'components/common/Type/Typography';
+import Typography from '../Type/Typography';
 
 const Layout = styled.header`
   display: flex;
@@ -14,6 +14,7 @@ const Layout = styled.header`
 `;
 
 const Actions = styled.div`
+  display: flex;
   > button {
     margin-left: 8px;
   }

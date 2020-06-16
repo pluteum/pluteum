@@ -1,9 +1,14 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useQuery } from 'react-apollo';
 
-import IndexEmptyState from './EmptyState';
+import IndexEmptyState from './components/EmptyState';
 
 import { GET_BOOKS } from './queries';
+
+const Wrapper = styled.main`
+  background: ${props => props.theme.colors.offWhite};
+`;
 
 export default function Index() {
   const { data: { books = [] } = {}, loading, error } = useQuery(GET_BOOKS);
@@ -21,7 +26,11 @@ export default function Index() {
   }
 
   if (!loading) {
-    return <IndexEmptyState />;
+    return (
+      <Wrapper>
+        <IndexEmptyState />
+      </Wrapper>
+    );
   }
 
   return <span />;
