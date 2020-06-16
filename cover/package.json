@@ -125,6 +125,7 @@
     "@babel/plugin-transform-react-inline-elements": "7.2.0",
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "^7.10.1",
     "@babel/register": "7.4.0",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",

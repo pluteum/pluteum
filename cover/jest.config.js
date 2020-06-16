@@ -1,11 +1,11 @@
 module.exports = {
   collectCoverageFrom: [
-    'app/**/*.{js,jsx}',
-    '!app/**/*.test.{js,jsx}',
-    '!app/*/RbGenerated*/*.{js,jsx}',
-    '!app/app.js',
-    '!app/global-styles.js',
-    '!app/*/*/Loadable.{js,jsx}',
+    'app/**/*.{ts,tsx}',
+    '!app/**/*.test.{ts,tsx}',
+    '!app/*/RbGenerated*/*.{ts,tsx}',
+    '!app/app.ts',
+    '!app/global-styles.ts',
+    '!app/*/*/Loadable.{ts,tsx}',
   ],
   coverageThreshold: {
     global: {
@@ -23,6 +23,5 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.js'],
   setupFiles: ['raf/polyfill'],
-  testRegex: 'tests/.*\\.test\\.js$',
   snapshotSerializers: [],
 };

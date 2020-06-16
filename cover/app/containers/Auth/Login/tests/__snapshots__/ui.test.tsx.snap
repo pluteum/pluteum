@@ -2,16 +2,16 @@
 
 exports[`<LoginUI /> renders and matches the snapshot 1`] = `
 <section
-  class="styles__Layout-sc-7th9mc-0 eZhPFK"
+  class="Layout-gqccxr-0 kxeWzE"
 >
   <div
-    class="styles__Box-sc-7th9mc-1 foZkbS"
+    class="Layout__Box-gqccxr-1 dICRik"
   >
     <a
       href="/login"
     >
       <svg
-        class="Logo__StyledSVG-x0yuwp-0 hZrsMy"
+        class="Logo__StyledSVG-sc-1gh7b20-0 cCqZpV"
         height="24"
         width="113"
       >
@@ -34,7 +34,7 @@ exports[`<LoginUI /> renders and matches the snapshot 1`] = `
       aria-label="Login Form"
     >
       <h1
-        class="Typography__SectionTitle-d4lapr-0 hhslSo"
+        class="Typography__SectionTitle-sc-4fcr6x-0 iqEWrD"
       >
         S
         i
@@ -45,59 +45,59 @@ exports[`<LoginUI /> renders and matches the snapshot 1`] = `
         n
       </h1>
       <div
-        class="Text__InputGroup-m2xi5c-0 euyOkC"
+        class="Text__InputGroup-ca9mh6-0 fOQLCb"
       >
         <label
-          class="Label-sc-1ns5smd-0 bbIRVs"
+          class="Label-sc-1s6mhji-0 knGjvQ"
           for="email"
         >
           Email Address
         </label>
         <input
-          class="Text__StyledInput-m2xi5c-1 fVxzXT"
+          class="Text__StyledInput-ca9mh6-1 ksJsXk"
           id="email"
           name="email"
         />
       </div>
       <div
-        class="Text__InputGroup-m2xi5c-0 euyOkC"
+        class="Text__InputGroup-ca9mh6-0 fOQLCb"
       >
         <label
-          class="Label-sc-1ns5smd-0 bbIRVs"
+          class="Label-sc-1s6mhji-0 knGjvQ"
           for="password"
         >
           Password
         </label>
         <input
-          class="Text__StyledInput-m2xi5c-1 fVxzXT"
+          class="Text__StyledInput-ca9mh6-1 ksJsXk"
           id="password"
           name="password"
           type="password"
         />
       </div>
       <div
-        class="Checkbox__InputGroup-sc-1iiw8ja-0 bCJHzs"
+        class="Checkbox__InputGroup-sc-1rcg0oe-0 jmaUEj"
       >
         <input
-          class="Checkbox__StyledCheckbox-sc-1iiw8ja-1 eeBgWU"
+          class="Checkbox__StyledCheckbox-sc-1rcg0oe-1 cUIrnw"
           id="rememberme"
           name="rememberme"
           type="checkbox"
         />
         <label
-          class="Checkbox__CheckboxLabel-sc-1iiw8ja-2 hWIUNX"
+          class="Checkbox__CheckboxLabel-sc-1rcg0oe-2 inpUlX"
           for="rememberme"
         >
           Remember Me
         </label>
       </div>
       <button
-        class="Button-sc-6r13nm-0 dvTqTS"
+        class="Button-sc-1ykocye-0 cStDUx"
       >
         Login
       </button>
       <a
-        class="Typography__TextLink-d4lapr-5 gxwqBn"
+        class="Typography__TextLink-sc-4fcr6x-7 aKbDs"
         href="/forgot"
         style="margin-left: 15px;"
       >

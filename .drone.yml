@@ -8,6 +8,11 @@ steps:
     commands:
       - cd cover
       - npm install
+  - name: test
+    image: node
+    commands:
+      - cd cover
+      - npm run test
   - name: scan
     image: aosapps/drone-sonar-plugin
     commands:
@@ -26,5 +31,3 @@ steps:
 ---
 kind: signature
 hmac: 81ba812f8376175ed019503219bf15667a81e900a1ee52430e613fd1c2caa2fd
-
-...
