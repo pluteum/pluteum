@@ -4,7 +4,7 @@ name: cover_default
 
 steps:
   - name: scan
-    image: sonarsource/sonar-scanner-cli
+    image: aosapps/drone-sonar-plugin
     environment:
       SONAR_TOKEN:
         from_secret: SONAR_TOKEN
