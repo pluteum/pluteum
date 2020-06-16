@@ -5,7 +5,10 @@ name: cover_default
 steps:
   - name: scan
     image: aosapps/drone-sonar-plugin
+    commands:
+      - npm install -g typescript
     settings:
+      usingProperties: true
       sonar_host: https://sonarcloud.io
       sonar_token:
         from_secret: SONAR_TOKEN
@@ -17,6 +20,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: 9bb336e7e6cf6678da9246a1e8da4f76b7fb2f8e35be5250d887cb056895fac5
+hmac: 955fa1b66c7fe6afe3073e453a701084884f8616f9c16853f7723b9e35151c59
 
 ...
