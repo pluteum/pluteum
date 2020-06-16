@@ -3,6 +3,11 @@ kind: pipeline
 name: cover_default
 
 steps:
+  - name: scan
+    image: sonarsource/sonar-scanner-cli
+    environment:
+      SONAR_TOKEN:
+        from_secret: SONAR_TOKEN
   - name: build
     image: node
     commands:
@@ -12,5 +17,3 @@ steps:
 ---
 kind: signature
 hmac: ace3f926fd2a5aeb2b078d0ff05e6e8b3c8ad40e3fa3d48930b4a329d00b6fb4
-
-...
