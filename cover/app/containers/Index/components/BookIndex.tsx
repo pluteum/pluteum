@@ -6,9 +6,14 @@ import PageHeader from '../../../components/common/PageHeader';
 import BookThumbnail from '../../../components/BookThumbnail';
 import Dropdown from '../../../components/form/Dropdown';
 
-const Layout = styled.section``;
+const Layout = styled.section`
+  height: 100%;
+`;
 
 const ThumbnailGrid = styled.div`
+  height: calc(100% - 81px);
+  overflow-y: auto;
+
   display: grid;
 
   padding: 22px 50px;
@@ -20,7 +25,10 @@ const ThumbnailGrid = styled.div`
 
 export default function BookIndex({ books = [] }) {
   const BookCovers = books.map(book => (
-    <BookThumbnail title={book.title} author={book.author} />
+    <BookThumbnail
+      title={book.title}
+      author={book.author.map(a => a.name).join(', ')}
+    />
   ));
 
   const displayOptions = [

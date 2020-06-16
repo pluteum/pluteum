@@ -12,23 +12,23 @@ export default {
 const SampleBooks = [
   {
     title: '1Q84',
-    author: 'Haruki Murakami',
+    author: [{ name: 'Haruki Murakami' }],
   },
   {
     title: "The Adventure's of Huckleberry Finn",
-    author: 'Mark Twain',
+    author: [{ name: 'Mark Twain' }],
   },
   {
     title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
+    author: [{ name: 'J.K. Rowling' }],
   },
   {
     title: 'Hatchet',
-    author: 'Gary Paulsen',
+    author: [{ name: 'Gary Paulsen' }],
   },
   {
     title: 'Star Wars: Thrawn',
-    author: 'Timothy Zahn',
+    author: [{ name: 'Timothy Zahn' }],
   },
 ];
 

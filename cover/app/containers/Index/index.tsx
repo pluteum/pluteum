@@ -5,8 +5,11 @@ import { useQuery } from 'react-apollo';
 import IndexEmptyState from './components/EmptyState';
 
 import { GET_BOOKS } from './queries';
+import BookIndex from './components/BookIndex';
 
 const Wrapper = styled.main`
+  height: 100%;
+
   background: ${props => props.theme.colors.offWhite};
 `;
 
@@ -15,13 +18,9 @@ export default function Index() {
 
   if (books.length > 0) {
     return (
-      <div>
-        {books.map(book => (
-          <p>
-            {book.title} – {book.author.map(author => author.name).join(', ')}
-          </p>
-        ))}
-      </div>
+      <Wrapper>
+        <BookIndex books={books} />
+      </Wrapper>
     );
   }
 
