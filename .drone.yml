@@ -6,7 +6,6 @@ steps:
   - name: scan
     image: committed/drone-sonarqube-node
     settings:
-      usingProperties: true
       sonar_host: https://sonarcloud.io
       sonar_token:
         from_secret: SONAR_TOKEN
@@ -18,6 +17,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: 2576d6bfd361b9b0393967637e806c8e48e0bbb0f912e1d7c751998a8be4d5ec
+hmac: 47c6bebcf11f472cc2073b819306a37882697d66a34b66fd0b821e940309e461
 
 ...
