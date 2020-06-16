@@ -7,7 +7,8 @@ steps:
     image: committed/drone-sonarqube-node
     settings:
       level: DEBUG
-      host: https://sonarcloud.io
+      host:
+        from_secret: SONAR_HOST
       token:
         from_secret: SONAR_TOKEN
   - name: build
@@ -18,6 +19,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: 4ff56fe360e7d175a85dc20453130104b67c0b1f3fe919c5209181fb2cbcb6dd
+hmac: de9b0056afd92406a336ade6b8b8e2478448f19fc4dc7a280705dbba5e29a45f
 
 ...
