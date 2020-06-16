@@ -30,4 +30,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: 81ba812f8376175ed019503219bf15667a81e900a1ee52430e613fd1c2caa2fd
+hmac: 3a37ac40e4e1f5b07abc9dd155beadee7aab700f176d1916bd2d44965fbc8370
+
+...
