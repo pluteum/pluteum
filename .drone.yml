@@ -5,8 +5,9 @@ name: cover_default
 steps:
   - name: scan
     image: aosapps/drone-sonar-plugin
-    environment:
-      SONAR_TOKEN:
+    settings:
+      sonar_host: https://sonarcloud.io
+      sonar_token:
         from_secret: SONAR_TOKEN
   - name: build
     image: node
@@ -16,4 +17,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: beaf67e29a1ebf1b08861e5fd97931682cb1a2201b1f7792d3ae1d0701694455
+hmac: 9bb336e7e6cf6678da9246a1e8da4f76b7fb2f8e35be5250d887cb056895fac5
+
+...
