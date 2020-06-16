@@ -12,6 +12,7 @@ steps:
     image: aosapps/drone-sonar-plugin
     commands:
       - cd cover
+      - /bin/drone-sonar
     settings:
       sonar_host: https://sonarcloud.io
       sonar_token:
@@ -23,6 +24,6 @@ steps:
       - npm run build
 ---
 kind: signature
-hmac: aa60c183ee4f185674984b0c4e9fa75f3567ff0e23558fc7d9601e8cac9ef50f
+hmac: cb71b898f56b18566b598363567f00f87d412fce29d3b3e1c1628f08b0f6d25a
 
 ...
