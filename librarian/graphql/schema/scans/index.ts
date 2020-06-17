@@ -56,6 +56,7 @@ export const resolvers = {
         .finishScan(scan)
         .then(async (scan: any) => {
           if (scan.payload) {
+            // todo: force this into a pluteum book format, ensure field mappings etc.
             const book = JSON.parse(scan.payload);
             const file = { id: scan.fileId };
 

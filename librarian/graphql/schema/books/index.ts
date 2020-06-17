@@ -6,6 +6,7 @@ export const typeDef = gql`
     author: [Author]
     uuid: String
     title: String
+    description: String
     isbn: String
     seriesIndex: Int
     filePath: String
@@ -25,6 +26,7 @@ export const typeDef = gql`
 
   input AddBookInput {
     title: String!
+    description: String
     isbn: String
     seriesIndex: Int
     authors: [AuthorInput]

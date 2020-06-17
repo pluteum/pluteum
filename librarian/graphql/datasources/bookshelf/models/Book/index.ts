@@ -53,10 +53,10 @@ export default class Book {
     book.library = this.library;
 
     const query = sql`
-      INSERT INTO "books" ("uuid", "title", "isbn", "seriesIndex", "library")
-      VALUES (${uuidv4()}, ${book.title}, ${book.isbn || null}, ${
-      book.seriesIndex || null
-    }, ${this.library})
+      INSERT INTO "books" ("uuid", "title", "description",  "isbn", "seriesIndex", "library")
+      VALUES (${uuidv4()}, ${book.title}, ${book.description || null}, ${
+      book.isbn || null
+    }, ${book.seriesIndex || null}, ${this.library})
       RETURNING *
     `;
 
