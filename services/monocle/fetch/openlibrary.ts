@@ -9,7 +9,7 @@ export async function getBookByISBN(isbn: any) {
   const query = {
     bibkeys: `ISBN:${isbn}`,
     format: "json",
-    jscmd: "data",
+    jscmd: "details",
   };
 
   openLibraryDebug(`Requesting book data from ${url} with ISBN ${isbn}`);
