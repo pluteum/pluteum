@@ -5,6 +5,7 @@ export const GET_BOOK = gql`
     getBook(id: $id) {
       id
       title
+      description
       author {
         id
         name
