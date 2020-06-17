@@ -36,6 +36,9 @@ export async function getBookByISBN(isbn: any) {
       if (data[isbnKey]) {
         if (data[isbnKey].title) {
           results.title = data[isbnKey].title;
+        } else {
+          // throw error if we can't find a title
+          throw new Error();
         }
 
         if (data[isbnKey].authors) {
