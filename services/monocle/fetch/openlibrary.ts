@@ -56,7 +56,11 @@ export async function getBookByISBN(isbn: any) {
 
       if (data[isbnKey]) {
         if (data[isbnKey].details.description) {
-          results.description = data[isbnKey].details.description;
+          if (typeof data[isbnKey].details.description === "string") {
+            results.description = data[isbnKey].details.description;
+          } else if (data[isbnKey].details.description.value) {
+            results.description = data[isbnKey].details.description.value;
+          }
         }
       }
 
