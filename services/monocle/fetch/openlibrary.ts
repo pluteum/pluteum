@@ -58,9 +58,9 @@ export async function getBookByISBN(isbn: any) {
         if (data[isbnKey].details.description) {
           results.description = data[isbnKey].details.description;
         }
-      } else {
-        throw new Error();
       }
+
+      return results;
     })
     .catch((e: AxiosError) => {
       openLibraryDebug(
