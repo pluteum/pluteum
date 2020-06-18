@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Typography from 'components/common/Type/Typography';
 import ProgressBar from 'components/common/ProgressBar';
+import Button from 'components/form/Button';
 
 const ModalWrapper = styled.div`
   padding: 35px 50px;
+`;
+
+const IndividualUploads = styled(ModalWrapper)`
+  max-height: 200px;
+  overflow-y: auto;
+
+  > div:first-child {
+    margin-top: 0;
+  }
+
+  > div {
+    margin-top: 30px;
+  }
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 32px;
 `;
 
 const UploadText = styled.p`
@@ -34,27 +54,57 @@ const Divider = styled.hr`
   border-bottom: 1px solid ${props => props.theme.colors.lightGrey};
 `;
 
-export default function UploadProgress({ totalProgress, uploadingFiles }) {
-  const [expanded, setExpanded] = useState(false);
-
+export default function UploadProgress({
+  expanded = false,
+  totalProgress,
+  uploadingFiles,
+  onMinimize,
+}) {
   return (
     <>
       <ModalWrapper>
         <Typography type="SectionTitle">Uploading Files</Typography>
         <TotalProgressBar>
           <UploadText>
-            Uploading 7 files • <BoldUploadText>78% complete</BoldUploadText> •
-            <ErrorUploadText> 1 error</ErrorUploadText>
+            Uploading {uploadingFiles.length} files •{' '}
+            <BoldUploadText>
+              {Math.min(100, Math.round(totalProgress * 100))}% complete
+            </BoldUploadText>{' '}
+            •{' '}
+            <ErrorUploadText>
+              {uploadingFiles.reduce(
+                (errors, file) => (errors = errors + !!file.error ? 1 : 0),
+                0,
+              )}{' '}
+              error
+            </ErrorUploadText>
           </UploadText>
           <ProgressBar percent={totalProgress} />
         </TotalProgressBar>
       </ModalWrapper>
       <Divider />
+      {expanded && (
+        <IndividualUploads>
+          {uploadingFiles.map(file => (
+            <div>
+              <UploadText>Uploading {file.name} </UploadText>
+              <ProgressBar percent={file.progress} error={!!file.error} />
+            </div>
+          ))}
+        </IndividualUploads>
+      )}
+      <ModalFooter>
+        <Button onClick={onMinimize} primary>
+          Minimize this dialog
+        </Button>
+      </ModalFooter>
     </>
   );
 }
 
 UploadProgress.propTypes = {
+  expanded: PropTypes.bool,
   totalProgress: PropTypes.number,
   uploadingFiles: PropTypes.array,
+  onMinimize: PropTypes.func,
 };
