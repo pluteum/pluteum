@@ -17,6 +17,7 @@ const ModalContainer = styled.section`
   width: 60%;
   max-width: 800px;
   min-width: 600px;
+  min-height: 150px;
   max-height: 680px;
 
   padding: 35px 45px;
@@ -25,17 +26,27 @@ const ModalContainer = styled.section`
   left: 50%;
 
   background: #ffffff;
+  border-radius: 8px;
   box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.1);
   transform: translateX(-50%);
 
   z-index: 11;
 `;
 
-export default function Modal({ onExit, children }) {
+const ModalActions = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+`;
+
+export default function Modal({ onExit, actions, children }) {
   return (
     <React.Fragment>
       <Backdrop onClick={onExit} />
-      <ModalContainer>{children}</ModalContainer>
+      <ModalContainer>
+        <ModalActions>{actions}</ModalActions>
+        {children}
+      </ModalContainer>
     </React.Fragment>
   );
 }
@@ -43,4 +54,5 @@ export default function Modal({ onExit, children }) {
 Modal.propTypes = {
   onExit: PropTypes.func,
   children: PropTypes.node,
+  actions: PropTypes.array,
 };

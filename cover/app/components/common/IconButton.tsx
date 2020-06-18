@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledButton = styled.button`
   height: 35px;
@@ -14,21 +13,25 @@ const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   outline: none;
+  background: 0;
+  margin: 0 4px;
 
   &:hover {
     background: ${props => props.theme.colors.lightGrey};
   }
 `;
 
-export default function IconButton({ onClick, icon, ...props }) {
+export default function IconButton({ onClick, children }) {
   return (
-    <StyledButton onClick={onClick}>
-      <FontAwesomeIcon icon={icon} {...props} />
-    </StyledButton>
+    <>
+      <StyledButton onClick={onClick}>{children}</StyledButton>
+    </>
   );
 }
 
 IconButton.propTypes = {
+  theme: PropTypes.object,
   onClick: PropTypes.func,
-  icon: PropTypes.object,
+  tooltip: PropTypes.string,
+  children: PropTypes.node,
 };

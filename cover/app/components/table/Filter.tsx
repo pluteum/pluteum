@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { Filter } from 'react-feather';
 import Checkbox from 'components/form/input/Checkbox';
 import { produce } from 'immer';
 
@@ -87,7 +87,9 @@ export default function Filter({ defaultOptions = [], options = [] }) {
 
   return (
     <StyledContainer onBlur={handleBlur}>
-      <IconButton icon={faFilter} onClick={() => setDrawer(!drawerOpen)} />
+      <IconButton onClick={() => setDrawer(!drawerOpen)}>
+        <Filter />
+      </IconButton>
       {drawerOpen && (
         <StyledDropdown>
           <p>Status:</p>
