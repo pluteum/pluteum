@@ -5,35 +5,8 @@ import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
-import UploadModal from './UploadModal';
-
-const MUTATION = gql`
-  mutation($file: Upload!) {
-    uploadFile(file: $file) {
-      id
-      image
-      name
-      url
-      book {
-        id
-        title
-      }
-      processed
-    }
-  }
-`;
-
-const GET_FILES = gql`
-  {
-    files {
-      id
-      image
-      name
-      url
-      processed
-    }
-  }
-`;
+import UploadModal from './UploadModal/UploadModal';
+import { MUTATION, GET_FILES } from './queries';
 
 export default function UploadContainer({
   openUpload,

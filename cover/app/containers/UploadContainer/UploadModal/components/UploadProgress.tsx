@@ -54,7 +54,9 @@ export default function UploadProgress({
   return (
     <>
       <ModalWrapper>
-        <Typography type="SectionTitle">Uploading Files</Typography>
+        <Typography type="SectionTitle">
+          Uploading {uploadingFiles.length} files...
+        </Typography>
         <TotalProgressBar>
           <UploadText>
             Uploading {uploadingFiles.length} files •{' '}

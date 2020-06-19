@@ -20,8 +20,6 @@ const ModalContainer = styled.section`
   min-height: 150px;
   max-height: 680px;
 
-  padding: 35px 45px;
-
   top: 15%;
   left: 50%;
 
