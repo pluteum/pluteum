@@ -39,6 +39,16 @@ const ModalActions = styled.div`
   right: 8px;
 `;
 
+export const ModalWrapper = styled.div`
+  padding: 35px 50px;
+`;
+
+export const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 32px;
+`;
+
 export default function Modal({ onExit, actions, children }) {
   return (
     <React.Fragment>

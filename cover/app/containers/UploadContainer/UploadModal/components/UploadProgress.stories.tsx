@@ -11,7 +11,7 @@ import UploadProgress from './UploadProgress';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'Screens/Upload/Upload Progress',
+  title: 'Screens/Upload/Screens/Upload Progress',
   component: UploadProgress,
   decorators: [withKnobs],
 };

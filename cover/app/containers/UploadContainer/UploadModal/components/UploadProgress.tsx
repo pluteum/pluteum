@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import Typography from 'components/common/Type/Typography';
 import ProgressBar from 'components/common/ProgressBar';
 import Button from 'components/form/Button';
-
-const ModalWrapper = styled.div`
-  padding: 35px 50px;
-`;
+import { ModalWrapper, ModalFooter } from 'components/common/Modal/Modal';
 
 const IndividualUploads = styled(ModalWrapper)`
   max-height: 200px;
@@ -20,12 +17,6 @@ const IndividualUploads = styled(ModalWrapper)`
   > div {
     margin-top: 30px;
   }
-`;
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 32px;
 `;
 
 const UploadText = styled.p`

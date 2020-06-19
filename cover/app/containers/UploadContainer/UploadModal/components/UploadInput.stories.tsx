@@ -4,7 +4,7 @@ import { withKnobs, text } from '@storybook/addon-knobs';
 import UploadInput from './UploadInput';
 
 export default {
-  title: 'Screens/Upload/Upload Input',
+  title: 'Screens/Upload/Screens/Upload Input',
   component: UploadInput,
   decorators: [withKnobs],
 };
