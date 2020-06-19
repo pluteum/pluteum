@@ -7,15 +7,14 @@ import gql from 'graphql-tag';
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 import UploadModal from './UploadModal/UploadModal';
 import { MUTATION, GET_FILES } from './queries';
+import { uploadFiles, uploadFile, fileError } from 'actions/Upload';
 
 export default function UploadContainer({
   openUpload,
+  state,
+  dispatch,
   onExit,
-  onProgress,
-  onError,
 }) {
-  const [uploadingFiles, updateUploadingFiles] = useState({});
-
   const [upload] = useMutation(MUTATION, {
     update(cache, { data }) {
       const { files } = cache.readQuery({ query: GET_FILES });
@@ -26,31 +25,10 @@ export default function UploadContainer({
     },
   });
 
-  useEffect(() => {
-    const files: any[] = Object.values(uploadingFiles);
-
-    onError(files.some(file => file.error));
-
-    if (files.length) {
-      onProgress(
-        files.reduce((acc: any, v: any) => acc + v.progress, 0) / files.length,
-      );
-    }
-  }, [uploadingFiles]);
-
   function onUpload(files) {
-    files.forEach(file => {
-      updateUploadingFiles(prevState =>
-        produce(prevState, draftState => {
-          // eslint-disable-next-line no-param-reassign
-          draftState[file.name] = {
-            name: file.name,
-            size: file.size,
-            progress: 0,
-          };
-        }),
-      );
+    dispatch(uploadFiles(files));
 
+    files.forEach(file => {
       upload({
         variables: {
           file,
@@ -58,27 +36,12 @@ export default function UploadContainer({
         context: {
           fetchOptions: {
             useUpload: true,
-            onProgress: ev => {
-              updateUploadingFiles(prevState =>
-                produce(prevState, draftState => {
-                  // eslint-disable-next-line no-param-reassign
-                  draftState[file.name].progress = ev.loaded / ev.total;
-                }),
-              );
-            },
+            onProgress: ev =>
+              dispatch(uploadFile({ progress: ev.loaded / ev.total, ...file })),
             onAbortPossible: () => undefined,
           },
         },
-      }).catch(e =>
-        updateUploadingFiles(prevState =>
-          produce(prevState, draftState => {
-            // eslint-disable-next-line no-param-reassign
-            draftState[file.name].error = e;
-            // eslint-disable-next-line no-param-reassign
-            draftState[file.name].progress = 1;
-          }),
-        ),
-      );
+      }).catch(e => dispatch(fileError(file.path, e)));
     });
   }
 
@@ -87,9 +50,11 @@ export default function UploadContainer({
       <ModalPortal>
         {openUpload && (
           <UploadModal
+            files={state.files}
+            errors={state.errors}
+            totalProgress={state.total}
             onExit={onExit}
             onUpload={onUpload}
-            uploadingFiles={uploadingFiles}
           />
         )}
       </ModalPortal>
@@ -100,5 +65,6 @@ export default function UploadContainer({
 UploadContainer.propTypes = {
   openUpload: PropTypes.bool,
   onExit: PropTypes.func,
-  onProgress: PropTypes.func,
+  state: PropTypes.object,
+  dispatch: PropTypes.func,
 };

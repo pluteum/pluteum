@@ -6,25 +6,40 @@ import { Maximize2, X } from 'react-feather';
 import UploadInput from './components/UploadInput';
 import UploadProgress from './components/UploadProgress';
 
-export default function UploadModal({ onUpload, uploadingFiles = [], onExit }) {
+export default function UploadModal({
+  files,
+  errors,
+  totalProgress,
+  onUpload,
+  onExit,
+}) {
   const [expandUploads, setExpandUploads] = useState(false);
 
   const actions = [
-    <IconButton tooltip="View total file upload progress">
-      <Maximize2 onClick={() => setExpandUploads(!expandUploads)} size={18} />
+    <IconButton
+      onClick={() => setExpandUploads(!expandUploads)}
+      tooltip="View total file upload progress"
+    >
+      <Maximize2 size={18} />
     </IconButton>,
     <IconButton onClick={onExit}>
       <X size={18} />
     </IconButton>,
   ];
 
-  const isUploading = Object.keys(uploadingFiles).length === 0;
+  const isUploading = files.size === 0;
 
   return (
     <Modal onExit={onExit} actions={isUploading ? [actions[1]] : actions}>
       {isUploading && <UploadInput onUpload={onUpload} />}
       {!isUploading && (
-        <UploadProgress uploadingFiles={uploadingFiles} onMinimize={onExit} />
+        <UploadProgress
+          expanded={expandUploads}
+          files={files}
+          errors={errors}
+          totalProgress={totalProgress}
+          onMinimize={onExit}
+        />
       )}
     </Modal>
   );

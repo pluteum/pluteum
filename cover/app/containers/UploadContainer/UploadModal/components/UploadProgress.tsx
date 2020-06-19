@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Typography from 'components/common/Type/Typography';
@@ -46,44 +46,67 @@ const Divider = styled.hr`
 `;
 
 export default function UploadProgress({
-  expanded = false,
+  expanded,
   totalProgress,
-  uploadingFiles,
+  files,
+  errors,
   onMinimize,
 }) {
+  const [hasErrors, setHasErrors] = useState(!!errors.size);
+  useEffect(() => {
+    setHasErrors(errors.size > 0);
+  }, [errors]);
+
   return (
     <>
       <ModalWrapper>
         <Typography type="SectionTitle">
-          Uploading {uploadingFiles.length} files...
+          Uploading {files.size} files...
         </Typography>
         <TotalProgressBar>
           <UploadText>
-            Uploading {uploadingFiles.length} files •{' '}
+            Uploading {files.size} files •{' '}
             <BoldUploadText>
               {Math.min(100, Math.round(totalProgress * 100))}% complete
             </BoldUploadText>{' '}
-            •{' '}
-            <ErrorUploadText>
-              {uploadingFiles.reduce(
-                (errors, file) => (errors = errors + !!file.error ? 1 : 0),
-                0,
-              )}{' '}
-              error
-            </ErrorUploadText>
+            {hasErrors && (
+              <>
+                • <ErrorUploadText>{errors.size} error</ErrorUploadText>
+              </>
+            )}
           </UploadText>
-          <ProgressBar percent={totalProgress} />
+          <ProgressBar percent={totalProgress} error={hasErrors} />
         </TotalProgressBar>
       </ModalWrapper>
       <Divider />
-      {expanded && (
+      {(expanded || hasErrors) && (
         <IndividualUploads>
-          {uploadingFiles.map(file => (
-            <div>
-              <UploadText>Uploading {file.name} </UploadText>
-              <ProgressBar percent={file.progress} error={!!file.error} />
-            </div>
-          ))}
+          {!expanded &&
+            hasErrors &&
+            [...errors.keys()].map(fileName => {
+              const file = files.get(fileName);
+              return (
+                <div key={fileName}>
+                  <UploadText>
+                    An errror has occured while uploading {fileName}{' '}
+                  </UploadText>
+                  <ProgressBar
+                    percent={file.progress}
+                    error={!!errors.has(fileName)}
+                  />
+                </div>
+              );
+            })}
+          {expanded &&
+            [...files.entries()].map(([name, file]) => (
+              <div key={name}>
+                <UploadText>Uploading {name} </UploadText>
+                <ProgressBar
+                  percent={file.progress}
+                  error={!!errors.has(name)}
+                />
+              </div>
+            ))}
         </IndividualUploads>
       )}
       <ModalFooter>
@@ -98,6 +121,7 @@ export default function UploadProgress({
 UploadProgress.propTypes = {
   expanded: PropTypes.bool,
   totalProgress: PropTypes.number,
-  uploadingFiles: PropTypes.array,
+  files: PropTypes.object,
+  errors: PropTypes.object,
   onMinimize: PropTypes.func,
 };

@@ -6,7 +6,7 @@
 //
 //
 
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
@@ -16,6 +16,10 @@ import UploadContainer from 'containers/UploadContainer';
 import Settings from 'containers/Settings';
 import Index from '../Index';
 import Book from '../Book';
+import {
+  reducer as UploadReducer,
+  initialState as UploadInitialState,
+} from 'reducers/Upload';
 
 const AppLayout = styled.div`
   height: 100%;
@@ -30,15 +34,14 @@ const ContentLayout = styled.div`
 
 export default function Frame() {
   const [openUpload, setUploadModal] = useState(false);
-  const [uploadError, onError] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [state, dispatch] = useReducer(UploadReducer, UploadInitialState);
 
   return (
     <AppLayout>
       <Breadcrumb />
       <ActionBar
-        uploadError={uploadError}
-        uploadProgress={progress}
+        uploadError={state.errors.size > 0}
+        uploadProgress={state.total}
         setUploadModal={setUploadModal}
       />
       <ContentLayout>
@@ -50,8 +53,8 @@ export default function Frame() {
       </ContentLayout>
       <UploadContainer
         openUpload={openUpload}
-        onError={onError}
-        onProgress={setProgress}
+        state={state}
+        dispatch={dispatch}
         onExit={() => setUploadModal(false)}
       />
     </AppLayout>

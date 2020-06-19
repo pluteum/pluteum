@@ -35,6 +35,9 @@ import { setContext } from '@apollo/link-context';
 
 import { customFetch } from 'utils/fetch';
 import theme from './theme';
+import { enableMapSet } from 'immer';
+
+enableMapSet();
 
 const MOUNT_NODE = document.getElementById('app');
 const browserHistory = createBrowserHistory();

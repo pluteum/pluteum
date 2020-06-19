@@ -10,7 +10,13 @@ export default {
 };
 
 export const StorybookUploadModal = () => (
-  <UploadModal onUpload={() => null} uploadingFiles={[]} />
+  <UploadModal
+    files={new Map()}
+    errors={new Map()}
+    totalProgress={0}
+    onExit={() => null}
+    onUpload={() => null}
+  />
 );
 
 StorybookUploadModal.story = {

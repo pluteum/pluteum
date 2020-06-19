@@ -20,7 +20,7 @@ const Bar: any = styled.div`
       props.error ? '#D52020' : props.theme.colors.primary};
     height: 8px;
     border-radius: 4px;
-    transition: width 0.5s ease-in, background 0.5s ease-in;
+    transition: width 0.5s linear, background 0.5s ease-in;
     width: ${(props: any) => props.percent * 100}%;
   }
 `;

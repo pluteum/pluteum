@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Filter } from 'react-feather';
+import { Filter as FilterIcon } from 'react-feather';
 import Checkbox from 'components/form/input/Checkbox';
 import { produce } from 'immer';
 
@@ -88,7 +88,7 @@ export default function Filter({ defaultOptions = [], options = [] }) {
   return (
     <StyledContainer onBlur={handleBlur}>
       <IconButton onClick={() => setDrawer(!drawerOpen)}>
-        <Filter />
+        <FilterIcon />
       </IconButton>
       {drawerOpen && (
         <StyledDropdown>
