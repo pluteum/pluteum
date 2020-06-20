@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -58,6 +59,10 @@ export default function BookUI({ book }) {
 
   return (
     <section>
+      <Helmet>
+        <title>{book.title || 'Book'} - Book Details - Pluteum</title>
+        <meta name="description" content="Description of File Management" />
+      </Helmet>
       <PageHeader title="Book" actions={pageActions} />
       <BookLayout>
         <BookCover title={book.title} author={authors} />

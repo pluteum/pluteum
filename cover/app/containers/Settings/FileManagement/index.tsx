@@ -37,7 +37,7 @@ export function FileManagement() {
   return (
     <Layout>
       <Helmet>
-        <title>File Management</title>
+        <title>File Management - Pluteum</title>
         <meta name="description" content="Description of File Management" />
       </Helmet>
       <Typography type="SectionTitle">Manage Files</Typography>
