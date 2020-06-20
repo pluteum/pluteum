@@ -71,7 +71,10 @@ export default function UploadProgress({
             </BoldUploadText>{' '}
             {hasErrors && (
               <>
-                • <ErrorUploadText>{errors.size} error</ErrorUploadText>
+                •{' '}
+                <ErrorUploadText>
+                  {errors.size} error{errors.size > 1 && 's'}
+                </ErrorUploadText>
               </>
             )}
           </UploadText>
@@ -88,12 +91,9 @@ export default function UploadProgress({
               return (
                 <div key={fileName}>
                   <UploadText>
-                    An errror has occured while uploading {fileName}{' '}
+                    An error has occured while uploading {fileName}{' '}
                   </UploadText>
-                  <ProgressBar
-                    percent={file.progress}
-                    error={!!errors.has(fileName)}
-                  />
+                  <ProgressBar percent={file.progress} error />
                 </div>
               );
             })}
