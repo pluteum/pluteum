@@ -36,7 +36,10 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: AWS_SECRET_KEY
     commands:
+      - cd cover
       - npm run deploy-storybook
 ---
 kind: signature
-hmac: 3a37ac40e4e1f5b07abc9dd155beadee7aab700f176d1916bd2d44965fbc8370
+hmac: 5eb3a5c2d0eb6669c0d4af3a414eb95959cab64d25c81e4901c11f2a47f45967
+
+...
