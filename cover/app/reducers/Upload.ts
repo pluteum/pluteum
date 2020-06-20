@@ -28,7 +28,6 @@ function calculateTotal(files: UploadingFile[]) {
 }
 
 export function reducer(state: UploadState, action): UploadState {
-  console.log(state, action);
   return produce(state, draft => {
     switch (action.type) {
       case 'RESET_UPLOAD':
