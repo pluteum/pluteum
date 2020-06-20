@@ -1,4 +1,4 @@
-import { reducer as UploadReducer, reducer, initialState } from './Upload';
+import { reducer, initialState } from '../Upload';
 
 describe('UploadReducer', () => {
   it('RESET_UPLOAD should reset the state', () => {
