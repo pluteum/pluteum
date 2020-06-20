@@ -42,8 +42,10 @@ const ProviderWrapper = ({ children }) => (
 );
 
 describe('<UploadContainer />', () => {
-  it('will dispatch all files uploaded via uploadFiles action', () => {
-    const dispatchMock = jest.fn();
+  let dispatchMock = jest.fn();
+
+  beforeEach(() => {
+    dispatchMock.mockReset();
 
     render(
       <UploadContainer
@@ -55,7 +57,9 @@ describe('<UploadContainer />', () => {
         wrapper: ProviderWrapper,
       },
     );
+  });
 
+  it('will dispatch all files uploaded via uploadFiles action', () => {
     const uploadInput = screen.getByLabelText('Upload Books');
 
     fireEvent.change(uploadInput, {
@@ -77,19 +81,6 @@ describe('<UploadContainer />', () => {
   it.todo('will dispatch file on each progress event');
 
   it('will dispatch a file error on error', () => {
-    const dispatchMock = jest.fn();
-
-    render(
-      <UploadContainer
-        state={{ files: new Map(), errors: new Map() }}
-        dispatch={dispatchMock}
-        openUpload
-      />,
-      {
-        wrapper: ProviderWrapper,
-      },
-    );
-
     const uploadInput = screen.getByLabelText('Upload Books');
 
     fireEvent.change(uploadInput, {
