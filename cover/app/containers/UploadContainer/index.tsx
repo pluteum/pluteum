@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import produce from 'immer';
 import { useMutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import ModalPortal from 'components/common/ModalPortal/ModalPortal';
 import UploadModal from './UploadModal/UploadModal';
