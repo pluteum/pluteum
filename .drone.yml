@@ -28,8 +28,15 @@ steps:
     commands:
       - cd cover
       - npm run build
+  - name: deploy_storybook
+    image: chybie/node-aws-cli
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_TOKEN
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_KEY
+    commands:
+      - npm run deploy-storybook
 ---
 kind: signature
 hmac: 3a37ac40e4e1f5b07abc9dd155beadee7aab700f176d1916bd2d44965fbc8370
-
-...
