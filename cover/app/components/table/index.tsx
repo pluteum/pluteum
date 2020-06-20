@@ -3,7 +3,7 @@ import { useTable } from 'react-table';
 import PropTypes from 'prop-types';
 import { StyledTable, StyledHeaderRow, StyledRow } from './styles';
 import HeaderCell from './HeaderCell';
-import addRowSelection from './RowSelection';
+import addRowSelection from './addRowSelection';
 
 export default function Table({ columns, data, rowSelection }) {
   const plugins = [];
