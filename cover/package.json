@@ -45,7 +45,7 @@
     "prettify": "prettier --write",
     "storybook": "NODE_PATH=app start-storybook -p 6006",
     "build-storybook": "NODE_PATH=app build-storybook",
-    "deploy-storybook": "NODE_PATH=app storybook-to-aws-s3 --bucket-path=pluteum-storybook/"
+    "deploy-storybook": "NODE_PATH=app storybook-to-aws-s3 --bucket-path=pluteum-storybook/ --aws-profile NONE"
   },
   "browserslist": [
     "last 2 versions",
