@@ -11,7 +11,7 @@ import ReactFitText from 'react-fittext';
 import {
   BookTitle,
   Author,
-  // Description,
+  Description,
   // MetaHeader,
   // FieldHeader,
   // FieldContent,
@@ -67,7 +67,7 @@ export default function BookUI({ book }) {
           </ReactFitText>
           <Author>by {authors}</Author>
           {/* {rating} */}
-          {/* <Description>{book.description}</Description> */}
+          <Description>{book.description}</Description>
           {/* <FieldHeader style={{ marginTop: 25 }} as="p">
             Tags
           </FieldHeader> */}
