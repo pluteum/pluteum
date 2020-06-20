@@ -14,7 +14,6 @@ import theme from 'theme';
 
 import Login from '../index';
 import { LOGIN_MUTATION } from '../queries';
-import { GraphQLError } from 'graphql';
 
 const mocks = [
   {

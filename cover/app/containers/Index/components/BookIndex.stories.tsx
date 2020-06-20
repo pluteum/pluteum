@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 
 import BookIndex from './BookIndex';
 import { MemoryRouter } from 'react-router-dom';

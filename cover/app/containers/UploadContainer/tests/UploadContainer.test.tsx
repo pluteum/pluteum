@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-  fireEvent,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 
 import { MockedProvider } from '@apollo/client/testing';
 import { MemoryRouter } from 'react-router-dom';
@@ -13,8 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from 'theme';
 
 import UploadContainer from '../index';
-import { MUTATION, GET_FILES } from '../queries';
-import { GraphQLError } from 'graphql';
+import { MUTATION } from '../queries';
 
 const mocks = [
   {

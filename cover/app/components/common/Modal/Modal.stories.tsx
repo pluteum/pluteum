@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 
 import Modal from './Modal';
 import IconButton from '../IconButton';

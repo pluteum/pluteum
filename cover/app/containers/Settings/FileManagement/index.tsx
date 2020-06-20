@@ -26,7 +26,7 @@ export function FileManagement() {
   });
 
   const [reprocessFile] = useMutation(REPROCESS_FILE);
-  const [deleteFile, { client }] = useMutation(DELETE_FILE);
+  const [deleteFile] = useMutation(DELETE_FILE);
 
   const TableColumns = React.useMemo(
     () => columnDef(reprocessFile, deleteFile),

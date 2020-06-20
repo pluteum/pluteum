@@ -14,7 +14,7 @@ const Wrapper = styled.main`
 `;
 
 export default function Index() {
-  const { data: { books = [] } = {}, loading, error } = useQuery(GET_BOOKS);
+  const { data: { books = [] } = {}, loading } = useQuery(GET_BOOKS);
 
   if (books.length > 0) {
     return (

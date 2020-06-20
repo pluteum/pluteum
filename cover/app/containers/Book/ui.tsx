@@ -6,12 +6,12 @@ import Button from 'components/form/Button';
 import BookCover from 'components/BookCover';
 import PageHeader from 'components/common/PageHeader';
 import ReactFitText from 'react-fittext';
-import { Star } from 'react-feather';
+// import { Star } from 'react-feather';
 
 import {
   BookTitle,
   Author,
-  Description,
+  // Description,
   // MetaHeader,
   // FieldHeader,
   // FieldContent,
