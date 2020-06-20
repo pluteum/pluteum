@@ -4,6 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import Modal from './Modal';
 import IconButton from '../IconButton';
 import { Maximize2 as Maximize, X } from 'react-feather';
+import Tooltip from 'components/Tooltip';
 
 export default {
   title: 'Common/Modal',
@@ -12,9 +13,11 @@ export default {
 };
 
 const actions = [
-  <IconButton tooltip="View total file upload progress">
-    <Maximize size={18} />
-  </IconButton>,
+  <Tooltip visible content="View individual file upload progress">
+    <IconButton onClick={() => null}>
+      <Maximize size={18} />
+    </IconButton>
+  </Tooltip>,
   <IconButton>
     <X size={18} />
   </IconButton>,

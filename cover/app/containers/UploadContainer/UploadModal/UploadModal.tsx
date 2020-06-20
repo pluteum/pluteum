@@ -5,6 +5,7 @@ import IconButton from 'components/common/IconButton';
 import { Maximize2, X } from 'react-feather';
 import UploadInput from './components/UploadInput';
 import UploadProgress from './components/UploadProgress';
+import Tooltip from 'components/Tooltip';
 
 export default function UploadModal({
   files,
@@ -16,12 +17,11 @@ export default function UploadModal({
   const [expandUploads, setExpandUploads] = useState(false);
 
   const actions = [
-    <IconButton
-      onClick={() => setExpandUploads(!expandUploads)}
-      tooltip="View total file upload progress"
-    >
-      <Maximize2 size={18} />
-    </IconButton>,
+    <Tooltip placement="bottom" content="View individual file upload progress">
+      <IconButton onClick={() => setExpandUploads(!expandUploads)}>
+        <Maximize2 size={18} />
+      </IconButton>
+    </Tooltip>,
     <IconButton onClick={onExit}>
       <X size={18} />
     </IconButton>,

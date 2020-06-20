@@ -21,17 +21,4 @@ const StyledButton = styled.button`
   }
 `;
 
-export default function IconButton({ onClick, children }) {
-  return (
-    <>
-      <StyledButton onClick={onClick}>{children}</StyledButton>
-    </>
-  );
-}
-
-IconButton.propTypes = {
-  theme: PropTypes.object,
-  onClick: PropTypes.func,
-  tooltip: PropTypes.string,
-  children: PropTypes.node,
-};
+export default StyledButton;
