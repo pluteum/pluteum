@@ -73,7 +73,12 @@ export default function UploadZone({ onUpload }) {
 
   return (
     <DropZone {...getRootProps()}>
-      <input name="dropzone_input" type="file" {...getInputProps()} />
+      <input
+        aria-label="Upload Books"
+        name="dropzone_input"
+        type="file"
+        {...getInputProps()}
+      />
       <div>
         <h3>Drag your files here</h3>
         <p>You can upload .epub, .mobi, or .pdf files</p>
