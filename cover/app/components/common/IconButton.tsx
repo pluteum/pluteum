@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const StyledButton = styled.button`
+const IconButton = styled.button`
   height: 35px;
   width: 35px;
   border: 0;
@@ -21,4 +21,4 @@ const StyledButton = styled.button`
   }
 `;
 
-export default StyledButton;
+export default IconButton;

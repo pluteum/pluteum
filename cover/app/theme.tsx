@@ -59,7 +59,7 @@ const sizes = {
   phone: 415,
 };
 
-export const media = Object.keys(sizes).reduce((acc, label) => {
+export const media: any = Object.keys(sizes).reduce((acc, label) => {
   acc[label] = (template, ...args) => css`
     @media (max-width: ${sizes[label]}px) {
       ${css(template, ...args)}

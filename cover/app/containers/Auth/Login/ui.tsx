@@ -23,6 +23,7 @@ export default function LoginUI({ onSubmit, loading, errors }) {
           disabled={loading}
           name="email"
           label="Email Address"
+          type="email"
           error={errors.email}
         />
         <TextInput
