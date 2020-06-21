@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-knobs',
     'storybook-addon-designs',
+    '@storybook/addon-viewport/register',
     {
       name: '@storybook/preset-typescript',
       options: {
