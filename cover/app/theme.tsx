@@ -1,6 +1,6 @@
 // Global Styling Variables
 
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, css } from 'styled-components';
 import React from 'react';
 
 // Includes font family definitions, colors and more.
@@ -52,4 +52,21 @@ function theme(darkMode) {
 export const ThemeDecorator = storyFn => (
   <ThemeProvider theme={theme(false)}>{storyFn()}</ThemeProvider>
 );
+
+const sizes = {
+  desktop: 1200,
+  tablet: 767,
+  phone: 415,
+};
+
+export const media = Object.keys(sizes).reduce((acc, label) => {
+  acc[label] = (template, ...args) => css`
+    @media (max-width: ${sizes[label]}px) {
+      ${css(template, ...args)}
+    }
+  `;
+
+  return acc;
+}, {});
+
 export default theme;
