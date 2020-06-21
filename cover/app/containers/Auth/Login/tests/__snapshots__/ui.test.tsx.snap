@@ -57,6 +57,7 @@ exports[`<LoginUI /> renders and matches the snapshot 1`] = `
           class="Text__StyledInput-ca9mh6-1 ksJsXk"
           id="email"
           name="email"
+          type="email"
         />
       </div>
       <div
