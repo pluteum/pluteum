@@ -21,6 +21,7 @@ export const StorybookUploadProgress = () => (
     expanded={boolean('Expanded', false)}
     totalProgress={number('Total Progress', 0.16)}
     files={object('Uploading Files', new Map())}
+    errors={object('Errored Files', new Map())}
     onMinimize={action('onMinimize')}
   />
 );

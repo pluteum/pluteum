@@ -145,6 +145,10 @@ function Tags({ tags, editable, onNewTag, onDeleteTag, theme }) {
     if (e.nativeEvent instanceof KeyboardEvent && e.key === 'Enter') {
       setAdding(false);
       return onNewTag(newTag);
+    } else if (e.nativeEvent instanceof KeyboardEvent && e.key === 'Escape') {
+      setAdding(false);
+      setNewTag('');
+      return;
     } else if (e.nativeEvent instanceof MouseEvent) {
       setAdding(false);
       return onNewTag(newTag);
