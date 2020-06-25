@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled, { AnyStyledComponent } from 'styled-components';
 import { Star } from 'react-feather';
 
-// <Star size={16} stroke="transparent" fill="#E54B4B" />
-
 const RatingStar: AnyStyledComponent = styled(Star)`
   cursor: pointer;
   stroke: none;
