@@ -10,10 +10,10 @@ export default {
   decorators: [withKnobs],
 };
 
-export const StorybookDropdown = () => (
+export const StorybookRating = () => (
   <Rating rating={number('Rating', 3)} onRating={action('On Rating')} />
 );
 
-StorybookDropdown.story = {
+StorybookRating.story = {
   name: 'Ratings',
 };
