@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { withTheme } from 'styled-components';
-import { PlusCircle, CornerDownRight, X } from 'react-feather';
+import { PlusCircle, X, CornerDownLeft } from 'react-feather';
 import IconButton from 'components/common/IconButton';
 
 const TagLayout = styled.ul`
@@ -135,7 +135,10 @@ function Tags({ tags, editable, onNewTag, onDeleteTag, theme }) {
   }, [inputRef]);
 
   function addTag(e: any) {
-    if (newTag === '') {
+    if (newTag === '' && !(e.nativeEvent instanceof FocusEvent)) {
+      return;
+    } else if (newTag === '' && e.nativeEvent instanceof FocusEvent) {
+      setAdding(false);
       return;
     }
 
@@ -166,14 +169,20 @@ function Tags({ tags, editable, onNewTag, onDeleteTag, theme }) {
             ref={input => setInputRef(input)}
             onInput={(e: any) => setNewTag(e.target.value)}
             onKeyDown={addTag}
+            onBlur={addTag}
           />
           <button onClick={addTag}>
-            <CornerDownRight size={14} />
+            <CornerDownLeft size={14} />
           </button>
         </TagInputLayout>
       )}
       {editable && !adding && (
-        <IconButton onClick={() => setAdding(true)}>
+        <IconButton
+          onClick={() => {
+            setAdding(true);
+            setNewTag('');
+          }}
+        >
           <PlusCircle stroke={theme.colors.darkGrey} />
         </IconButton>
       )}
