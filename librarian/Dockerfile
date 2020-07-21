@@ -2,9 +2,9 @@ FROM node:12
 
 ADD . .
 
-ENV NODE_ENV=production
-
 RUN npm i
+
+ENV NODE_ENV=production
 
 EXPOSE 4000
 
