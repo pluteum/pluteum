@@ -63,9 +63,10 @@ steps:
       repo: pluteum/librarian
       registry: 514976806519.dkr.ecr.us-west-1.amazonaws.com
       dockerfile: "librarian/Dockerfile"
+      region: us-west-1
 
 ---
 kind: signature
-hmac: 1e5c727874afb582b247cfe2dba7231f75e2122e694f03801b43a30f71b26532
+hmac: 80e90279eca479c1eb470e4599b0936f33af0b5883b6e9e660ff03ef9b663a35
 
 ...
