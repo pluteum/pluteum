@@ -50,56 +50,6 @@ steps:
 
 ---
 kind: pipeline
-name: cover
-
-steps:
-  - name: install_dependencies
-    image: node
-    commands:
-      - cd cover
-      - npm install
-  - name: test
-    image: node
-    commands:
-      - cd cover
-      - npm run test
-  - name: scan
-    image: aosapps/drone-sonar-plugin
-    commands:
-      - cd cover
-      - /bin/drone-sonar
-    settings:
-      usingProperties: true
-      sonar_host: https://sonarcloud.io
-      sonar_token:
-        from_secret: SONAR_TOKEN
-  - name: build
-    image: node
-    commands:
-      - cd cover
-      - npm run build
-  - name: deploy-staging
-    image: amazon/aws-cli
-    commands:
-      - aws s3 sync ./cover/build s3://pluteum-staging/ --delete
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_TOKEN
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_KEY
-  - name: deploy_storybook
-    image: chybie/node-aws-cli
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_TOKEN
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_KEY
-    commands:
-      - cd cover
-      - npm run deploy-storybook
-
----
-kind: pipeline
 name: librarian
 
 steps:
@@ -116,6 +66,6 @@ steps:
 
 ---
 kind: signature
-hmac: 4d769454575c901fe0957d8b37162621d124359421b97ac90f45e4025f23f138
+hmac: 1e5c727874afb582b247cfe2dba7231f75e2122e694f03801b43a30f71b26532
 
 ...
