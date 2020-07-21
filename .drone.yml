@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: cover_default
+name: cover
 
 steps:
   - name: install_dependencies
@@ -47,8 +47,75 @@ steps:
     commands:
       - cd cover
       - npm run deploy-storybook
+
+---
+kind: pipeline
+name: cover
+
+steps:
+  - name: install_dependencies
+    image: node
+    commands:
+      - cd cover
+      - npm install
+  - name: test
+    image: node
+    commands:
+      - cd cover
+      - npm run test
+  - name: scan
+    image: aosapps/drone-sonar-plugin
+    commands:
+      - cd cover
+      - /bin/drone-sonar
+    settings:
+      usingProperties: true
+      sonar_host: https://sonarcloud.io
+      sonar_token:
+        from_secret: SONAR_TOKEN
+  - name: build
+    image: node
+    commands:
+      - cd cover
+      - npm run build
+  - name: deploy-staging
+    image: amazon/aws-cli
+    commands:
+      - aws s3 sync ./cover/build s3://pluteum-staging/ --delete
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_TOKEN
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_KEY
+  - name: deploy_storybook
+    image: chybie/node-aws-cli
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_TOKEN
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_KEY
+    commands:
+      - cd cover
+      - npm run deploy-storybook
+
+---
+kind: pipeline
+name: librarian
+
+steps:
+  - name: publish_dockerfile
+    image: plugins/ecr
+    settings:
+      access_key:
+        from_secret: AWS_ACCESS_TOKEN
+      secret_key:
+        from_secret: AWS_SECRET_KEY
+      repo: pluteum/librarian
+      registry: 514976806519.dkr.ecr.us-west-1.amazonaws.com
+      dockerfile: "librarian/Dockerfile"
+
 ---
 kind: signature
-hmac: a37ba3a7f7138089175ebe5460db5502a3534056f4a3c215719b2150a69f1c01
+hmac: 4d769454575c901fe0957d8b37162621d124359421b97ac90f45e4025f23f138
 
 ...

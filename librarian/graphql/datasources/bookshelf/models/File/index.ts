@@ -104,7 +104,7 @@ export default class Files {
     const filePath = await this.pool.maybeOneFirst(selectQuery);
 
     if (filePath) {
-      await remove(filePath);
+      await remove(filePath.toString());
 
       return this.pool
         .query(
