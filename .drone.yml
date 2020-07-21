@@ -32,6 +32,11 @@ steps:
     image: amazon/aws-cli
     commands:
       - aws s3 sync ./cover/build s3://pluteum-staging/ --delete
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_TOKEN
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_KEY
   - name: deploy_storybook
     image: chybie/node-aws-cli
     environment:
@@ -44,6 +49,6 @@ steps:
       - npm run deploy-storybook
 ---
 kind: signature
-hmac: bde8abbadfcaa2873d5ffbfc5060752c01b6064ff1fc709eb58b1cfe8c021d7e
+hmac: a37ba3a7f7138089175ebe5460db5502a3534056f4a3c215719b2150a69f1c01
 
 ...
