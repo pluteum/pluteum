@@ -28,6 +28,10 @@ steps:
     commands:
       - cd cover
       - npm run build
+  - name: deploy-staging
+    image: amazon/aws-cli
+    commands:
+      - aws s3 sync ./build s3://pluteum-staging/ --delete
   - name: deploy_storybook
     image: chybie/node-aws-cli
     environment:
@@ -40,6 +44,4 @@ steps:
       - npm run deploy-storybook
 ---
 kind: signature
-hmac: 5eb3a5c2d0eb6669c0d4af3a414eb95959cab64d25c81e4901c11f2a47f45967
-
-...
+hmac: 5c89f39bee2d2ee29930b1a0cba58e67b272940e7e93e6302aa81ce1c9b1155a
