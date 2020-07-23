@@ -53,7 +53,7 @@ export default class Files {
     const input = await newFile;
     const uuid = uuidv4();
     const format = MIME_FORMAT_MAP[input.mimetype];
-    const name = `${uuid}.${format}`;
+    const name = `files/${uuid}.${format}`;
 
     const inputStream = input.createReadStream();
 
