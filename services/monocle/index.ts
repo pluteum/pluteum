@@ -5,6 +5,13 @@ import downloadFile from "./file_management";
 import { addSuccessfulScan, addUnsuccessfulScan } from "./entry";
 import processFile from "./parsing";
 import fetchData from "./fetch/ebook-meta";
+import { lookpath } from "lookpath";
+
+lookpath("fetch-ebook-metadata").then((result) => {
+  if (!result) {
+    throw new Error("Calibre is not installed!");
+  }
+});
 
 ampq
   .connect(process.env.AMPQ_URL || "")
