@@ -16,23 +16,9 @@ const fileDebug = debug("pluteum:monocle:files");
 
 export default async function downloadFile(path: string): Promise<string> {
   var t0 = performance.now();
-  fileDebug(`Starting file download from: ${path}`);
-  const file = await storage.getObject("pluteum", path);
+  fileDebug(`Starting file download from: pluteum/${path}`);
 
-  fileDebug(`Saving file download to ${path}`);
+  const filePath = path.split("/").pop() || "file";
 
-  file.pipe(fs.createWriteStream(path));
-
-  return new Promise((resolve, reject) => {
-    file.on("end", () => {
-      var t1 = performance.now();
-
-      fileDebug(`Finished file download from: ${path} – took ${t1 - t0}ms`);
-      resolve(path);
-    });
-    file.on("error", (e: Error) => {
-      fileDebug(`File downloaded failed with ${e.message}`);
-      reject(new Error("FAILED_DOWNLOAD"));
-    });
-  });
+  return storage.fGetObject("pluteum", path, filePath).then(() => filePath);
 }
