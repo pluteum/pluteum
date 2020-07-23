@@ -4,6 +4,7 @@ import { getBookByISBN } from "./fetch/openlibrary";
 import downloadFile from "./file_management";
 import { addSuccessfulScan, addUnsuccessfulScan } from "./entry";
 import processFile from "./parsing";
+import fetchData from "./fetch/ebook-meta";
 
 ampq
   .connect(process.env.AMPQ_URL || "")
@@ -15,7 +16,7 @@ ampq
 
         downloadFile(file.path)
           .then(processFile)
-          .then(getBookByISBN)
+          .then(fetchData)
           .then((book) => addSuccessfulScan(token, scan, book))
           .catch((e) => addUnsuccessfulScan(token, scan, e));
 
