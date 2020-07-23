@@ -10,7 +10,7 @@ function resultsToMap(results: any): object {
     let value: string | string[] = field[1];
 
     if (key === "Tags" || key === "Author(s)") {
-      value = value.split(", ").map((v) => v.trim());
+      value = value.split(", ")?.map((v) => v.trim());
     }
 
     acc[key] = value;
@@ -24,7 +24,7 @@ function resultsToMap(results: any): object {
 function mapKeyNames(map: any) {
   return {
     title: map?.Title,
-    authors: map["Author(s)"].map((author: string) => ({ name: author })),
+    authors: map["Author(s)"]?.map((author: string) => ({ name: author })),
     tags: map?.tags,
     description: map?.Comments,
   };

@@ -20,7 +20,7 @@ ampq
           .then((book) => addSuccessfulScan(token, scan, book))
           .catch((e) => addUnsuccessfulScan(token, scan, e));
 
-        channel.ack(msg);
+        setTimeout(() => channel.ack(msg), 2500);
       }
     });
   });
