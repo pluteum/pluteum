@@ -13,7 +13,7 @@ ampq
       if (msg) {
         const { token, scan, file } = JSON.parse(msg.content.toString() || "");
 
-        downloadFile(file.url)
+        downloadFile(file.path)
           .then(processFile)
           .then(getBookByISBN)
           .then((book) => addSuccessfulScan(token, scan, book))
