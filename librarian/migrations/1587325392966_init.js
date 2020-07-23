@@ -78,8 +78,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     name: "string",
-    filePath: "string",
-    url: "string",
+    path: "string",
     format: "string",
     size: "decimal", // in kb
     image: "string",

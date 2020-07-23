@@ -7,6 +7,7 @@ import digestStream from "digest-stream";
 import MIME_FORMAT_MAP from "../../constants/mimetypes";
 import AccessCard from "../../../access_card";
 import { sql, DatabasePoolType } from "slonik";
+import { Client } from "minio";
 
 type GraphQLUpload = {
   filename: string;
@@ -18,18 +19,21 @@ type GraphQLUpload = {
 export default class Files {
   private pool: DatabasePoolType;
   private channel: Channel;
+  private storage: Client;
   private accessCard: AccessCard;
   private library: string;
 
   constructor(
     pool: DatabasePoolType,
     channel: Channel,
+    storage: Client,
     accessCard: AccessCard,
     library: string
   ) {
     this.pool = pool;
     this.channel = channel;
     this.library = library;
+    this.storage = storage;
     this.accessCard = accessCard;
   }
 
@@ -49,14 +53,9 @@ export default class Files {
     const input = await newFile;
     const uuid = uuidv4();
     const format = MIME_FORMAT_MAP[input.mimetype];
-    const filePath = resolve(
-      process.env.FILE_LOCATION || "",
-      `${uuid}.${format}`
-    );
-    const url = `${process.env.URL}/files/${uuid}.${format}`;
+    const name = `${uuid}.${format}`;
 
     const inputStream = input.createReadStream();
-    const outputStream = createWriteStream(filePath);
 
     let md5 = "";
     let dataLength = 0;
@@ -68,13 +67,11 @@ export default class Files {
 
     const dstream = digestStream("md5", "hex", digestFn);
 
-    const upload = new Promise((resolve, reject) => {
-      inputStream
-        .pipe(dstream)
-        .pipe(outputStream)
-        .on("finish", () => resolve(true))
-        .on("error", (e: Error) => reject(e));
-    });
+    const upload = this.storage.putObject(
+      "pluteum",
+      name,
+      inputStream.pipe(dstream)
+    );
 
     await upload;
 
@@ -84,27 +81,27 @@ export default class Files {
 
     if (!isNotUnique) {
       const query = sql`
-        INSERT INTO "files" ("uuid", "md5", "format", "filePath", "url", "library", "name", "size")
-        VALUES (${uuid}, ${md5}, ${format}, ${filePath}, ${url}, ${
-        this.library
-      }, ${input.filename}, ${dataLength / 1000})
+        INSERT INTO "files" ("uuid", "md5", "format", "path", "library", "name", "size")
+        VALUES (${uuid}, ${md5}, ${format}, ${name}, ${this.library}, ${
+        input.filename
+      }, ${dataLength / 1000})
         RETURNING *
       `;
 
       return this.pool.one(query);
     } else {
-      await remove(filePath);
+      await this.storage.removeObject("pluteum", name);
       throw new Error("File already exists");
     }
   }
 
   public async deleteFile(fileId: number) {
-    const selectQuery = sql`SELECT "filePath" FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`;
+    const selectQuery = sql`SELECT "path" FROM "files" WHERE "library" = ${this.library} AND "id" = ${fileId}`;
 
-    const filePath = await this.pool.maybeOneFirst(selectQuery);
+    const path = await this.pool.maybeOneFirst(selectQuery);
 
-    if (filePath) {
-      await remove(filePath.toString());
+    if (path) {
+      await this.storage.removeObject("pluteum", path.toString());
 
       return this.pool
         .query(

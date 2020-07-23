@@ -7,10 +7,12 @@ import File from "./models/File";
 import AccessCard from "../access_card/index";
 import { DatabasePoolType } from "slonik";
 import Scan from "./models/Scan";
+import { Client as MinioClient } from "minio";
 
 export default class Bookshelf extends DataSource<any> {
   private pool: DatabasePoolType;
   private channel: Channel;
+  private fileClient: MinioClient;
   private context: any;
 
   public books!: Book;
@@ -21,11 +23,12 @@ export default class Bookshelf extends DataSource<any> {
 
   private library!: string;
 
-  constructor(pool: DatabasePoolType, channel: Channel) {
+  constructor(pool: DatabasePoolType, channel: Channel, minio: MinioClient) {
     super();
 
     this.pool = pool;
     this.channel = channel;
+    this.fileClient = minio;
     this.accessCard = new AccessCard(this.pool, this.channel);
   }
 
@@ -40,6 +43,7 @@ export default class Bookshelf extends DataSource<any> {
     this.files = new File(
       this.pool,
       this.channel,
+      this.fileClient,
       this.accessCard,
       this.library
     );

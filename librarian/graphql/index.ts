@@ -5,6 +5,7 @@ import AccessCard from "./datasources/access_card";
 import { verify } from "jsonwebtoken";
 import { Channel } from "amqplib";
 import { DatabasePoolType } from "slonik";
+import { Client as MinioClient } from "minio";
 
 function getToken(header: string = "") {
   return header.replace("Bearer: ", "") || "";
@@ -23,7 +24,8 @@ function decodeToken(token: string) {
 
 export default function getApolloServer(
   pool: DatabasePoolType,
-  channel: Channel
+  channel: Channel,
+  minio: MinioClient
 ) {
   return new ApolloServer({
     schema,
@@ -35,7 +37,7 @@ export default function getApolloServer(
       ...decodeToken(getToken(req.headers.authorization)),
     }),
     dataSources: () => ({
-      bookshelf: new Bookshelf(pool, channel),
+      bookshelf: new Bookshelf(pool, channel, minio),
       accesscard: new AccessCard(pool, channel),
     }),
     tracing: true,
