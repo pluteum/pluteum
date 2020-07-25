@@ -105,6 +105,29 @@ exports.up = (pgm) => {
     },
   });
 
+  pgm.createTable("tags", {
+    id: "id",
+    name: "string",
+    library: {
+      type: "string",
+      notNull: true,
+    },
+  });
+
+  pgm.createTable("books_tags_link", {
+    id: "id",
+    book: {
+      type: "integer",
+      notNull: true,
+      references: "books",
+    },
+    tag: {
+      type: "integer",
+      notNull: true,
+      references: "tags",
+    },
+  });
+
   pgm.createTable("books_files_link", {
     id: "id",
     book: {

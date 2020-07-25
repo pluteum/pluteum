@@ -3,6 +3,7 @@ import { DataSource, DataSourceConfig } from "apollo-datasource";
 
 import Author from "./models/Authors";
 import Book from "./models/Book";
+import Tag from "./models/Tags";
 import File from "./models/File";
 import AccessCard from "../access_card/index";
 import { DatabasePoolType } from "slonik";
@@ -16,6 +17,7 @@ export default class Bookshelf extends DataSource<any> {
   private context: any;
 
   public books!: Book;
+  public tags!: Tag;
   public authors!: Author;
   public files!: File;
   public scans!: Scan;
@@ -39,6 +41,7 @@ export default class Bookshelf extends DataSource<any> {
     this.accessCard.initialize(config);
 
     this.books = new Book(this.pool, this.channel, this.library);
+    this.tags = new Tag(this.pool, this.library);
     this.authors = new Author(this.pool, this.channel, this.library);
     this.files = new File(
       this.pool,

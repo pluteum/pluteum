@@ -8,6 +8,7 @@ export const typeDef = gql`
     title: String
     description: String
     isbn: String
+    tags: [Tag]
     seriesIndex: Int
     filePath: String
     coverImage: String
@@ -17,6 +18,10 @@ export const typeDef = gql`
 
   input AuthorInput {
     id: Int
+    name: String
+  }
+
+  input TagInput {
     name: String
   }
 
@@ -30,6 +35,7 @@ export const typeDef = gql`
     isbn: String
     seriesIndex: Int
     authors: [AuthorInput]
+    tags: [TagInput]
     file: FileInput
   }
 
@@ -47,6 +53,8 @@ export const resolvers = {
   Book: {
     author: (parent: any, _: any, context: any) =>
       context.dataSources.bookshelf.authors.getAuthorsOfBook(parent.id),
+    tags: (parent: any, _: any, context: any) =>
+      context.dataSources.bookshelf.tags.getBooksTags(parent.id),
   },
   Query: {
     books: (_: any, __: any, context: any) =>

@@ -1,6 +1,7 @@
 import { typeDef as User, resolvers as UserResolvers } from "./users";
 import { typeDef as Library, resolvers as LibraryResolvers } from "./libraries";
 import { typeDef as Author, resolvers as AuthorResolvers } from "./authors";
+import { typeDef as Tag, resolvers as TagResolvers } from "./tags";
 import { typeDef as Book, resolvers as BookResolvers } from "./books";
 import { typeDef as File, resolvers as FileResolvers } from "./files";
 import { typeDef as Scan, resolvers as ScanResolvers } from "./scans";
@@ -22,10 +23,21 @@ const query = `
 `;
 
 export default makeExecutableSchema({
-  typeDefs: [query, isAuthenticated, Upload, Author, Book, File, User, Scan],
+  typeDefs: [
+    query,
+    isAuthenticated,
+    Upload,
+    Author,
+    Tag,
+    Book,
+    File,
+    User,
+    Scan,
+  ],
   resolvers: [
     UploadResolvers,
     AuthorResolvers,
+    TagResolvers,
     BookResolvers,
     FileResolvers,
     UserResolvers,
