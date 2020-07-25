@@ -15,7 +15,9 @@ const Wrapper = styled.main`
 `;
 
 export default function Index() {
-  const { data: { books = [] } = {}, loading } = useQuery(GET_BOOKS);
+  const { data: { books = [] } = {}, loading } = useQuery(GET_BOOKS, {
+    fetchPolicy: 'cache-and-network',
+  });
 
   const helmet = (
     <Helmet>
