@@ -21,7 +21,6 @@ export default function Book({ match }) {
     <section>
       <Helmet>
         <title>{book?.title || 'Book'} - Book Details - Pluteum</title>
-        <meta name="description" content="Description of File Management" />
       </Helmet>
       <PageHeader title="Book" actions={pageActions} />
       <BookDetails
