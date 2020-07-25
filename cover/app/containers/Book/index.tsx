@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BookUI from './ui';
+import BookDetails from './components/BookDetails';
 import { useQuery } from 'react-apollo';
 import { GET_BOOK } from './queries';
 
@@ -9,5 +9,12 @@ export default function Book({ match }) {
     variables: { id: parseInt(match.params.id) },
   });
 
-  return <BookUI book={getBook} />;
+  return (
+    <BookDetails
+      book={getBook}
+      onRating={() => {}}
+      onNewTag={() => {}}
+      onDeleteTag={() => {}}
+    />
+  );
 }

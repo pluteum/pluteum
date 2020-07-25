@@ -134,20 +134,23 @@ export const FieldContent = styled.p`
 `;
 
 export default function BookDetails({ book, onRating, onNewTag, onDeleteTag }) {
+  const authorString = !!book.author ? book.author.map((a) => a.name).join(', ') : '';
+  const tags = !!book.tags ? book.tags.map((t) => t.name) : [];
+
   return (
     <Layout>
         <div>
-            <BookCover title={book?.title} author={book?.author} />
+            <BookCover title={book?.title} author={authorString} />
         </div>
         <DetailsLayout>
             <TitleLayout>
                 <BookTitle>{book?.title}</BookTitle>
-                <Author>by {book?.author}</Author>
+                <Author>by {authorString}</Author>
                 <Rating rating={book?.rating} onRating={onRating} />
             </TitleLayout>
             <Description>{book?.description}</Description>
             <FieldHeader>Tags</FieldHeader>
-            <Tags tags={book?.tags} onNewTag={onNewTag} onDeleteTag={onDeleteTag} editable={false} />
+            <Tags tags={tags} onNewTag={onNewTag} onDeleteTag={onDeleteTag} editable={false} />
             <MetaLayout>
                 <MetaHeader>Information</MetaHeader>
                 <FieldGroup>

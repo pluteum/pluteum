@@ -125,7 +125,7 @@ const TagInput = styled.input`
   }
 `;
 
-function Tags({ tags, editable, onNewTag, onDeleteTag, theme }) {
+function Tags({ tags = [], editable, onNewTag, onDeleteTag, theme }) {
   const [inputRef, setInputRef] = useState(undefined);
   const [adding, setAdding] = useState(false);
   const [newTag, setNewTag] = useState('');

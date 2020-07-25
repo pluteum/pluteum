@@ -10,6 +10,9 @@ export const GET_BOOK = gql`
         id
         name
       }
+      tags {
+        name
+      }
     }
   }
 `;
