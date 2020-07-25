@@ -79,7 +79,7 @@ const StyledInnerContainer = styled.div`
   }
 `;
 
-export default function BookCoverInput({ image, name, ...props }: any) {
+export default function BookCoverInput({ image, ...props }: any) {
   const [localImage, setLocalImage] = useState(image);
   const [field, meta, helpers] = useField(props);
 
