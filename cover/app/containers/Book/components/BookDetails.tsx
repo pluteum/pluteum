@@ -40,7 +40,8 @@ const TitleLayout = styled.div`
     justify-content: center;
 
     @media (min-width: 768px) {
-        margin-bottom: 35px;
+      height: unset;
+      margin-bottom: 35px;
     }
 `;
 
@@ -75,7 +76,7 @@ export const BookTitle = styled.h1`
   @media (min-width: 768px) {
     font-size: 76px;
     line-height: 80px;
-    margin: 15px 0 0;
+    margin: 0
   }
 `;
 

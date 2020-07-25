@@ -5,6 +5,7 @@ import IconButton from 'components/common/IconButton';
 
 const TagLayout = styled.ul`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 
   margin: 0;
@@ -28,7 +29,7 @@ const Tag: any = styled.li`
   font-size: 14px;
 
   padding: 8px ${(props: any) => (props.editing ? '28px' : '16px')} 8px 16px;
-  margin: 0 4px;
+  margin: 8px 4px 0 0;
 
   &:first-child {
     margin-left: 0;
