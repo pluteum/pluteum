@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactComponentElement } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+import { useField } from 'formik';
+
 import UploadZone from 'components/common/UploadZone';
 import Button from './Button';
 
@@ -32,7 +35,12 @@ const StyledUploadZone: any = styled(UploadZone)`
     transform: translateX(-50%);
   }
 
-  &:hover button {
+  &.drag-active {
+    background: rgba(219, 221, 226, 0.5);
+  }
+
+  &:hover button,
+  &.drag-active button {
     transform: translate(-50%, -75px);
   }
 `;
@@ -71,8 +79,14 @@ const StyledInnerContainer = styled.div`
   }
 `;
 
-export default function BookCoverInput({ onSubmit, image }) {
+export default function BookCoverInput({ image, name, ...props }: any) {
   const [localImage, setLocalImage] = useState(image);
+  const [field, meta, helpers] = useField(props);
+
+  function onImage([image]) {
+    helpers.setValue(image);
+    setLocalImage(URL.createObjectURL(image));
+  }
 
   useEffect(() => {
     setLocalImage(image);
@@ -85,6 +99,8 @@ export default function BookCoverInput({ onSubmit, image }) {
           <UploadZone
             header="Drag an image here"
             subHeader="You can upload .png or .jpg files"
+            onUpload={onImage}
+            name={field.name}
             vertical
           />
         </StyledInnerContainer>
@@ -95,7 +111,12 @@ export default function BookCoverInput({ onSubmit, image }) {
   return (
     <StyledOuterContainer>
       <StyledInnerContainer>
-        <StyledUploadZone btnLabel="Replace Image" vertical />
+        <StyledUploadZone
+          onUpload={onImage}
+          name={field.name}
+          btnLabel="Replace Image"
+          vertical
+        />
         <img src={localImage} />
       </StyledInnerContainer>
     </StyledOuterContainer>
@@ -104,6 +125,5 @@ export default function BookCoverInput({ onSubmit, image }) {
 
 BookCoverInput.propTypes = {
   image: PropTypes.string,
-  title: PropTypes.string,
-  author: PropTypes.string,
+  name: PropTypes.string,
 };

@@ -63,17 +63,22 @@ export default function UploadZone({
   btnLabel = 'Choose files',
   onUpload,
   vertical,
+  name = '',
   className = '',
 }) {
   const onDrop = useCallback(acceptedFiles => onUpload(acceptedFiles), []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <DropZone className={className} vertical={vertical} {...getRootProps()}>
+    <DropZone
+      className={`${className} ${isDragActive && 'drag-active'}`}
+      vertical={vertical}
+      {...getRootProps()}
+    >
       <input
         aria-label="Upload Books"
-        name="dropzone_input"
+        name={name}
         type="file"
         {...getInputProps()}
       />
@@ -82,7 +87,7 @@ export default function UploadZone({
         <p>{subHeader}</p>
       </div>
       <div>
-        <Button>{btnLabel}</Button>
+        <Button type="button">{btnLabel}</Button>
       </div>
     </DropZone>
   );

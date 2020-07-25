@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 import BookCoverInput from './BookCoverInput';
-import { action } from '@storybook/addon-actions';
+import { Formik, FormikProps, Form } from 'formik';
 
 export default {
   title: 'Form/Input/Book Cover Input',
   component: BookCoverInput,
-  decorators: [withKnobs],
+  decorators: [],
 };
 
 const Container = styled.div`
@@ -17,12 +16,29 @@ const Container = styled.div`
   display: block;
 `;
 
+interface Values {
+  file: File;
+}
+
 export const StorybookBookCover = () => (
   <Container>
-    <BookCoverInput
-      onSubmit={action('onSubmit')}
-      image={text('Image URL', '')}
-    />
+    <Formik
+      initialValues={{
+        file: undefined,
+      }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        }, 1000);
+      }}
+    >
+      {(props: FormikProps<Values>) => (
+        <Form>
+          <BookCoverInput name="file" />
+        </Form>
+      )}
+    </Formik>
   </Container>
 );
 
