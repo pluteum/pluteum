@@ -48,7 +48,7 @@ export default class Book {
   }
 
   public async saveBook(input: any) {
-    let { authors, file, ...book } = input;
+    let { authors, tags, file, ...book } = input;
 
     book.library = this.library;
 
@@ -112,6 +112,25 @@ export default class Book {
       `;
 
       await this.pool.query(linkingQuery);
+    }
+
+    if (tags) {
+      tags.forEach(async (tag: string) => {
+        const query = sql`
+          INSERT INTO "tags" ("name", "library")
+          VALUES (${tag}, ${this.library})
+          RETURNING "id"
+        `;
+
+        const tagId = await this.pool.oneFirst(query);
+
+        const linkingQuery = sql`
+          INSERT INTO "books_tags_link" ("book", "tag")
+          VALUES (${newBook.id}, ${tagId})
+        `;
+
+        await this.pool.query(linkingQuery);
+      });
     }
 
     return newBook;

@@ -25,7 +25,7 @@ function mapKeyNames(map: any) {
   return {
     title: map?.Title,
     authors: map["Author(s)"]?.map((author: string) => ({ name: author })),
-    tags: map?.tags,
+    tags: map?.Tags,
     description: map?.Comments,
   };
 }
