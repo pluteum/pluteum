@@ -54,6 +54,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     title: { type: "text", notNull: true },
+    rating: { type: "int", default: 0, notNull: true },
     isbn: "text",
     description: "text",
     seriesIndex: { type: "integer", default: 1 },
@@ -161,6 +162,8 @@ exports.down = (pgm) => {
   pgm.dropTable("users_libraries_link");
   pgm.dropTable("users");
   pgm.dropTable("libraries");
+  pgm.dropTable("tags");
+  pgm.dropTable("books_tags_link");
   pgm.dropTable("books_files_link");
   pgm.dropTable("books_authors_link");
   pgm.dropTable("books");
