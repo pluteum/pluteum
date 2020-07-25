@@ -8,7 +8,12 @@ export default function UploadInput({ onUpload }) {
   return (
     <ModalWrapper>
       <Typography type="SectionTitle">Upload files</Typography>
-      <UploadZone onUpload={onUpload} />
+      <UploadZone
+        header="Drag your files here"
+        subHeader="You can upload .epub, .mobi, or .pdf files"
+        onUpload={onUpload}
+        vertical={false}
+      />
     </ModalWrapper>
   );
 }

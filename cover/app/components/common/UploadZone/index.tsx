@@ -1,22 +1,28 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { AnyStyledComponent } from 'styled-components';
 import { useDropzone } from 'react-dropzone';
+import Button from 'components/form/Button';
 
-const DropZone = styled.div`
-  width: 100%;
-  height: 160px;
+const DropZone: AnyStyledComponent = styled.div`
+  width: ${(props: any) => (props.vertical ? '100%' : '100%')};
+  height: ${(props: any) => (props.vertical ? '100%' : '160px')};
+
+  box-sizing: border-box;
 
   border: 2px solid #dbdde2;
   border-radius: 4px;
   border-style: dashed;
   outline: none;
 
-  margin: 35px 0;
+  cursor: pointer;
+
+  margin: ${(props: any) => (props.vertical ? '0 0' : '35px 0')};
 
   display: flex;
   justify-content: center;
   align-items: center;
+  ${(props: any) => props.vertical && 'flex-direction: column;'};
 
   input {
     display: none;
@@ -27,8 +33,9 @@ const DropZone = styled.div`
   }
 
   > div:first-of-type {
-    text-align: right;
-    border-right: 1px solid #dbdde2;
+    text-align: ${(props: any) => (props.vertical ? 'center' : 'right')};
+    border-right: ${(props: any) =>
+      props.vertical ? '0' : '1px solid #dbdde2'};
   }
 
   h3 {
@@ -48,31 +55,22 @@ const DropZone = styled.div`
     color: #494b4f;
     line-height: 24px;
   }
-
-  button {
-    background: #eff1f7;
-    border: 0;
-    font-weight: 500;
-    border-radius: 20px;
-    -webkit-appearance: none;
-    outline: none;
-    font-family: 'IBM Plex Sans', 'Open Sans', 'Helvetica Neue', Helvetica,
-      Arial, sans-serif;
-    font-size: 16px;
-    color: #65676c;
-    text-align: center;
-    padding: 10px 25px;
-    cursor: pointer;
-  }
 `;
 
-export default function UploadZone({ onUpload }) {
+export default function UploadZone({
+  header,
+  subHeader,
+  btnLabel = 'Choose files',
+  onUpload,
+  vertical,
+  className = '',
+}) {
   const onDrop = useCallback(acceptedFiles => onUpload(acceptedFiles), []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <DropZone {...getRootProps()}>
+    <DropZone className={className} vertical={vertical} {...getRootProps()}>
       <input
         aria-label="Upload Books"
         name="dropzone_input"
@@ -80,11 +78,11 @@ export default function UploadZone({ onUpload }) {
         {...getInputProps()}
       />
       <div>
-        <h3>Drag your files here</h3>
-        <p>You can upload .epub, .mobi, or .pdf files</p>
+        <h3>{header}</h3>
+        <p>{subHeader}</p>
       </div>
       <div>
-        <button type="button">Choose files</button>
+        <Button>{btnLabel}</Button>
       </div>
     </DropZone>
   );
