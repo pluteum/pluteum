@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Button from 'components/form/Button';
 import BookCover from 'components/BookCover';
 import PageHeader from 'components/common/PageHeader';
-import ReactFitText from 'react-fittext';
+// import ReactFitText from 'react-fittext';
 // import { Star } from 'react-feather';
 
 import {
@@ -67,9 +67,7 @@ export default function BookUI({ book }) {
       <BookLayout>
         <BookCover title={book.title} author={authors} />
         <BookDetails>
-          <ReactFitText maxFontSize={72}>
-            <BookTitle>{book.title}</BookTitle>
-          </ReactFitText>
+          <BookTitle>{book.title}</BookTitle>
           <Author>by {authors}</Author>
           {/* {rating} */}
           <Description>{book.description}</Description>

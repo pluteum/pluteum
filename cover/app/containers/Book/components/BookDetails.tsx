@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import FitText from 'react-textfit';
 
 import BookCover from 'components/BookCover';
 import Rating from 'components/form/Rating';
@@ -40,13 +41,15 @@ const TitleLayout = styled.div`
     justify-content: center;
 
     @media (min-width: 768px) {
+      display: block;
+      width: 100%;
       height: unset;
       margin-bottom: 35px;
     }
 `;
 
 const DetailsLayout = styled.div`
-
+    max-width: 640px;
 `;
 
 const MetaLayout = styled.div`
@@ -68,13 +71,11 @@ const FieldGroup = styled.div`
 export const BookTitle = styled.h1`
   font-family: ${props => props.theme.type.display_serif};
   font-weight: normal;
-  font-size: 48px;
   line-height: auto;
   color: ${props => props.theme.colors.black};
   margin: 0;
 
   @media (min-width: 768px) {
-    font-size: 76px;
     line-height: 80px;
     margin: 0
   }
@@ -145,9 +146,9 @@ export default function BookDetails({ book, onRating, onNewTag, onDeleteTag }) {
         </div>
         <DetailsLayout>
             <TitleLayout>
-                <BookTitle>{book?.title}</BookTitle>
-                <Author>by {authorString}</Author>
-                <Rating rating={book?.rating} onRating={onRating} />
+            <BookTitle><FitText max={76} mode="single">{book?.title}</FitText></BookTitle>
+              <Author>by {authorString}</Author>
+              <Rating rating={book?.rating} onRating={onRating} />
             </TitleLayout>
             <Description>{book?.description}</Description>
             <FieldHeader>Tags</FieldHeader>
