@@ -1,7 +1,7 @@
 import express from "express";
 import ampq from "amqplib";
 import { Client } from "minio";
-import { createPool } from "slonik";
+import { createPool, sql } from "slonik";
 import migrate from "node-pg-migrate";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -45,14 +45,16 @@ const channel = ampq
   .connect(process.env.AMPQ_URL || "")
   .then((conn) => conn.createChannel());
 
-Promise.all([pool, channel, migration, makeBucketIfNotExists])
-  .then(([client, channel]) => {
+const dbConnected = pool.query(sql`SELECT 1`);
+
+Promise.all([channel, dbConnected, migration, makeBucketIfNotExists])
+  .then(([channel]) => {
     const app = express();
 
     app.use(cookieParser());
     app.use(bodyParser.json());
 
-    const apollo = getApolloServer(client, channel, minioClient);
+    const apollo = getApolloServer(pool, channel, minioClient);
 
     apollo.applyMiddleware({ app });
 
