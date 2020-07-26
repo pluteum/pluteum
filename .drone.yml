@@ -68,7 +68,7 @@ steps:
   - name: deploy_staging
     image: amazon/aws-cli
     commands:
-      - aws ecs update-service --cluster gsumpster --service Librarian --force-new-deployment
+      - aws ecs update-service --cluster gsumpster --service Librarian --region us-west-2 --force-new-deployment
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: AWS_ACCESS_TOKEN
@@ -77,6 +77,6 @@ steps:
 
 ---
 kind: signature
-hmac: 6c93257ab6bf690f74be8c82e9630d10769674fcee703105f92207e005903d41
+hmac: 265969d69b6d81601b37117c837e44a1a4dcfe8242638bd60c31b3fa975174f2
 
 ...
