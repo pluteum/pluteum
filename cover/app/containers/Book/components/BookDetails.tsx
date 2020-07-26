@@ -5,6 +5,8 @@ import FitText from 'react-textfit';
 import BookCover from 'components/BookCover';
 import Rating from 'components/form/Rating';
 import Tags from 'components/form/Tags';
+import { TitleInput } from 'components/form/BookInputField';
+import BookCoverInput from 'components/form/BookCoverInput';
 
 const Layout = styled.div`
     padding: 10px;
@@ -135,7 +137,7 @@ export const FieldContent = styled.p`
   color: ${props => props.theme.colors.darkGrey};
 `;
 
-export default function BookDetails({ book, onRating, onNewTag, onDeleteTag }) {
+export default function BookDetails({ editing, book, onRating, onNewTag, onDeleteTag }) {
   const authorString = !!book.author ? book.author.map((a) => a.name).join(', ') : '';
   const tags = !!book.tags ? book.tags.map((t) => t.name) : [];
 
@@ -146,13 +148,13 @@ export default function BookDetails({ book, onRating, onNewTag, onDeleteTag }) {
         </div>
         <DetailsLayout>
             <TitleLayout>
-            <BookTitle><FitText max={76} mode="single">{book?.title}</FitText></BookTitle>
+            {editing ? (  <FitText max={76} mode="single"><TitleInput defaultValue={book?.title} /></FitText> ) : ((<BookTitle><FitText max={76} mode="single">{book?.title}</FitText></BookTitle>))}
               <Author>by {authorString}</Author>
               <Rating rating={book?.rating} onRating={onRating} />
             </TitleLayout>
             <Description>{book?.description}</Description>
             <FieldHeader>Tags</FieldHeader>
-            <Tags tags={tags} onNewTag={onNewTag} onDeleteTag={onDeleteTag} editable={false} />
+            <Tags tags={tags} onNewTag={onNewTag} onDeleteTag={onDeleteTag} editable={editing} />
             <MetaLayout>
                 <MetaHeader>Information</MetaHeader>
                 <FieldGroup>

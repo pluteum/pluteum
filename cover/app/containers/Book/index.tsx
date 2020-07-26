@@ -24,6 +24,7 @@ export default function Book({ match }) {
       </Helmet>
       <PageHeader title="Book" actions={pageActions} />
       <BookDetails
+        editing={false}
         book={book}
         onRating={() => {}}
         onNewTag={() => {}}
