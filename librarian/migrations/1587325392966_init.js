@@ -162,8 +162,8 @@ exports.down = (pgm) => {
   pgm.dropTable("users_libraries_link");
   pgm.dropTable("users");
   pgm.dropTable("libraries");
-  pgm.dropTable("tags");
   pgm.dropTable("books_tags_link");
+  pgm.dropTable("tags");
   pgm.dropTable("books_files_link");
   pgm.dropTable("books_authors_link");
   pgm.dropTable("books");
