@@ -24,9 +24,9 @@ const pool = createPool(`postgres://${process.env.PGHOST}`, {
 });
 
 const minioClient = new Client({
-  endPoint: process.env.MINIOHOST || "",
-  port: 9000,
-  useSSL: false,
+  endPoint: process.env.MINIO_HOST || "",
+  port: parseInt(process.env.MINIO_PORT || "9000"),
+  useSSL: !!process.env.MINIO_SSL,
   accessKey: process.env.MINIO_ACCESS_KEY || "",
   secretKey: process.env.MINIO_SECRET_KEY || "",
 });
