@@ -25,6 +25,7 @@ const pool = createPool(`postgres://${process.env.PGHOST}`, {
 
 const minioClient = new Client({
   endPoint: process.env.MINIO_HOST || "",
+  port: parseInt(process.env.MINIO_PORT || "80"),
   useSSL: !!process.env.MINIO_SSL,
   accessKey: process.env.MINIO_ACCESS_KEY || "",
   secretKey: process.env.MINIO_SECRET_KEY || "",
@@ -44,25 +45,21 @@ const channel = ampq
   .connect(process.env.AMPQ_URL || "")
   .then((conn) => conn.createChannel());
 
-Promise.all([migration, makeBucketIfNotExists])
-  .then(() =>
-    Promise.all([pool, channel, makeBucketIfNotExists]).then(
-      ([client, channel]) => {
-        const app = express();
+Promise.all([pool, channel, migration, makeBucketIfNotExists])
+  .then(([client, channel]) => {
+    const app = express();
 
-        app.use(cookieParser());
-        app.use(bodyParser.json());
+    app.use(cookieParser());
+    app.use(bodyParser.json());
 
-        const apollo = getApolloServer(client, channel, minioClient);
+    const apollo = getApolloServer(client, channel, minioClient);
 
-        apollo.applyMiddleware({ app });
+    apollo.applyMiddleware({ app });
 
-        app.listen({ port: 4000 }, () => {
-          console.log(`🚀 Server ready`);
-        });
-      }
-    )
-  )
+    app.listen({ port: 4000 }, () => {
+      console.log(`🚀 Server ready`);
+    });
+  })
   .catch((e) => {
     console.error(e);
   });
