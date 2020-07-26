@@ -65,9 +65,16 @@ steps:
       dockerfile: "librarian/Dockerfile"
       region: us-west-1
       context: "librarian"
+  - name: deploy_staging
+    image: amazon/aws-cli
+    commands:
+      - aws ecs update-service --cluster gsumpster --service Librarian --force-new-deployment
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_TOKEN
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_KEY
 
 ---
 kind: signature
 hmac: 45aa06c80d10b3acf418d3549191bc7fa4b48a1b8969d9f536d99bc2f5d204e1
-
-...
