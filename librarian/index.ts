@@ -43,8 +43,12 @@ const makeBucketIfNotExists = minioClient
 
 const channel = ampq
   .connect(process.env.AMPQ_URL || "")
-  .then((conn) => conn.createChannel())
-  .then((ampqChannel) => {
+  .then((conn) => conn.createChannel());
+
+const dbConnected = pool.query(sql`SELECT 1`);
+
+Promise.all([channel, dbConnected, migration, makeBucketIfNotExists])
+  .then(([ampqChannel]) => {
     const app = express();
 
     app.use(cookieParser());
