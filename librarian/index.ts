@@ -48,13 +48,13 @@ const channel = ampq
 const dbConnected = pool.query(sql`SELECT 1`);
 
 Promise.all([channel, dbConnected, migration, makeBucketIfNotExists])
-  .then(([channel]) => {
+  .then(([ampqChannel]) => {
     const app = express();
 
     app.use(cookieParser());
     app.use(bodyParser.json());
 
-    const apollo = getApolloServer(pool, channel, minioClient);
+    const apollo = getApolloServer(pool, ampqChannel, minioClient);
 
     apollo.applyMiddleware({ app });
 
