@@ -10,6 +10,9 @@ import { verify, TokenExpiredError } from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { Channel } from "amqplib";
 
+import { User as UserType } from "./type";
+import { Library as LibraryType } from "../library/type";
+
 const ERRORS = {
   INVALID_LOGIN: "Invalid username or password",
   NO_LIBRARY: "Unable to find default library for user",
@@ -27,81 +30,81 @@ export default class User {
     this.channel = channel;
   }
 
-  public getUserById(userId: number) {
+  public getUserById(userId: number): Promise<null | UserType> {
     const query = sql`
     SELECT *
     FROM "users"
     WHERE "id" = ${userId}`;
 
-    return this.pool.maybeOne(query);
+    return this.pool.maybeOne(query) as Promise<null | UserType>;
   }
 
-  public getUserByEmail(email: string) {
+  public getUserByEmail(email: string): Promise<null | UserType> {
     const query = sql`
     SELECT *
     FROM "users"
     WHERE "email" = ${email}`;
 
-    return this.pool.maybeOne(query);
+    return this.pool.maybeOne(query) as Promise<null | UserType>;
   }
 
-  public getUsersLibraries(userId: number) {
+  public getUsersLibraries(userId: number): Promise<LibraryType[]> {
     const query = sql`
     SELECT * 
     FROM "libraries"
     JOIN "users_libraries_link" ON "libraries"."id" = "users_libraries_link"."library"
     WHERE "user" = ${userId}`;
 
-    return this.pool.any(query);
+    return this.pool.any(query) as Promise<LibraryType[]>;
   }
 
-  public getDefaultLibrary(userId: number) {
+  public getDefaultLibrary(userId: number): Promise<null | LibraryType> {
     const query = sql`
       SELECT * 
       FROM "libraries"
       JOIN "users_libraries_link" ON "libraries"."id" = "users_libraries_link"."library"
       WHERE "user" = ${userId} AND "default" = true`;
 
-    return this.pool.maybeOne(query);
+    return this.pool.maybeOne(query) as Promise<null | LibraryType>;
   }
 
-  public getRefreshToken(userId: number) {
+  public getRefreshToken(userId: number): Promise<null | string> {
     const query = sql`
       SELECT "refreshToken"
       FROM "users"
       WHERE "id" = ${userId}`;
 
-    return this.pool.maybeOneFirst(query);
+    return this.pool.maybeOneFirst(query) as Promise<null | string>;
   }
 
-  public setRefreshTokenId(userId: number, jwtId: string) {
+  public setRefreshTokenId(userId: number, jwtId: string): Promise<void> {
     const query = sql`
     UPDATE "users"
     SET "refreshToken" = ${jwtId}
     WHERE "id" = ${userId}`;
 
-    return this.pool.maybeOneFirst(query);
+    return this.pool.maybeOneFirst(query) as Promise<any>;
   }
 
-  public getResetToken(userId: number) {
+  public getResetToken(userId: number): Promise<null | string> {
     const query = sql`
       SELECT "resetToken"
       FROM "users"
       WHERE "id" = ${userId}`;
 
-    return this.pool.maybeOneFirst(query);
+    return this.pool.maybeOneFirst(query) as Promise<null | string>;
   }
 
-  public setResetTokenId(userId: number, jwtId: string) {
+  public setResetTokenId(userId: number, jwtId: string): Promise<void> {
     const query = sql`
     UPDATE "users"
     SET "resetToken" = ${jwtId}
     WHERE "id" = ${userId}`;
 
-    return this.pool.maybeOneFirst(query);
+    return this.pool.maybeOneFirst(query) as Promise<any>;
   }
 
-  private createNewRefreshToken(user: any, library: any) {
+  private createNewRefreshToken(user: any, library: any): Promise<string> {
     const { jwtid, refreshToken } = generateRefreshToken(user, library);
 
     return this.setRefreshTokenId(user.id, jwtid).then(() => refreshToken);
@@ -109,30 +112,32 @@ export default class User {
 
   public async login({ email, password }: any) {
     return this.getUserByEmail(email)
-      .then((user: any) => {
+      .then((user: UserType) => {
         if (!user) {
           throw new AuthenticationError(ERRORS.INVALID_LOGIN);
         }
 
         return user;
       })
-      .then((user) =>
+      .then((user: UserType) =>
         bcrypt.compare(password, user.password).then((passwordMatch) => {
           if (!passwordMatch) {
             throw new AuthenticationError(ERRORS.INVALID_LOGIN);
           }
 
-          return this.getDefaultLibrary(user.id).then((library: any) => {
-            if (!library) {
-              throw new AuthenticationError(ERRORS.NO_LIBRARY);
+          return this.getDefaultLibrary(user.id).then(
+            (library: LibraryType) => {
+              if (!library) {
+                throw new AuthenticationError(ERRORS.NO_LIBRARY);
+              }
+
+              delete user.password;
+              delete user.refreshToken;
+              delete user.resetToken;
+
+              return { user, library };
             }
-
-            delete user.password;
-            delete user.refreshToken;
-            delete user.resetToken;
-
-            return { user, library };
-          });
+          );
         })
       )
       .then(({ user, library }) => {
@@ -149,7 +154,12 @@ export default class User {
       });
   }
 
-  public async register({ firstName, lastName, email, password }: any) {
+  public async register({
+    firstName,
+    lastName,
+    email,
+    password,
+  }: Partial<UserType>): Promise<UserType> {
     return bcrypt
       .hash(password, 10)
       .then(
@@ -160,7 +170,7 @@ export default class User {
         RETURNING "id", "firstName", "lastName", "email"
       `
       )
-      .then(this.pool.one);
+      .then(this.pool.one) as Promise<UserType>;
   }
 
   public async refresh(jwt: string) {
