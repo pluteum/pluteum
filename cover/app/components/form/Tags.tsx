@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { withTheme } from 'styled-components';
 import { PlusCircle, X, CornerDownLeft } from 'react-feather';
 import IconButton from 'components/common/IconButton';
+import Tag from 'components/form/Tag';
 
 const TagLayout = styled.ul`
   display: flex;
@@ -10,58 +11,6 @@ const TagLayout = styled.ul`
 
   margin: 0;
   padding: 0;
-`;
-
-const Tag: any = styled.li`
-  position: relative;
-  list-style: none;
-
-  display: inline-flex;
-  align-items: center;
-
-  background: ${props => props.theme.colors.white};
-  border: 1px solid ${props => props.theme.colors.grey};
-  border-radius: 4px;
-  color: ${props => props.theme.colors.darkGrey};
-
-  font-family: ${props => props.theme.type.sans_serif};
-  font-weight: 500;
-  font-size: 14px;
-
-  padding: 8px ${(props: any) => (props.editing ? '28px' : '16px')} 8px 16px;
-  margin: 8px 4px 0 0;
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  > button {
-    position: absolute;
-    right: 8px;
-    top: 52%;
-
-    width: 14px;
-    height: 14px;
-
-    padding: 0;
-
-    transform: translateY(-50%);
-
-    border: 0;
-    background: none;
-
-    outline: none;
-
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-      color: ${props => props.theme.colors.primary};
-    }
 `;
 
 const TagInputLayout = styled.span`
@@ -159,14 +108,12 @@ function Tags({ tags = [], editable, onNewTag, onDeleteTag, theme }) {
   return (
     <TagLayout>
       {tags.map((t, i) => (
-        <Tag editing={editable} key={i + t}>
-          {t}
-          {editable && (
-            <button onClick={() => onDeleteTag(i)}>
-              <X size={14} />
-            </button>
-          )}
-        </Tag>
+        <Tag
+          text={t}
+          editable={editable}
+          onRemove={() => onDeleteTag(i)}
+          key={i + t}
+        />
       ))}
       {editable && adding && (
         <TagInputLayout>
