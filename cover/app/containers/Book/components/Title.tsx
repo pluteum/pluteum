@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import AutosizeInput from 'react-input-autosize';
 import FitText from 'react-textfit';
 
-import { useField } from 'formik';
+import { Field } from 'formik';
 
 const sharedStyles = css`
   margin: 0;
@@ -41,11 +41,13 @@ export const BookTitleInput = styled(AutosizeInput)`
   }
 `;
 
-export default function Title({ title, editing, ...props }: any) {
-  const [field, meta, helpers] = useField(props);
-
+export default function Title({ title, editing }: any) {
   if (editing) {
-    return <BookTitleInput {...field} {...meta} />;
+    return (
+      <Field name="firstName">
+        {({ field, form, meta }) => <BookTitleInput {...field} />}
+      </Field>
+    );
   }
 
   return (
