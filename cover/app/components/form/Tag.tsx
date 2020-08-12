@@ -54,7 +54,13 @@ const StyledLi: any = styled.li`
     }
 `;
 
-export default function Tag({ text, editable, onRemove, ...props }) {
+interface Props {
+  text: string;
+  editable?: boolean;
+  onRemove?: (e: Event) => void;
+}
+
+export default function Tag({ text, editable, onRemove, ...props }: Props) {
   return (
     <StyledLi editing={editable} {...props}>
       {text}

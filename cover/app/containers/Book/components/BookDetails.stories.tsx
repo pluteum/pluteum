@@ -17,7 +17,7 @@ let book = {
   description:
     'A young woman named Aomame follows a taxi driver’s enigmatic suggestion and begins to notice puzzling discrepancies in the world around her. She has entered, she realizes, a parallel existence, which she calls 1Q84 —“Q is for ‘question mark.’ A world that bears a question.” Meanwhile, an aspiring writer named Tengo takes on a suspect ghostwriting project. He becomes so wrapped up with the work and its unusual author that, soon, his previously placid life begins to come unraveled.',
   rating: 4,
-  tags: [{ name: 'fiction' }, { name: 'alternate history' }],
+  tags: [{ id: 0, name: 'fiction' }],
 };
 
 const authors = [];
@@ -26,6 +26,15 @@ for (let i = 0; i < 100; i++) {
   authors.push({
     value: faker.random.number(),
     label: faker.name.findName(),
+  });
+}
+
+const tags = [];
+
+for (let i = 0; i < 100; i++) {
+  tags.push({
+    value: faker.random.number(),
+    label: faker.name.jobArea(),
   });
 }
 
@@ -49,12 +58,18 @@ function onCreateAuthor(value) {
   );
 }
 
+function onLoadTags() {
+  action('onLoadTags')();
+  return new Promise((resolve, reject) => setTimeout(() => resolve(tags), 250));
+}
+
 export const StorybookBookDetails = () => (
   <BookDetails
     book={book}
     onSubmit={onSubmit}
     onAddAuthor={onCreateAuthor}
     onLoadAuthors={onLoadAuthors}
+    onLoadTags={onLoadTags}
     editing={boolean('Editing', false)}
   />
 );

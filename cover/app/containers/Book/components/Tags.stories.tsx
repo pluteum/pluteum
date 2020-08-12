@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import {
-  withKnobs,
-  object,
-  number,
-  array,
-  boolean,
-} from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 
 import { action } from '@storybook/addon-actions';
 import Tags from './Tags';
-import produce from 'immer';
+import faker from 'faker';
+import { Formik, Form } from 'formik';
 
 export default {
   title: 'Form / Input / Tags',
@@ -17,34 +12,45 @@ export default {
   decorators: [withKnobs],
 };
 
-export const StorybookTag = () => {
-  const [bookTags, setBookTags] = useState(['fiction', 'alternate history']);
+const tags = [];
 
+for (let i = 0; i < 100; i++) {
+  tags.push({
+    value: faker.random.number(),
+    label: faker.name.jobArea(),
+  });
+}
+
+export const StorybookTag = () => {
   function onNewTag(tag) {
     action('New Tag')(tag);
-    setBookTags(
-      produce(bookTags, draft => {
-        draft.push(tag);
-      }),
-    );
   }
 
-  function onDeleteTag(index) {
-    action('Delete Tag')(index);
-    setBookTags(
-      produce(bookTags, draft => {
-        draft.splice(index, 1);
-      }),
+  function onLoadTags() {
+    action('onLoadTags')();
+    return new Promise((resolve, reject) =>
+      setTimeout(() => resolve(tags), 250),
     );
   }
 
   return (
-    <Tags
-      tags={bookTags}
-      onNewTag={onNewTag}
-      onDeleteTag={onDeleteTag}
-      editable={boolean('Editable', true)}
-    />
+    <Formik
+      initialValues={{
+        tags: [{ id: 0, name: 'Internet' }],
+      }}
+      onSubmit={action('onSubmit')}
+    >
+      {props => (
+        <Form>
+          <Tags
+            tags={props.values.tags}
+            createTag={onNewTag}
+            onLoadTags={onLoadTags}
+            editable={boolean('Editable', true)}
+          />
+        </Form>
+      )}
+    </Formik>
   );
 };
 

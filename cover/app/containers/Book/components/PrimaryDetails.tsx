@@ -13,6 +13,8 @@ export default function PrimaryDetails({
   editing,
   onAddAuthor,
   onLoadAuthors,
+  onCreateTag,
+  onLoadTags,
 }: any) {
   return (
     <Layout>
@@ -28,9 +30,9 @@ export default function PrimaryDetails({
       <Description description={book.description} editing={editing} />
       <Tags
         tags={book.tags}
-        editable={false}
-        onDeleteTag={() => {}}
-        onNewTag={() => {}}
+        editable={editing}
+        createTag={onCreateTag}
+        onLoadTags={onLoadTags}
       />
     </Layout>
   );

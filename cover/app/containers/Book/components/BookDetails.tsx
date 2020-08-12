@@ -78,7 +78,7 @@ export const FieldContent = styled.p`
   color: ${props => props.theme.colors.darkGrey};
 `;
 
-export default function BookDetails({ editing, book, onSubmit, onLoadAuthors, onAddAuthor }) {
+export default function BookDetails({ editing, book, onSubmit, onLoadAuthors, onAddAuthor, onLoadTags }) {
   const authorString = !!book.author ? book.author.map((a) => a.name).join(', ') : '';
   const tags = !!book.tags ? book.tags.map((t) => t.name) : [];
 
@@ -91,7 +91,7 @@ export default function BookDetails({ editing, book, onSubmit, onLoadAuthors, on
               <BookCover title={book?.title} author={authorString} />
           </div>
           <DetailsLayout>
-              <PrimaryDetails book={book} editing={editing} onLoadAuthors={onLoadAuthors} onAddAuthor={onAddAuthor}  />
+              <PrimaryDetails book={book} editing={editing} onLoadAuthors={onLoadAuthors} onAddAuthor={onAddAuthor} onLoadTags={onLoadTags} />
           </DetailsLayout>
           </Layout>
           <Button>Submit</Button>

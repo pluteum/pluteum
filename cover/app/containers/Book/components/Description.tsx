@@ -24,7 +24,7 @@ export const DescriptionInput = styled.textarea`
   ${sharedStyles}
 
   width: 100%;
-  height: 225px;
+  height: 180px;
 
   padding: 10px;
   background: #dbdde2;
