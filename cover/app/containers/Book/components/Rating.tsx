@@ -18,7 +18,7 @@ interface Props {
 
 export default function Rating({ rating, editing }: Props) {
   const [hoverIndex, setHoverIndex] = useState(0);
-  const stars = [];
+  let stars = [];
 
   if (editing) {
     return (
@@ -27,6 +27,8 @@ export default function Rating({ rating, editing }: Props) {
           function onRating(num: number) {
             return form.setFieldValue(field.name, num);
           }
+
+          stars = [];
 
           for (let i = 0; i < 5; i++) {
             stars.push(
@@ -47,6 +49,8 @@ export default function Rating({ rating, editing }: Props) {
       </Field>
     );
   }
+
+  stars = [];
 
   for (let i = 0; i < 5; i++) {
     stars.push(
