@@ -42,7 +42,7 @@ export const BookTitleInput = styled(AutosizeInput)`
 export default function Title({ title, editing }: any) {
   if (editing) {
     return (
-      <Field name="firstName">
+      <Field name="title">
         {({ field, form, meta }) => <BookTitleInput {...field} />}
       </Field>
     );
