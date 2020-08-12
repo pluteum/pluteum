@@ -46,7 +46,6 @@ export default function BookDetails({ editing, book, onSubmit, onLoadAuthors, on
               <PrimaryDetails book={book} editing={editing} onLoadAuthors={onLoadAuthors} onAddAuthor={onAddAuthor} onLoadTags={onLoadTags} />
           </DetailsLayout>
           </Layout>
-          <Button>Submit</Button>
         </Form>
       </Formik>
     );

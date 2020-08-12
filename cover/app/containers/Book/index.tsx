@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import Button from 'components/form/Button';
@@ -8,13 +8,15 @@ import { useQuery } from 'react-apollo';
 import { GET_BOOK } from './queries';
 
 export default function Book({ match }) {
+  const [editing, setEditing] = useState(false);
+
   const { data: { getBook: book = {} } = {} }: any = useQuery(GET_BOOK, {
     variables: { id: parseInt(match.params.id) },
   });
 
   const pageActions = [
     <Button>Download</Button>,
-    <Button primary>Edit Book</Button>,
+    editing ? <Button primary onClick={() => setEditing(false)}>Save Changes</Button> : <Button primary onClick={() => setEditing(true)}>Edit Book</Button>,
   ];
 
   return (
@@ -24,8 +26,12 @@ export default function Book({ match }) {
       </Helmet>
       <PageHeader title="Book" actions={pageActions} />
       <BookDetails
-        editing={false}
+        editing={editing}
         book={book}
+        onSubmit={() => {}}
+        onLoadAuthors={() => {}}
+        onAddAuthor={() => {}}
+        onLoadTags={() => {}}
       />
     </section>
   );

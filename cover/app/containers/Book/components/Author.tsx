@@ -30,7 +30,7 @@ export const AuthorText = styled.p`
 `;
 
 export default function Author({
-  authors,
+  authors = [],
   editing,
   onLoadAuthors,
   createAuthor,
