@@ -10,13 +10,10 @@ const sharedStyles = css`
 
   font-family: ${props => props.theme.type.display_serif};
   font-weight: normal;
-  line-height: auto;
+  line-height: 0.8;
+  margin-bottom: 40px;
 
   color: ${props => props.theme.colors.black};
-
-  @media (min-width: 768px) {
-    line-height: 80px;
-  }
 `;
 
 export const BookTitle = styled.h1`
@@ -51,7 +48,7 @@ export default function Title({ title, editing }: any) {
   }
 
   return (
-    <FitText max={76} mode="single">
+    <FitText max={64} mode="single">
       <BookTitle>{title}</BookTitle>
     </FitText>
   );
