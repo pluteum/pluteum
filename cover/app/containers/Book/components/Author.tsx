@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BookAuthorInput from 'components/form/BookAuthorInput';
 
-const InputLayout = styled.p`
+const InputLayout = styled.div`
   display: flex;
   align-items: flex-start;
 
@@ -40,7 +40,7 @@ export default function Author({
       <InputLayout>
         <AuthorText as="span">By</AuthorText>
         <BookAuthorInput
-          name="authors"
+          name="author"
           onLoadAuthors={onLoadAuthors}
           createAuthor={createAuthor}
         />

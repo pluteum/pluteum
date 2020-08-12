@@ -148,7 +148,7 @@ function BookAuthorInput({
 
   return (
     <Layout>
-      {field.value.map((author, i) => (
+      {field.value?.map((author, i) => (
         <Author text={author.name} onRemove={() => onDelete(i)} editable />
       ))}
       {!adding && (

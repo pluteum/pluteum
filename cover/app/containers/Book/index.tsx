@@ -6,6 +6,7 @@ import PageHeader from 'components/common/PageHeader';
 import BookDetails from './components/BookDetails';
 import { useQuery } from 'react-apollo';
 import { GET_BOOK } from './queries';
+import { action } from '@storybook/addon-actions';
 
 export default function Book({ match }) {
   const { data: { getBook: book = {} } = {} }: any = useQuery(GET_BOOK, {
@@ -26,9 +27,7 @@ export default function Book({ match }) {
       <BookDetails
         editing={false}
         book={book}
-        onRating={() => {}}
-        onNewTag={() => {}}
-        onDeleteTag={() => {}}
+        onSubmit={action("onSubmit")}
       />
     </section>
   );

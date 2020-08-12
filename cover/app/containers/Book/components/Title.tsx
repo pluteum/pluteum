@@ -12,13 +12,13 @@ const sharedStyles = css`
   font-size: inherit;
   font-weight: normal;
   line-height: 0.8;
-  margin-bottom: 25px;
 
   color: ${props => props.theme.colors.black};
 `;
 
 export const BookTitle = styled.h1`
   ${sharedStyles};
+  margin-bottom: 25px;
 `;
 
 export const BookTitleInput = styled(AutosizeInput)`
