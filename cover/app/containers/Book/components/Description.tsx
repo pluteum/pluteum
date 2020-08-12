@@ -24,13 +24,15 @@ export const DescriptionInput = styled.textarea`
   ${sharedStyles}
 
   width: 100%;
-  height: 200px;
+  height: 225px;
 
   padding: 10px;
   background: #dbdde2;
 
   border: 0;
   border-radius: 4px;
+
+  resize: none;
 `;
 
 export default function Description({ description, editing }: any) {

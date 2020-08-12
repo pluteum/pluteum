@@ -109,7 +109,7 @@ function Tags({ tags = [], editable, onNewTag, onDeleteTag, theme }) {
     <TagLayout>
       {tags.map((t, i) => (
         <Tag
-          text={t}
+          text={t.name}
           editable={editable}
           onRemove={() => onDeleteTag(i)}
           key={i + t}
