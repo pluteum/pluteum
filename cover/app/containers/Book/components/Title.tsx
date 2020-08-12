@@ -9,9 +9,10 @@ const sharedStyles = css`
   margin: 0;
 
   font-family: ${props => props.theme.type.display_serif};
+  font-size: inherit;
   font-weight: normal;
   line-height: 0.8;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 
   color: ${props => props.theme.colors.black};
 `;
@@ -48,7 +49,7 @@ export default function Title({ title, editing }: any) {
   }
 
   return (
-    <FitText max={64} mode="single">
+    <FitText max={72} mode="single">
       <BookTitle>{title}</BookTitle>
     </FitText>
   );

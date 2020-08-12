@@ -11,7 +11,12 @@ const RatingStar: AnyStyledComponent = styled(Star)`
   pointer-events: ${(props: any) => (props.editing ? 'all' : 'none')};
 `;
 
-export default function Rating({ rating, editing }) {
+interface Props {
+  rating: number;
+  editing?: boolean;
+}
+
+export default function Rating({ rating, editing }: Props) {
   const [hoverIndex, setHoverIndex] = useState(0);
   const stars = [];
 

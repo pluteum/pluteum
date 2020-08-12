@@ -20,6 +20,8 @@ export const AuthorText = styled.p`
   margin: 0;
   margin-bottom: 0 0 15px;
 
+  -webkit-font-smoothing: antialiased;
+
   @media (min-width: 768px) {
     font-size: 18px;
     line-height: 22px;
