@@ -22,12 +22,12 @@ const Layout = styled.ul`
   }
 `;
 
-const Author = styled(Tag)`
+const Author: any = styled(Tag)`
   color: ${props => props.theme.colors.black};
   border-color: ${props => props.theme.colors.lightGrey};
 `;
 
-const customStyles = (theme): Styles => ({
+const customStyles = (theme): any => ({
   container: provided => ({
     ...provided,
     height: 36,

@@ -9,7 +9,7 @@ import { PlusCircle } from 'react-feather';
 import produce from 'immer';
 import { Styles } from 'react-select';
 
-const Layout = styled.ul`
+const Layout: any = styled.ul`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -22,7 +22,7 @@ const Layout = styled.ul`
   }
 `;
 
-const customStyles = (theme): Styles => ({
+const customStyles = (theme): any => ({
   container: provided => ({
     ...provided,
     height: 36,

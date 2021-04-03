@@ -7,7 +7,7 @@ import { useField } from 'formik';
 import UploadZone from 'components/common/UploadZone';
 import Button from './Button';
 
-const StyledButton = styled(Button)`
+const StyledButton: any = styled(Button)`
   position: absolute;
   transition: transform 0.5s ease;
   transform: translateX(-50%);
@@ -45,7 +45,7 @@ const StyledUploadZone: any = styled(UploadZone)`
   }
 `;
 
-const StyledOuterContainer = styled.div`
+const StyledOuterContainer: any = styled.div`
   border-radius: 8px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
   position: relative;
@@ -60,7 +60,7 @@ const StyledOuterContainer = styled.div`
   }
 `;
 
-const StyledInnerContainer = styled.div`
+const StyledInnerContainer: any = styled.div`
   position: absolute;
   top: 0;
   right: 0;
