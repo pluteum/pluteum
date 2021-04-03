@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "fs-extra": "^9.0.0",
     "graphql": "^15.0.0",
+    "graphql-upload": "9.0.0",
     "jsonwebtoken": "^8.5.1",
     "minio": "^7.0.16",
     "node-pg-migrate": "^4.6.1",

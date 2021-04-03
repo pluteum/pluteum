@@ -5,7 +5,7 @@ import { performance } from "perf_hooks";
 import { Client } from "minio";
 
 const storage = new Client({
-  endPoint: process.env.MINIOHOST || "",
+  endPoint: process.env.MINIO_HOST || "",
   port: 9000,
   useSSL: false,
   accessKey: process.env.MINIO_ACCESS_KEY || "",

@@ -11,8 +11,9 @@ import { createQueryLoggingInterceptor } from "slonik-interceptor-query-logging"
 import getApolloServer from "./graphql";
 import { RunMigration } from "node-pg-migrate/dist/migration";
 
-//@ts-ignore
+// @ts-ignore
 const migration = migrate({
+  databaseUrl: `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}/${process.env.POSTGRES_DB}`,
   dir: "./migrations",
   migrationsTable: "pgmigrations",
   direction: "up",
@@ -20,9 +21,12 @@ const migration = migrate({
 
 const interceptors = [createQueryLoggingInterceptor()];
 
-const pool = createPool(`postgres://${process.env.PGHOST}`, {
-  interceptors,
-});
+const pool = createPool(
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}/${process.env.POSTGRES_DB}`,
+  {
+    interceptors,
+  }
+);
 
 const minioClient = new Client({
   endPoint: process.env.MINIO_HOST || "",
