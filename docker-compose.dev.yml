@@ -9,17 +9,17 @@ services:
   cover:
     image: node:lts
     working_dir: /home/node/app
-    command: /bin/sh -c "yarn --silent && yarn start"
+    command: /bin/sh -c "npm i && yarn start"
     ports:
       - "3000"
     volumes:
       - ./cover:/home/node/app
   librarian:
-    image: node:lts
+    image: node:12
     working_dir: /home/node/app
     ports:
       - "4000"
-    command: /bin/sh -c "yarn --silent && yarn start"
+    command: /bin/sh -c "npm i && yarn start:docker"
     volumes:
       - ./librarian:/home/node/app
     env_file: .env
