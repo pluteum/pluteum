@@ -13,21 +13,27 @@ lookpath("fetch-ebook-metadata").then((result) => {
   }
 });
 
+const FILE_QUEUE = "monocle_file_scan";
+
 ampq
   .connect(process.env.AMPQ_URL || "")
   .then((conn) => conn.createChannel())
   .then((channel) => {
-    channel.consume("monocle_file_scan", async (msg) => {
-      if (msg) {
-        const { token, scan, file } = JSON.parse(msg.content.toString() || "");
+    return channel.assertQueue(FILE_QUEUE).then(function () {
+      channel.consume(FILE_QUEUE, async (msg) => {
+        if (msg) {
+          const { token, scan, file } = JSON.parse(
+            msg.content.toString() || ""
+          );
 
-        downloadFile(file.path)
-          .then(processFile)
-          .then(fetchData)
-          .then((book) => addSuccessfulScan(token, scan, book))
-          .catch((e) => addUnsuccessfulScan(token, scan, e));
+          downloadFile(file.path)
+            .then(processFile)
+            .then(fetchData)
+            .then((book) => addSuccessfulScan(token, scan, book))
+            .catch((e) => addUnsuccessfulScan(token, scan, e));
 
-        setTimeout(() => channel.ack(msg), 2500);
-      }
+          setTimeout(() => channel.ack(msg), 2500);
+        }
+      });
     });
   });
