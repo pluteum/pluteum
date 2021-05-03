@@ -11,6 +11,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import FileManagement from 'containers/Settings/FileManagement';
+import { faServer, faBook, faCog } from '@fortawesome/free-solid-svg-icons';
+import Sidebar from 'components/common/Sidebar';
+import SidebarItem from 'components/common/SidebarItem';
+import SystemManagement from './SystemManagement';
 
 const Layout = styled.div`
   display: flex;
@@ -25,16 +29,17 @@ export function Settings() {
         <title>Settings</title>
         <meta name="description" content="Description of Setting" />
       </Helmet>
-      {/* <Sidebar title="Settings">
-        <SidebarItem icon={faUser} link="/settings/profile" text="Profile" />
+      <Sidebar title="Settings">
+        {/* <SidebarItem icon={faUser} link="/settings/profile" text="Profile" /> */}
         <SidebarItem icon={faBook} link="/settings/library" text="Library" />
         <SidebarItem icon={faCog} link="/settings/files" text="Files" />
-      </Sidebar> */}
+        <SidebarItem icon={faServer} link="/settings/system" text="System" />
+      </Sidebar>
       <Switch>
         <Redirect exact from="/settings" to="/settings/files" />
-        <Route path="/settings/profile" component={NotFoundPage} />
         <Route path="/settings/library" component={LibraryManagement} />
         <Route path="/settings/files" component={FileManagement} />
+        <Route path="/settings/system" component={SystemManagement} />
         <Route component={NotFoundPage} />
       </Switch>
     </Layout>
