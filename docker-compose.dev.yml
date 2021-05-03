@@ -24,7 +24,7 @@ services:
       - ./librarian:/home/node/app
     env_file: .env
   monocle:
-    image: node:lts
+    build: ./services/monocle/
     working_dir: /home/node/app
     command: /bin/sh -c "yarn --silent && yarn start"
     volumes:
