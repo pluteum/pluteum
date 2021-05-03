@@ -3,7 +3,7 @@ import debug from "debug";
 
 const entryDebug = debug("pluteum:monocle:entry");
 
-const endpoint = "http://pluteum:4000/graphql";
+const endpoint = "http://nginx/graphql";
 
 const client = new GraphQLClient(endpoint);
 
