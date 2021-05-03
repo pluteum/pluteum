@@ -38,7 +38,7 @@ services:
       - ./services/mailroom:/home/node/app
     env_file: .env
   postgres:
-    image: postgres
+    image: postgres:12
     ports:
       - "5432"
     env_file: .env
