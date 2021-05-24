@@ -23,6 +23,16 @@ export const GET_BOOK = gql`
         url
         image
         processed
+        scans {
+          id
+          uuid
+          source
+          payload
+          error
+          seen
+          queuedAt
+          finishedAt
+        }
       }
     }
   }

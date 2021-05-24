@@ -6,6 +6,7 @@ import PageHeader from 'components/common/PageHeader';
 import BookDetails from './components/BookDetails';
 import { useQuery } from 'react-apollo';
 import { GET_BOOK } from './queries';
+import FileDetails from './components/FileDetails';
 
 export default function Book({ match }) {
   const [editing, setEditing] = useState(false);
@@ -33,6 +34,7 @@ export default function Book({ match }) {
         onAddAuthor={() => {}}
         onLoadTags={() => {}}
       />
+      <FileDetails files={book?.files} />
     </section>
   );
 }

@@ -37,30 +37,12 @@ export function columnDef(reprocessFile, deleteFile) {
       accessor: 'scans',
       // eslint-disable-next-line react/prop-types
       Cell: ({ value = [] }) => {
-        let done;
-        let error;
-        let processing;
-
-        value.forEach(scan => {
-          if (scan.queuedAt && !scan.finishedAt) {
-            processing = true;
-          } else if (scan.error) {
-            error = true;
-          } else if (scan.finishedAt) {
-            done = true;
-          }
-        });
-
-        if (processing) {
-          return <Loader />;
-        }
-
-        if (error) {
-          return <AlertCircle color="#D52020" />;
-        }
-
-        if (done) {
+        if (value.some((scan) => scan.finishedAt)) {
           return <CheckCircle color="#494B4F" />;
+        } else if (value.some((scan) => scan.error)) {
+          return <AlertCircle color="#D52020" />;
+        } else if (value.some((scan) => scan.queuedAt && !scan.finishedAt)) {
+          return <Loader />;
         }
 
         return <PauseCircle />;
