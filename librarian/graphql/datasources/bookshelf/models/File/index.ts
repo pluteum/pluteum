@@ -49,6 +49,15 @@ export default class Files {
     return this.pool.maybeOne(query);
   }
 
+  public getFilesOfBook(bookId: number) {
+    const query = sql`
+    SELECT "files".*
+    FROM "files" JOIN "books_files_link" ON "files"."id" = "books_files_link"."file"
+    WHERE "books_files_link"."book" = ${bookId} AND "files"."library" = ${this.library}`;
+
+    return this.pool.any(query);
+  }
+
   public async addFile(newFile: Promise<GraphQLUpload>) {
     const input = await newFile;
     const uuid = uuidv4();

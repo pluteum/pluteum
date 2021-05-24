@@ -10,6 +10,7 @@ export const typeDef = gql`
     isbn: String
     tags: [Tag]
     seriesIndex: Int
+    files: [File]
     filePath: String
     coverImage: String
     createdAt: String
@@ -53,6 +54,8 @@ export const resolvers = {
   Book: {
     author: (parent: any, _: any, context: any) =>
       context.dataSources.bookshelf.authors.getAuthorsOfBook(parent.id),
+    files: (parent: any, _: any, context: any) =>
+      context.dataSources.bookshelf.files.getFilesOfBook(parent.id),
     tags: (parent: any, _: any, context: any) =>
       context.dataSources.bookshelf.tags.getBooksTags(parent.id),
   },

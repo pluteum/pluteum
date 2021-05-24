@@ -13,6 +13,17 @@ export const GET_BOOK = gql`
       tags {
         name
       }
+      files {
+        md5
+        uuid
+        name
+        format
+        size
+        filePath
+        url
+        image
+        processed
+      }
     }
   }
 `;
