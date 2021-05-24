@@ -37,7 +37,7 @@ export function columnDef(reprocessFile, deleteFile) {
       accessor: 'scans',
       // eslint-disable-next-line react/prop-types
       Cell: ({ value = [] }) => {
-        if (value.some((scan) => scan.finishedAt)) {
+        if (value.some((scan) => scan.finishedAt && !scan.error)) {
           return <CheckCircle color="#494B4F" />;
         } else if (value.some((scan) => scan.error)) {
           return <AlertCircle color="#D52020" />;
