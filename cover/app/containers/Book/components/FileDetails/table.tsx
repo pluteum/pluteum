@@ -1,19 +1,15 @@
 import IconButton from 'components/common/IconButton';
 import ActionButton from 'components/table/ActionButton';
 import React from 'react';
-import {
-  Loader,
-  AlertCircle,
-  CheckCircle,
-  PauseCircle,
-} from 'react-feather';
+import { Loader, AlertCircle, CheckCircle, PauseCircle } from 'react-feather';
 import styled from 'styled-components';
 
 const ActionItem: any = styled.button`
   appearance: none;
   background: none;
   border: 0;
-  color: ${(props: any) => props.danger ? props.theme.colors.red : props.theme.colors.darkGrey};
+  color: ${(props: any) =>
+    props.danger ? props.theme.colors.red : props.theme.colors.darkGrey};
   cursor: pointer;
   outline: none;
 
@@ -22,7 +18,7 @@ const ActionItem: any = styled.button`
   }
 `;
 
-export function columnDef() {
+export function columnDef(showScan) {
   return [
     {
       Header: 'Filename',
@@ -58,10 +54,14 @@ export function columnDef() {
       // eslint-disable-next-line react/prop-types
       Cell: ({ row: { original } }) => {
         const options = [
-          <ActionItem type="button">View File Scans</ActionItem>,
+          <ActionItem type="button" onClick={() => showScan(original)}>
+            View File Scans
+          </ActionItem>,
           <ActionItem type="button">Convert File</ActionItem>,
           <ActionItem type="button">Detach File</ActionItem>,
-          <ActionItem type="button" danger>Delete File</ActionItem>,
+          <ActionItem type="button" danger>
+            Delete File
+          </ActionItem>,
         ];
 
         return <ActionButton options={options} />;

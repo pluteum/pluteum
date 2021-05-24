@@ -29,6 +29,8 @@ const ModalContainer = styled.section`
   transform: translateX(-50%);
 
   z-index: 11;
+
+  overflow-y: auto;
 `;
 
 const ModalActions = styled.div`
