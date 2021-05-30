@@ -14,6 +14,10 @@ const storage = new Client({
 
 const fileDebug = debug("pluteum:monocle:files");
 
+export async function uploadImage(uuid: string, image: Buffer) {
+  return storage.putObject("pluteum", `covers/${uuid}.png`, image);
+}
+
 export default async function downloadFile(path: string): Promise<string> {
   var t0 = performance.now();
   fileDebug(`Starting file download from: pluteum/${path}`);

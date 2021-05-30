@@ -4,7 +4,7 @@ function resultsToMap(results: any): object {
   return results.reduce((acc: any, v: string) => {
     const field = v.split(":");
 
-    console.log(field);
+    // console.log(field);
 
     const key: string = field[0].trim();
     let value: string | string[] = field[1];
@@ -15,7 +15,7 @@ function resultsToMap(results: any): object {
 
     acc[key] = value;
 
-    console.log(acc);
+    // console.log(acc);
 
     return acc;
   }, {});
@@ -40,7 +40,7 @@ export default function fetchData(isbn: any): Promise<any> {
     });
 
     findISBNProcess.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
+      // console.log(`child process exited with code ${code}`);
       resolve(mapKeyNames(resultsToMap(results)));
     });
   });

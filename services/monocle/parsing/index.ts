@@ -11,18 +11,16 @@ export default function processFile(filePath: string) {
     });
 
     findISBNProcess.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
-      remove(filePath).then(() => {
-        if (code === 0) {
-          if (isbn) {
-            resolve(isbn);
-          } else {
-            reject(new Error("ISBN_PARSE_FAILED"));
-          }
+      // console.log(`child process exited with code ${code}`);
+      if (code === 0) {
+        if (isbn) {
+          resolve(isbn);
+        } else {
+          reject(new Error("ISBN_PARSE_FAILED"));
         }
+      }
 
-        reject(new Error("ISBN_PARSE_ERROR"));
-      });
+      reject(new Error("ISBN_PARSE_ERROR"));
     });
   });
 }
